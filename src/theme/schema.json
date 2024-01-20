@@ -1,0 +1,40 @@
+{
+  "data": {
+    "light": {
+      "name": "Light",
+      "colors": {
+        "main": "#F4F7FD",
+        "header": {
+          "background": "#FFF",
+          "text": "#000112"
+        },
+        "menu": "#FFF",
+        "secondaryButton": {
+          "background": "rgba(99, 95, 199, 0.10)",
+          "text": "#635FC7",
+          "hover": {
+            "background": "rgba(99, 95, 199, 0.25)"
+          }
+        }
+      }
+    },
+    "dark": {
+      "name": "Dark",
+      "colors": {
+        "main": "#20212C",
+        "header": {
+          "background": "#2B2C37",
+          "text": "#FFF"
+        },
+        "menu": "#2B2C37",
+        "secondaryButton": {
+          "background": "#FFF",
+          "text": "#635FC7",
+          "hover": {
+            "background": "#FFF"
+          }
+        }
+      }
+    }
+  }
+}
