@@ -19,7 +19,7 @@ export const StyledHeader = styled.header`
     gap: 24px;
   }
 
-  & h2 {
+  & h1 {
     color: inherit;
     font-size: 1.5rem;
     font-weight: 700;
@@ -50,7 +50,7 @@ export default function Header() {
       <div className="Header-text">
         <Logo role="presentation"></Logo>
         <VerticalLine></VerticalLine>
-        <h2>Platform Launch</h2>
+        <h1>Platform Launch</h1>
       </div>
 
       <div className="Header-btns">
