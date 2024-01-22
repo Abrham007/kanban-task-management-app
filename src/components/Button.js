@@ -11,15 +11,18 @@ const StyledButton = styled.button`
   font-style: normal;
   font-weight: 700;
   line-height: 1.4375rem;
+
+  &:disabled {
+    opacity: 0.5;
+  }
 `;
 
 const PrimaryButton = styled(StyledButton)`
   color: #fff;
   background-color: #635fc7;
-  padding: ${({ $size }) =>
-    $size === "small" ? "9px 0px 9px 0px" : "15px 0px 15px 0px"};
-
-  width: ${({ $size }) => ($size === "small" ? "100%" : "174px")};
+  border-radius: 24px;
+  padding: ${({ $size }) => ($size === "small" ? "9px 0px 9px 0px" : "15px 25px 15px 25px")};
+  width: ${({ $size }) => ($size === "small" ? "100%" : "auto")};
 
   &:hover {
     background-color: #a8a4ff;
@@ -37,15 +40,23 @@ const DestructiveButton = styled(StyledButton)`
   }
 `;
 
-export default function Button({ children, size = "small", type }) {
+export default function Button({ children, size = "small", type, ...props }) {
   switch (type) {
     case "primary":
-      return <PrimaryButton $size={size}>{children}</PrimaryButton>;
+      return (
+        <PrimaryButton $size={size} {...props}>
+          {children}
+        </PrimaryButton>
+      );
     case "secondary":
-      return <SecondaryButton>{children}</SecondaryButton>;
+      return <SecondaryButton {...props}>{children}</SecondaryButton>;
     case "destructive":
-      return <DestructiveButton>{children}</DestructiveButton>;
+      return <DestructiveButton {...props}>{children}</DestructiveButton>;
     default:
-      return <PrimaryButton $size={size}>{children}</PrimaryButton>;
+      return (
+        <PrimaryButton $size={size} {...props}>
+          {children}
+        </PrimaryButton>
+      );
   }
 }
