@@ -16,6 +16,9 @@
             "background": "rgba(99, 95, 199, 0.25)"
           }
         }
+      },
+      "images": {
+        "logo": "assets/logo-light.svg"
       }
     },
     "dark": {
@@ -34,6 +37,9 @@
             "background": "#FFF"
           }
         }
+      },
+      "images": {
+        "logo": "assets/logo-dark.svg"
       }
     }
   }
