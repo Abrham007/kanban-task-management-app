@@ -1,46 +1,65 @@
 import Button from "./Button";
 import styled from "styled-components";
-import logoLight from "../assets/logo-light.svg";
+import verticalEllipsis from "../assets/icon-vertical-ellipsis.svg";
 
-const StyledHeader = styled.header`
-  width: 100%;
+export const StyledHeader = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0px 32px 0px 24px;
 
-  &.Header-text {
+  & .Header-text {
     display: flex;
-    gap: 65px;
+    gap: 32px;
+    align-items: center;
   }
 
-  &.Header-btns {
+  & .Header-btns {
     display: flex;
     gap: 24px;
   }
 
   & h2 {
-    color: #000112;
+    color: inherit;
     font-size: 1.5rem;
     font-weight: 700;
   }
+`;
+
+const VerticalLine = styled.hr`
+  & {
+    transform: rotate(180deg);
+    align-self: stretch;
+  }
+`;
+
+export const Logo = styled.div`
+  width: 153px;
+  height: 25px;
+`;
+
+const EllipsisBtn = styled.button`
+  background-color: transparent;
+  border: none;
+  outline: none;
 `;
 
 export default function Header() {
   return (
     <StyledHeader>
       <div className="Header-text">
-        <h1>
-          <div role="presentation"></div>
-          <span>kanban</span>
-        </h1>
-        <hr></hr>
+        <Logo role="presentation"></Logo>
+        <VerticalLine></VerticalLine>
         <h2>Platform Launch</h2>
       </div>
 
       <div className="Header-btns">
-        <Button type={"primary"}>add coulmen</Button>
-        <button></button>
+        <Button type={"primary"} size="large">
+          + Add New Task
+        </Button>
+        <EllipsisBtn>
+          <img src={verticalEllipsis} alt=""></img>
+        </EllipsisBtn>
       </div>
     </StyledHeader>
   );
