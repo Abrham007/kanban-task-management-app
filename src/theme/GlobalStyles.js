@@ -2,6 +2,8 @@ import { createGlobalStyle } from "styled-components";
 import { SecondaryButton } from "../components/Button";
 import { Logo } from "../components/Header";
 import { StyledHeader } from "../components/Header";
+import { StyledBoard } from "../components/Board";
+import { SliderWapper } from "../components/Board";
 
 export const GlobalStyles = createGlobalStyle`
   * {
@@ -12,6 +14,12 @@ export const GlobalStyles = createGlobalStyle`
   body { 
     font-family: 'Plus Jakarta Sans', sans-serif;
     transition: all 0.50s linear;
+  }
+  ${StyledBoard} {
+    background-color: ${({ theme }) => theme.colors.board}
+  }
+  ${SliderWapper} {
+    background-color: ${({ theme }) => theme.colors.slider};
   }
   ${StyledHeader} {
     background-color: ${({ theme }) => theme.colors.header.background};
