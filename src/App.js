@@ -8,6 +8,10 @@ export default function App() {
   const { theme, themeLoaded } = useTheme();
   const [selectedTheme, setSelectedTheme] = useState(theme);
 
+  function handleThemeChange(newTheme) {
+    setSelectedTheme(newTheme);
+  }
+
   useEffect(() => {
     setSelectedTheme(theme);
   }, [themeLoaded]);
@@ -17,7 +21,7 @@ export default function App() {
         <ThemeProvider theme={selectedTheme}>
           <GlobalStyles></GlobalStyles>
           <Header></Header>
-          <Board></Board>
+          <Board handleThemeChange={handleThemeChange}></Board>
           <main></main>
         </ThemeProvider>
       )}

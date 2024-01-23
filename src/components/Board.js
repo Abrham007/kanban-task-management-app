@@ -3,8 +3,12 @@ import BoardMenu from "./BoardMenu";
 import { MenuBtn } from "./BoardMenu";
 import lightTheme from "../assets/icon-light-theme.svg";
 import darkTheme from "../assets/icon-dark-theme.svg";
+import { useTheme } from "../theme/useTheme";
+import { useContext } from "react";
+import { ThemeContext } from "styled-components";
+import { getFromLS } from "../utils/storage";
 
-const StyledBoard = styled.div`
+export const StyledBoard = styled.div`
   position: fixed;
   top: 0;
   left: 0;
@@ -15,7 +19,7 @@ const StyledBoard = styled.div`
   justify-content: center;
   padding: 0px 0px 47px 0px;
 `;
-const SliderWapper = styled.label`
+export const SliderWapper = styled.div`
   width: 251px;
   height: 48px;
   display: flex;
@@ -23,7 +27,6 @@ const SliderWapper = styled.label`
   justify-content: center;
   align-items: center;
   border-radius: 6px;
-  background-color: #f4f7fd;
   margin: auto;
   margin-bottom: 0px;
 `;
@@ -73,14 +76,27 @@ const HideBtn = styled(MenuBtn)`
   margin-top: 8px;
 `;
 
-export default function Board() {
+export default function Board(props) {
+  const themesFromStore = getFromLS("all-themes");
+  const { setMode } = useTheme();
+  const themeContext = useContext(ThemeContext);
+
+  function themeSwithcher() {
+    if (themeContext.name === "Light") {
+      setMode(themesFromStore.data.dark);
+      props.handleThemeChange(themesFromStore.data.dark);
+    } else {
+      setMode(themesFromStore.data.light);
+      props.handleThemeChange(themesFromStore.data.light);
+    }
+  }
   return (
     <StyledBoard>
       <BoardMenu></BoardMenu>
       <SliderWapper>
         <img src={lightTheme} alt=""></img>
         <Slider>
-          <input type="checkbox"></input>
+          <input type="checkbox" onClick={themeSwithcher}></input>
           <button className="slider-btn"></button>
         </Slider>
         <img src={darkTheme} alt=""></img>
