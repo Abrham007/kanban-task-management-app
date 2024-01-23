@@ -3,7 +3,7 @@ import styled from "styled-components";
 import verticalEllipsis from "../assets/icon-vertical-ellipsis.svg";
 
 export const StyledHeader = styled.header`
-  height: 96px;
+  grid-area: header;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -28,10 +28,10 @@ export const StyledHeader = styled.header`
 `;
 
 const VerticalLine = styled.hr`
-  & {
-    transform: rotate(180deg);
-    align-self: stretch;
-  }
+  width: 0;
+  height: 0;
+  transform: rotate(180deg);
+  align-self: stretch;
 `;
 
 export const Logo = styled.div`

@@ -9,15 +9,17 @@ import { ThemeContext } from "styled-components";
 import { getFromLS } from "../utils/storage";
 
 export const StyledBoard = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 300px;
-  height: 100vh;
+  /* position: fixed;
+  top: 96px;
+  bottom: 0px;
+  width: 300px; */
+  grid-area: board;
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding: 0px 0px 47px 0px;
+  transition: all 0.5s;
+  /* transform: translateX(-300px); */
 `;
 export const SliderWapper = styled.div`
   width: 251px;
