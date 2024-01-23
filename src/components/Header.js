@@ -3,23 +3,24 @@ import styled from "styled-components";
 import verticalEllipsis from "../assets/icon-vertical-ellipsis.svg";
 
 export const StyledHeader = styled.header`
+  height: 96px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0px 32px 0px 24px;
 
-  & .Header-text {
+  .Header-text {
     display: flex;
     gap: 32px;
     align-items: center;
   }
 
-  & .Header-btns {
+  .Header-btns {
     display: flex;
     gap: 24px;
   }
 
-  & h1 {
+  h1 {
     color: inherit;
     font-size: 1.5rem;
     font-weight: 700;
