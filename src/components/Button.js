@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 const StyledButton = styled.button`
   width: 100%;
+
   border-radius: 20px;
   border: none;
   outline: none;
@@ -21,7 +22,7 @@ const PrimaryButton = styled(StyledButton)`
   color: #fff;
   background-color: #635fc7;
   border-radius: 24px;
-  padding: ${({ $size }) => ($size === "small" ? "9px 0px 9px 0px" : "15px 25px 15px 25px")};
+  padding: ${({ $size }) => ($size === "small" ? "9px 0px 9px 0px" : "12px 25px 12px 25px")};
   width: ${({ $size }) => ($size === "small" ? "100%" : "auto")};
 
   &:hover {
