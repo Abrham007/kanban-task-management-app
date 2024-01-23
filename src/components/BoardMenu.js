@@ -5,8 +5,7 @@ const StyledBoardMenu = styled.div`
   display: flex;
   flex-direction: column;
   gap: 19px;
-  margin-top: 112px;
-
+  margin-top: 15px;
   & h2 {
     color: #828fa3;
     font-size: 0.75rem;
@@ -40,6 +39,7 @@ export const MenuBtn = styled.button`
   color: #828fa3;
   font-size: 0.9375rem;
   font-weight: 700;
+  transition: 0.3s;
 
   &:hover {
     background-color: #f4f7fd;
