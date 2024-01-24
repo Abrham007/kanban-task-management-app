@@ -38,6 +38,28 @@ export const StyledBoard = styled.div`
   justify-content: center;
   padding: 0px 0px 47px 0px;
   transition: all 0.5s linear;
+
+  @media ${devices.mobile} {
+    position: absolute;
+    top: 80px;
+    left: 54px;
+    width: 264px;
+    height: 322px;
+    gap: 16px;
+    border-radius: 8px;
+    padding: 16px 0px;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0%;
+      left: 0;
+      height: 100vh;
+      width: 100vw;
+      background-color: black;
+      z-index: -1;
+    }
+  }
 `;
 export const SliderWapper = styled.div`
   width: 251px;
@@ -98,6 +120,10 @@ const Slider = styled.label`
 const HideBtn = styled(MenuBtn)`
   width: 276px;
   margin-top: 8px;
+
+  @media ${devices.mobile} {
+    display: none;
+  }
 `;
 
 const ShowBtn = styled.button`
@@ -114,6 +140,10 @@ const ShowBtn = styled.button`
 
   &:hover {
     background-color: #a8a4ff;
+  }
+
+  @media ${devices.mobile} {
+    display: none;
   }
 `;
 
