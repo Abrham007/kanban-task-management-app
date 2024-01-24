@@ -14,7 +14,7 @@ export const GlobalStyles = createGlobalStyle`
   }
   body { 
     font-family: 'Plus Jakarta Sans', sans-serif;
-    ${"" /* transition: all 50s linear; */}
+    background-color: ${({ theme }) => theme.colors.body}
   }
   ${StyledMain} {
     background-color: ${({ theme }) => theme.colors.main}

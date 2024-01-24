@@ -3,6 +3,7 @@
     "light": {
       "name": "Light",
       "colors": {
+        "body": "#E4EBFA",
         "main": "#F4F7FD",
         "header": {
           "background": "#FFF",
@@ -25,6 +26,7 @@
     "dark": {
       "name": "Dark",
       "colors": {
+        "body": "#3E3F4E",
         "main": "#20212C",
         "header": {
           "background": "#2B2C37",
