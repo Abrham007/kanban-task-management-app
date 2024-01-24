@@ -15,8 +15,13 @@ const StyledBoardMenu = styled.div`
     margin-left: 32px;
   }
 
-  @media ${devices.laptop} {
+  @media ${devices.tablet} {
     margin-top: 32px;
+  }
+
+  @media ${devices.mobile} {
+    width: 240px;
+    margin-top: 0px;
   }
 `;
 

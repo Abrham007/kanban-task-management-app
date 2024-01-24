@@ -25,6 +25,14 @@ const StyledApp = styled.div`
     grid-template-columns: 260px 1fr;
     grid-template-rows: 80px 1fr;
   }
+
+  @media ${devices.mobile} {
+    grid-template-columns: 1fr;
+    grid-template-rows: 64px 1fr;
+    grid-template-areas:
+      "header header"
+      "main main";
+  }
 `;
 export default function App() {
   const { theme, themeLoaded } = useTheme();
