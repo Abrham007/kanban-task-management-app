@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { devices } from "../utils/devices";
 
 const StyledBoardMenu = styled.div`
   width: 276px;
@@ -12,6 +13,10 @@ const StyledBoardMenu = styled.div`
     font-weight: 700;
     letter-spacing: 0.15rem;
     margin-left: 32px;
+  }
+
+  @media ${devices.laptop} {
+    margin-top: 32px;
   }
 `;
 

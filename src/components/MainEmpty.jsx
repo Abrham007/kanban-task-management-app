@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Button from "./Button";
+import { devices } from "../utils/devices";
 
 const StyledMainEmpty = styled.div`
   display: flex;
@@ -13,6 +14,10 @@ const Paragraph = styled.p`
   text-align: center;
   font-size: 1.125rem;
   font-weight: 700;
+
+  @media ${devices.tablet} {
+    width: 80%;
+  }
 `;
 
 export default function MainEmpty() {
@@ -20,7 +25,7 @@ export default function MainEmpty() {
     <StyledMainEmpty>
       <Paragraph>This board is empty. Create a new column to get started.</Paragraph>
       <Button type={"primary"} size="large">
-        + Add New Task
+        + Add New Column
       </Button>
     </StyledMainEmpty>
   );
