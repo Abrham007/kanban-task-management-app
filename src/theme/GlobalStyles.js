@@ -4,6 +4,7 @@ import { Logo } from "../components/Header";
 import { StyledHeader } from "../components/Header";
 import { StyledBoard } from "../components/Board";
 import { SliderWapper } from "../components/Board";
+import { StyledMain } from "../components/Main";
 
 export const GlobalStyles = createGlobalStyle`
   * {
@@ -13,7 +14,10 @@ export const GlobalStyles = createGlobalStyle`
   }
   body { 
     font-family: 'Plus Jakarta Sans', sans-serif;
-    transition: all 0.50s linear;
+    ${"" /* transition: all 50s linear; */}
+  }
+  ${StyledMain} {
+    background-color: ${({ theme }) => theme.colors.main}
   }
   ${StyledBoard} {
     background-color: ${({ theme }) => theme.colors.board}
