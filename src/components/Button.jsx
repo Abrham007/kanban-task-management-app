@@ -5,7 +5,7 @@ const StyledButton = styled.button`
   border-radius: 20px;
   border: none;
   outline: none;
-  padding: 9px 0px 9px 0px;
+  padding: 9px 25px 9px 25px;
   text-align: center;
   font-size: 0.8125rem;
   font-style: normal;
@@ -22,7 +22,7 @@ const PrimaryButton = styled(StyledButton)`
   color: #fff;
   background-color: #635fc7;
   border-radius: 24px;
-  padding: ${({ $size }) => ($size === "small" ? "9px 0px 9px 0px" : "12px 25px 12px 25px")};
+  /* padding: ${({ $size }) => ($size === "small" ? "9px 0px 9px 0px" : "9px 25px 9px 25px")}; */
   width: ${({ $size }) => ($size === "small" ? "100%" : "auto")};
 
   &:hover {
