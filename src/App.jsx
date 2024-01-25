@@ -6,6 +6,7 @@ import { useTheme } from "./theme/useTheme";
 import Board from "./components/Board";
 import Main from "./components/Main";
 import { devices } from "./utils/devices";
+import { MyContext } from "./MyContext";
 
 const StyledApp = styled.div`
   width: 100vw;
@@ -53,18 +54,16 @@ export default function App() {
 
   return (
     <StyledApp $isBoardHidden={isBoardHidden}>
-      {themeLoaded && (
-        <ThemeProvider theme={selectedTheme}>
-          <GlobalStyles></GlobalStyles>
-          <Header isBoardHidden={isBoardHidden}></Header>
-          <Board
-            handleThemeChange={handleThemeChange}
-            handleBoardHidden={handleBoardHidden}
-            isBoardHidden={isBoardHidden}
-          ></Board>
-          <Main></Main>
-        </ThemeProvider>
-      )}
+      <MyContext.Provider value={{ isBoardHidden, handleBoardHidden }}>
+        {themeLoaded && (
+          <ThemeProvider theme={selectedTheme}>
+            <GlobalStyles></GlobalStyles>
+            <Header></Header>
+            <Board handleThemeChange={handleThemeChange}></Board>
+            <Main></Main>
+          </ThemeProvider>
+        )}
+      </MyContext.Provider>
     </StyledApp>
   );
 }

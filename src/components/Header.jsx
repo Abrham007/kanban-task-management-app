@@ -6,6 +6,8 @@ import downIcon from "../assets/icon-chevron-down.svg";
 import upIcon from "../assets/icon-chevron-up.svg";
 import addIcon from "../assets/icon-add-task-mobile.svg";
 import mobileLogo from "../assets/logo-mobile.svg";
+import { useContext } from "react";
+import { MyContext } from "../MyContext";
 
 export const StyledHeader = styled.header`
   grid-area: header;
@@ -124,14 +126,15 @@ const EllipsisBtn = styled.button`
   outline: none;
 `;
 
-export default function Header(props) {
+export default function Header() {
+  const { isBoardHidden, handleBoardHidden } = useContext(MyContext);
   return (
-    <StyledHeader $isBoardHidden={props.isBoardHidden}>
+    <StyledHeader $isBoardHidden={isBoardHidden}>
       <div className="Header-text">
         <Logo role="presentation"></Logo>
-        <VerticalLine $isBoardHidden={props.isBoardHidden}></VerticalLine>
-        <h1>
-          <span>Platform Launch</span> <img src={downIcon} alt=""></img>
+        <VerticalLine $isBoardHidden={isBoardHidden}></VerticalLine>
+        <h1 onClick={handleBoardHidden}>
+          <span>Platform Launch</span> <img src={isBoardHidden ? upIcon : downIcon} alt=""></img>
         </h1>
       </div>
 

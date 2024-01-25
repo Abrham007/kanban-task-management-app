@@ -6,6 +6,7 @@ import darkTheme from "../assets/icon-dark-theme.svg";
 import showIcon from "../assets/icon-show-sidebar.svg";
 import { useTheme } from "../theme/useTheme";
 import { useContext } from "react";
+import { MyContext } from "../MyContext";
 import { ThemeContext } from "styled-components";
 import { getFromLS } from "../utils/storage";
 import { devices } from "../utils/devices";
@@ -25,11 +26,20 @@ export const StyledBoard = styled.div`
           width: 260px;
           transform: translateX(-260px);
         }
+
+        @media ${devices.mobile} {
+          opacity: 1;
+          transform: none;
+        }
       `;
     } else {
       return css`
         position: relative;
         grid-area: board;
+
+        @media ${devices.mobile} {
+          opacity: 0;
+        }
       `;
     }
   }}
@@ -48,17 +58,8 @@ export const StyledBoard = styled.div`
     gap: 16px;
     border-radius: 8px;
     padding: 16px 0px;
-
-    &::before {
-      content: "";
-      position: absolute;
-      top: 0%;
-      left: 0;
-      height: 100vh;
-      width: 100vw;
-      background-color: black;
-      z-index: -1;
-    }
+    z-index: 1;
+    transition: opacity 0.2s linear;
   }
 `;
 export const SliderWapper = styled.div`
@@ -151,6 +152,7 @@ export default function Board(props) {
   const themesFromStore = getFromLS("all-themes");
   const { setMode } = useTheme();
   const themeContext = useContext(ThemeContext);
+  const { isBoardHidden, handleBoardHidden } = useContext(MyContext);
 
   function themeSwithcher() {
     if (themeContext.name === "Light") {
@@ -162,7 +164,7 @@ export default function Board(props) {
     }
   }
   return (
-    <StyledBoard $isBoardHidden={props.isBoardHidden}>
+    <StyledBoard $isBoardHidden={isBoardHidden}>
       <BoardMenu></BoardMenu>
       <SliderWapper>
         <img src={lightTheme} alt=""></img>
@@ -172,13 +174,13 @@ export default function Board(props) {
         </Slider>
         <img src={darkTheme} alt=""></img>
       </SliderWapper>
-      <HideBtn onClick={() => props.handleBoardHidden()}>
+      <HideBtn onClick={handleBoardHidden}>
         <svg width="18" height="16" xmlns="http://www.w3.org/2000/svg" fill="#828FA3">
           <path d="M8.522 11.223a4.252 4.252 0 0 1-3.654-5.22l3.654 5.22ZM9 12.25A8.685 8.685 0 0 1 1.5 8a8.612 8.612 0 0 1 2.76-2.864l-.86-1.23A10.112 10.112 0 0 0 .208 7.238a1.5 1.5 0 0 0 0 1.524A10.187 10.187 0 0 0 9 13.75c.414 0 .828-.025 1.239-.074l-1-1.43A8.88 8.88 0 0 1 9 12.25Zm8.792-3.488a10.14 10.14 0 0 1-4.486 4.046l1.504 2.148a.375.375 0 0 1-.092.523l-.648.453a.375.375 0 0 1-.523-.092L3.19 1.044A.375.375 0 0 1 3.282.52L3.93.068a.375.375 0 0 1 .523.092l1.735 2.479A10.308 10.308 0 0 1 9 2.25c3.746 0 7.031 2 8.792 4.988a1.5 1.5 0 0 1 0 1.524ZM16.5 8a8.674 8.674 0 0 0-6.755-4.219A1.75 1.75 0 1 0 12.75 5v-.001a4.25 4.25 0 0 1-1.154 5.366l.834 1.192A8.641 8.641 0 0 0 16.5 8Z" />
         </svg>
         <span>Hide Sidebar</span>
       </HideBtn>
-      <ShowBtn $isBoardHidden={props.isBoardHidden} onClick={() => props.handleBoardHidden()}>
+      <ShowBtn $isBoardHidden={isBoardHidden} onClick={handleBoardHidden}>
         <img src={showIcon} alt="eye symbol"></img>
       </ShowBtn>
     </StyledBoard>
