@@ -5,6 +5,11 @@
       "colors": {
         "body": "#E4EBFA",
         "main": "#F4F7FD",
+        "task": {
+          "background": "#FFF",
+          "text": "#000112"
+        },
+        "newTaskColumn": "linear-gradient(180deg, #E9EFFA 0%, rgba(233, 239, 250, 0.50) 100%)",
         "header": {
           "background": "#FFF",
           "text": "#000112"
@@ -28,6 +33,11 @@
       "colors": {
         "body": "#3E3F4E",
         "main": "#20212C",
+        "task": {
+          "background": "#2B2C37",
+          "text": "#FFF"
+        },
+        "newTaskColumn": "linear-gradient(180deg, rgba(43, 44, 55, 0.25) 0%, rgba(43, 44, 55, 0.13) 100%)",
         "header": {
           "background": "#2B2C37",
           "text": "#FFF"

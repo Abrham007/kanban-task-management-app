@@ -5,6 +5,8 @@ import { StyledHeader } from "../components/Header";
 import { StyledBoard } from "../components/Board";
 import { SliderWapper } from "../components/Board";
 import { StyledMain } from "../components/Main";
+import { StyledTask } from "../components/Task";
+import { NewTaskColumn } from "../components/TaskBoard";
 
 export const GlobalStyles = createGlobalStyle`
   * {
@@ -14,7 +16,17 @@ export const GlobalStyles = createGlobalStyle`
   }
   body { 
     font-family: 'Plus Jakarta Sans', sans-serif;
-    background-color: ${({ theme }) => theme.colors.body}
+    background-color: ${({ theme }) => theme.colors.body};
+    color: #828fa3;
+  }
+  ${NewTaskColumn} {
+    background-color: ${({ theme }) => theme.colors.newTaskColumn}
+  }
+  ${StyledTask} {
+    background-color: ${({ theme }) => theme.colors.task.background};
+    h3 {
+      color: ${({ theme }) => theme.colors.task.text};
+    }
   }
   ${StyledMain} {
     background-color: ${({ theme }) => theme.colors.main}
