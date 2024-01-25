@@ -14,7 +14,7 @@ const StyledMainEmpty = styled.div`
 `;
 
 const Paragraph = styled.p`
-  color: #828fa3;
+  color: inherit;
   text-align: center;
   font-size: 1.125rem;
   font-weight: 700;
