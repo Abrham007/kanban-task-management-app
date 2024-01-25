@@ -3,15 +3,16 @@ import MainEmpty from "./MainEmpty";
 import { devices } from "../utils/devices";
 import { useContext } from "react";
 import { MyContext } from "../MyContext";
+import TaskBoard from "./TaskBoard";
 
 export const StyledMain = styled.main`
-  position: relative;
   grid-area: main;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: ${({ $isMainEmpty }) => ($isMainEmpty ? "center" : "flex-start")};
+  justify-content: ${({ $isMainEmpty }) => ($isMainEmpty ? "center" : "flex-start")};
   padding: 24px;
   transition: all 0.5s linear;
+  overflow: auto;
 
   @media ${devices.mobile} {
     &::after {
@@ -40,8 +41,9 @@ export const StyledMain = styled.main`
 export default function Main() {
   const { isBoardHidden } = useContext(MyContext);
   return (
-    <StyledMain $isBoardHidden={isBoardHidden}>
-      <MainEmpty></MainEmpty>
+    <StyledMain $isBoardHidden={isBoardHidden} $isMainEmpty={false}>
+      {/* <MainEmpty></MainEmpty> */}
+      <TaskBoard></TaskBoard>
     </StyledMain>
   );
 }
