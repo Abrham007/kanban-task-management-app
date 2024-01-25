@@ -7,6 +7,10 @@ const StyledMainEmpty = styled.div`
   flex-direction: column;
   gap: 32px;
   align-items: center;
+
+  @media ${devices.mobile} {
+    gap: 25px;
+  }
 `;
 
 const Paragraph = styled.p`
@@ -17,6 +21,10 @@ const Paragraph = styled.p`
 
   @media ${devices.tablet} {
     width: 80%;
+  }
+
+  @media ${devices.mobile} {
+    width: 90%;
   }
 `;
 
