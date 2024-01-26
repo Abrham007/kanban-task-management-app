@@ -1,6 +1,6 @@
 import Button from "./Button";
 import styled, { css } from "styled-components";
-import verticalEllipsis from "../assets/icon-vertical-ellipsis.svg";
+
 import { devices } from "../utils/devices";
 import downIcon from "../assets/icon-chevron-down.svg";
 import upIcon from "../assets/icon-chevron-up.svg";
@@ -8,6 +8,7 @@ import addIcon from "../assets/icon-add-task-mobile.svg";
 import mobileLogo from "../assets/logo-mobile.svg";
 import { useContext } from "react";
 import { MyContext } from "../MyContext";
+import EllipsisButton from "./EllipsisButton";
 
 export const StyledHeader = styled.header`
   grid-area: header;
@@ -25,7 +26,8 @@ export const StyledHeader = styled.header`
 
   .Header-btns {
     display: flex;
-    gap: 24px;
+    gap: 15px;
+    align-items: center;
   }
 
   h1 {
@@ -120,12 +122,6 @@ const HeaderBtn = styled(Button)`
   }
 `;
 
-const EllipsisBtn = styled.button`
-  background-color: transparent;
-  border: none;
-  outline: none;
-`;
-
 export default function Header() {
   const { isBoardHidden, handleBoardHidden } = useContext(MyContext);
   return (
@@ -143,9 +139,7 @@ export default function Header() {
           <span className="for-large">+ Add New Task</span>
           <img src={addIcon} alt="add sign" className="for-small"></img>
         </HeaderBtn>
-        <EllipsisBtn>
-          <img src={verticalEllipsis} alt=""></img>
-        </EllipsisBtn>
+        <EllipsisButton></EllipsisButton>
       </div>
     </StyledHeader>
   );
