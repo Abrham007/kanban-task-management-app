@@ -7,6 +7,7 @@ import Board from "./components/Board";
 import Main from "./components/Main";
 import { devices } from "./utils/devices";
 import { MyContext } from "./MyContext";
+import TaskDetali from "./components/TaskDetail";
 
 const StyledApp = styled.div`
   width: 100vw;
@@ -54,6 +55,7 @@ export default function App() {
 
   return (
     <StyledApp $isBoardHidden={isBoardHidden}>
+      <TaskDetali></TaskDetali>
       <MyContext.Provider value={{ isBoardHidden, handleBoardHidden }}>
         {themeLoaded && (
           <ThemeProvider theme={selectedTheme}>
