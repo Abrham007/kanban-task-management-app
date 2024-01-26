@@ -8,6 +8,7 @@ import { StyledMain } from "../components/Main";
 import { StyledTask } from "../components/Task";
 import { NewTaskColumn } from "../components/TaskBoard";
 import { EllipsisOptionContainer } from "../components/EllipsisButton";
+import { CheckBoxLabel } from "../components/InputCheckBox";
 
 export const GlobalStyles = createGlobalStyle`
   * {
@@ -19,6 +20,14 @@ export const GlobalStyles = createGlobalStyle`
     font-family: 'Plus Jakarta Sans', sans-serif;
     background-color: ${({ theme }) => theme.colors.body};
     color: #828fa3;
+  }
+  ${CheckBoxLabel} {
+    background-color: ${({ theme }) => theme.colors.checkbox.background};
+    color: ${({ theme }) => theme.colors.checkbox.text};
+
+      input:checked ~ span {
+      color: ${({ theme }) => theme.colors.checkbox.onCheck};
+    }
   }
   ${EllipsisOptionContainer} {
     background-color: ${({ theme }) => theme.colors.ellipsisContainer}

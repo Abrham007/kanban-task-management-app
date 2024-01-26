@@ -9,6 +9,11 @@
           "background": "#FFF",
           "text": "#000112"
         },
+        "checkbox": {
+          "background": "#F4F7FD",
+          "text": "#000112",
+          "onCheck": "#00011250"
+        },
         "newTaskColumn": {
           "first": "#E9EFFA",
           "second": "rgba(233, 239, 250, 0.50)"
@@ -40,6 +45,11 @@
         "task": {
           "background": "#2B2C37",
           "text": "#FFF"
+        },
+        "checkbox": {
+          "background": "#20212C",
+          "text": "#FFF",
+          "onCheck": "#ffffff50"
         },
         "newTaskColumn": {
           "first": "rgba(43, 44, 55, 0.25)",
