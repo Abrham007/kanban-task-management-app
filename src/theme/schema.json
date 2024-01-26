@@ -9,7 +9,10 @@
           "background": "#FFF",
           "text": "#000112"
         },
-        "newTaskColumn": "linear-gradient(180deg, #E9EFFA 0%, rgba(233, 239, 250, 0.50) 100%)",
+        "newTaskColumn": {
+          "first": "#E9EFFA",
+          "second": "rgba(233, 239, 250, 0.50)"
+        },
         "header": {
           "background": "#FFF",
           "text": "#000112"
@@ -37,7 +40,10 @@
           "background": "#2B2C37",
           "text": "#FFF"
         },
-        "newTaskColumn": "linear-gradient(180deg, rgba(43, 44, 55, 0.25) 0%, rgba(43, 44, 55, 0.13) 100%)",
+        "newTaskColumn": {
+          "first": "rgba(43, 44, 55, 0.25)",
+          "second": "rgba(43, 44, 55, 0.13)"
+        },
         "header": {
           "background": "#2B2C37",
           "text": "#FFF"

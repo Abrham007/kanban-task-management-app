@@ -23,6 +23,10 @@ export const NewTaskColumn = styled.section`
     font-size: 1.5rem;
     font-weight: 700;
   }
+
+  button:hover {
+    color: #635fc7;
+  }
 `;
 export default function TaskBoard() {
   return (

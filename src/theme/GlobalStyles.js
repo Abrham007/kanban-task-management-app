@@ -20,7 +20,8 @@ export const GlobalStyles = createGlobalStyle`
     color: #828fa3;
   }
   ${NewTaskColumn} {
-    background-color: ${({ theme }) => theme.colors.newTaskColumn}
+    background: linear-gradient(180deg, ${({ theme }) =>
+      theme.colors.newTaskColumn.first} 0%, rgba(233, 239, 250, 0.50) 100%);
   }
   ${StyledTask} {
     background-color: ${({ theme }) => theme.colors.task.background};
