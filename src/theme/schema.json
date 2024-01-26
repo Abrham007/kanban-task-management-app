@@ -13,6 +13,7 @@
           "first": "#E9EFFA",
           "second": "rgba(233, 239, 250, 0.50)"
         },
+        "ellipsisContainer": "#FFF",
         "header": {
           "background": "#FFF",
           "text": "#000112"
@@ -44,6 +45,7 @@
           "first": "rgba(43, 44, 55, 0.25)",
           "second": "rgba(43, 44, 55, 0.13)"
         },
+        "ellipsisContainer": "#20212C",
         "header": {
           "background": "#2B2C37",
           "text": "#FFF"
