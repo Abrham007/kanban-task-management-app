@@ -1,46 +1,61 @@
 import styled from "styled-components";
 import checkIcon from "../assets/icon-check.svg";
-const Checkbox = styled.div`
+export const CheckBoxLabel = styled.label`
   width: 100%;
   display: flex;
+  flex-direction: row;
   gap: 16px;
   padding: 12px;
-  background-color: #f4f7fd;
+  border-radius: 4px;
 
-  :hover {
+  &:hover {
+    cursor: pointer;
+    background-color: rgba(99, 95, 199, 0.25);
+  }
+
+  input:checked ~ span::before {
+    content: url(${checkIcon});
     background-color: #635fc7;
-    opacity: 0.5;
+    display: flex;
+  }
+
+  input:checked ~ span {
+    text-decoration-line: line-through;
   }
 `;
 
-const Input = styled.input`
-  display: none;
+const CheckBoxInput = styled.input.attrs({ type: "checkbox" })`
+  opacity: 0;
+  width: 0;
+  height: 0;
+  cursor: pointer;
 `;
 
-const Label = styled.label`
-  color: #000112;
-  font-family: "Plus Jakarta Sans";
-  font-size: 0.75rem;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
+const CheckBoxText = styled.span`
+  display: flex;
+  gap: 16px;
 
-  ::before {
-    content: url(${checkIcon});
+  font-size: 0.75rem;
+  font-weight: 700;
+
+  &::before {
+    content: "";
     display: flex;
     justify-content: center;
     align-items: center;
     width: 16px;
     height: 16px;
     flex-shrink: 0;
-    background-color: #635fc7;
+    border-radius: 2px;
+    border: 1px solid rgba(130, 143, 163, 0.25);
+    background: #fff;
   }
 `;
-export default function InputCheckbox() {
+export default function InputCheckBox() {
   return (
-    <Checkbox>
-      <Input></Input>
-      <Label></Label>
-    </Checkbox>
+    <CheckBoxLabel>
+      <CheckBoxInput></CheckBoxInput>
+      <CheckBoxText>Hovered</CheckBoxText>
+    </CheckBoxLabel>
   );
 }
