@@ -9,6 +9,11 @@
           "background": "#FFF",
           "text": "#000112"
         },
+        "textFeild": {
+          "background": "#FFF",
+          "inputText": "#000112",
+          "labelText": "#828FA3"
+        },
         "checkbox": {
           "background": "#F4F7FD",
           "text": "#000112",
@@ -19,6 +24,9 @@
           "second": "rgba(233, 239, 250, 0.50)"
         },
         "ellipsisContainer": "#FFF",
+        "modal": {
+          "background": "#FFF"
+        },
         "header": {
           "background": "#FFF",
           "text": "#000112"
@@ -46,6 +54,11 @@
           "background": "#2B2C37",
           "text": "#FFF"
         },
+        "textFeild": {
+          "background": "#2B2C37",
+          "inputText": "#FFF",
+          "labelText": "#FFF"
+        },
         "checkbox": {
           "background": "#20212C",
           "text": "#FFF",
@@ -56,6 +69,9 @@
           "second": "rgba(43, 44, 55, 0.13)"
         },
         "ellipsisContainer": "#20212C",
+        "modal": {
+          "background": "#2B2C37"
+        },
         "header": {
           "background": "#2B2C37",
           "text": "#FFF"

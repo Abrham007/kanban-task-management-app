@@ -9,6 +9,8 @@ import { StyledTask } from "../components/Task";
 import { NewTaskColumn } from "../components/TaskBoard";
 import { EllipsisOptionContainer } from "../components/EllipsisButton";
 import { CheckBoxLabel } from "../components/InputCheckBox";
+import { StyledTaskDetailModal } from "../components/TaskDetailModal";
+import { TextFieldLabel } from "../components/InputTextField";
 
 export const GlobalStyles = createGlobalStyle`
   * {
@@ -20,6 +22,19 @@ export const GlobalStyles = createGlobalStyle`
     font-family: 'Plus Jakarta Sans', sans-serif;
     background-color: ${({ theme }) => theme.colors.body};
     color: #828fa3;
+  }
+  ${StyledTaskDetailModal} {
+    background-color: ${({ theme }) => theme.colors.modal.background};
+  }
+  ${TextFieldLabel} {
+    span {
+      color: ${({ theme }) => theme.colors.textFeild.labelText};
+    }
+    div {
+      background-color: ${({ theme }) => theme.colors.textFeild.background};
+      color: ${({ theme }) => theme.colors.textFeild.inputText};
+    }
+    
   }
   ${CheckBoxLabel} {
     background-color: ${({ theme }) => theme.colors.checkbox.background};
