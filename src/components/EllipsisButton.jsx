@@ -46,7 +46,7 @@ export const EllipsisOptionContainer = styled.menu`
   }
 `;
 
-export default function EllipsisButton() {
+export default function EllipsisButton({ purpose = "Board" }) {
   return (
     <EllipsisContainer>
       <StyledEllipsisButton>
@@ -54,10 +54,10 @@ export default function EllipsisButton() {
       </StyledEllipsisButton>
       <EllipsisOptionContainer $isOpen={false}>
         <li>
-          <button>Edit Board</button>
+          <button>Edit {purpose}</button>
         </li>
         <li>
-          <button>Delete Board</button>
+          <button>Delete {purpose}</button>
         </li>
       </EllipsisOptionContainer>
     </EllipsisContainer>
