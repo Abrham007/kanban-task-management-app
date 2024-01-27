@@ -2,7 +2,7 @@ import styled from "styled-components";
 import InputCheckBox from "./InputCheckBox";
 import InputTextField from "./InputTextField";
 
-const StyledTaskDetail = styled.dialog`
+export const StyledTaskDetailModal = styled.dialog`
   position: absolute;
   top: calc(50% - 240px);
   left: calc(50% - 260px);
@@ -22,9 +22,9 @@ const StyledTaskDetail = styled.dialog`
 
 export default function TaskDetali() {
   return (
-    <StyledTaskDetail open>
+    <StyledTaskDetailModal open>
       <InputCheckBox></InputCheckBox>
       <InputTextField></InputTextField>
-    </StyledTaskDetail>
+    </StyledTaskDetailModal>
   );
 }
