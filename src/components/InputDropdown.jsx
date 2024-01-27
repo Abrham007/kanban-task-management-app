@@ -8,6 +8,10 @@ export const Dropdown = styled.div`
   display: flex;
   flex-direction: column;
   gap: 7px;
+
+  menu {
+    display: ${({ $isOpen }) => ($isOpen ? "flex" : "none")};
+  }
 `;
 
 const DropdownInput = styled.div`
@@ -67,7 +71,7 @@ const DropdownMenu = styled.menu`
 
 export default function InputDropdown() {
   return (
-    <Dropdown aria-live="polite">
+    <Dropdown $isOpen={false} aria-live="polite">
       <DropdownInput>
         <span>Doing</span>
         <img src={downIcon} alt=""></img>
