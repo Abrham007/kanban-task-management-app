@@ -27,7 +27,9 @@ export const TextField = styled.div`
 
 const TextFieldInput = styled.input.attrs({ type: "text" })`
   width: 100%;
+  height: ${({ as }) => (as === "input" ? "auto" : "112px")};
   padding: 8px 16px;
+  font-family: "Plus Jakarta Sans";
   font-size: 0.8125rem;
   font-weight: 500;
   line-height: 1.4375rem;
@@ -36,6 +38,7 @@ const TextFieldInput = styled.input.attrs({ type: "text" })`
   border-radius: 4px;
   background-color: inherit;
   color: inherit;
+  resize: none;
 
   &:focus,
   &:hover {
@@ -51,10 +54,10 @@ const TextFieldErrorMessage = styled.span`
   line-height: 1.4375rem;
 `;
 
-export default function InputTextField() {
+export default function InputTextField({ as = "input" }) {
   return (
     <TextField $isInvalid={false}>
-      <TextFieldInput required placeholder="Enter task name"></TextFieldInput>
+      <TextFieldInput as={as} required placeholder="Enter task name"></TextFieldInput>
       <TextFieldErrorMessage>Can’t be empty</TextFieldErrorMessage>
     </TextField>
   );
