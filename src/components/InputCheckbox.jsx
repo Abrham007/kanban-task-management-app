@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import checkIcon from "../assets/icon-check.svg";
+
 export const CheckBoxLabel = styled.label`
   width: 100%;
   display: flex;
@@ -51,11 +52,11 @@ const CheckBoxText = styled.span`
     background: #fff;
   }
 `;
-export default function InputCheckBox() {
+export default function InputCheckBox({children}) {
   return (
     <CheckBoxLabel>
       <CheckBoxInput></CheckBoxInput>
-      <CheckBoxText>Hovered</CheckBoxText>
+      <CheckBoxText>{children}</CheckBoxText>
     </CheckBoxLabel>
   );
 }
