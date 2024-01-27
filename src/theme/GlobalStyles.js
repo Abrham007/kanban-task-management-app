@@ -9,10 +9,9 @@ import { StyledTask } from "../components/Task";
 import { NewTaskColumn } from "../components/TaskBoard";
 import { EllipsisOptionContainer } from "../components/EllipsisButton";
 import { CheckBoxLabel } from "../components/InputCheckBox";
-import { TaskDetail } from "../components/ModalTaskDetail";
 import { TextField } from "../components/InputTextField";
 import { Dropdown } from "../components/InputDropdown";
-import { AddEditTask } from "../components/ModalAddEditTask";
+import { Modal } from "../components/ModalStyles.";
 
 export const GlobalStyles = createGlobalStyle`
   * {
@@ -26,7 +25,7 @@ export const GlobalStyles = createGlobalStyle`
     color: #828fa3;
   }
 
-  ${TaskDetail}, ${AddEditTask} {
+  ${Modal}{
     background-color: ${({ theme }) => theme.colors.modal.background};
     h3 {
       color: ${({ theme }) => theme.colors.modal.header};
