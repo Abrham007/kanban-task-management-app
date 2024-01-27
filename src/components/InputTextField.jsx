@@ -1,25 +1,21 @@
 import styled from "styled-components";
 
-export const TextFieldLabel = styled.label`
-  position: relative;
-  width: 100%;
+export const TextField = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 8px;
+  align-items: center;
+  width: 100%;
+  border-radius: 4px;
+  border: 1px solid ${({ $isInvalid }) => ($isInvalid ? "#EA5555" : "rgba(130, 143, 163, 0.25)")};
 
   &:hover {
     cursor: pointer;
   }
 
-  & div {
-    border: 1px solid ${({ $isInvalid }) => ($isInvalid ? "#EA5555" : "rgba(130, 143, 163, 0.25)")};
-  }
-
-  & div span {
+  & span {
     display: ${({ $isInvalid }) => ($isInvalid ? "inline-block" : "none")};
   }
 
-  & div input {
+  & input {
     border: ${({ $isInvalid }) => ($isInvalid ? "none" : "")};
 
     &:focus,
@@ -29,18 +25,7 @@ export const TextFieldLabel = styled.label`
   }
 `;
 
-const TextFieldInput = styled.div`
-  display: flex;
-  align-items: center;
-  width: 100%;
-  border-radius: 4px;
-`;
-
-const TextFieldText = styled.span`
-  font-size: 0.75rem;
-  font-weight: 700;
-`;
-const Input = styled.input.attrs({ type: "text" })`
+const TextFieldInput = styled.input.attrs({ type: "text" })`
   width: 100%;
   padding: 8px 16px;
   font-size: 0.8125rem;
@@ -55,10 +40,10 @@ const Input = styled.input.attrs({ type: "text" })`
   &:focus,
   &:hover {
     cursor: pointer;
-    border: 1px solid var(--Main-Purple, #635fc7);
+    border: 1px solid #635fc7;
   }
 `;
-const ErrorMessage = styled.span`
+const TextFieldErrorMessage = styled.span`
   width: 150px;
   color: #ea5555;
   font-size: 0.8125rem;
@@ -68,12 +53,9 @@ const ErrorMessage = styled.span`
 
 export default function InputTextField() {
   return (
-    <TextFieldLabel $isInvalid={false}>
-      <TextFieldText>Text Field</TextFieldText>
-      <TextFieldInput>
-        <Input required placeholder="Enter task name"></Input>
-        <ErrorMessage>Can’t be empty</ErrorMessage>
-      </TextFieldInput>
-    </TextFieldLabel>
+    <TextField $isInvalid={false}>
+      <TextFieldInput required placeholder="Enter task name"></TextFieldInput>
+      <TextFieldErrorMessage>Can’t be empty</TextFieldErrorMessage>
+    </TextField>
   );
 }
