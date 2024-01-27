@@ -22,7 +22,9 @@ const DropdownInput = styled.div`
   padding: 8px 16px;
   border-radius: 4px;
   border: 1px solid rgba(130, 143, 163, 0.25);
+  outline: none;
 
+  &:focus,
   &:hover {
     cursor: pointer;
     border: 1px solid #635fc7;
@@ -72,7 +74,7 @@ const DropdownMenu = styled.menu`
 export default function InputDropdown() {
   return (
     <Dropdown $isOpen={false} aria-live="polite">
-      <DropdownInput>
+      <DropdownInput tabIndex={0}>
         <span>Doing</span>
         <img src={downIcon} alt=""></img>
       </DropdownInput>
