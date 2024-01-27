@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import { devices } from "../utils/devices";
+
 export const Modal = styled.dialog`
   position: absolute;
   top: calc(50% - 240px);
@@ -20,6 +22,11 @@ export const Modal = styled.dialog`
   span {
     font-size: 0.75rem;
     font-weight: 700;
+  }
+
+  @media ${devices.mobile} {
+    width: 343px;
+    padding: 24px;
   }
 `;
 export const Label = styled.label`
