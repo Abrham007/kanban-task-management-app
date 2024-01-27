@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const TextFieldLabel = styled.label`
+export const TextFieldLabel = styled.label`
   position: relative;
   width: 100%;
   display: flex;
@@ -18,6 +18,15 @@ const TextFieldLabel = styled.label`
   & div span {
     display: ${({ $isInvalid }) => ($isInvalid ? "inline-block" : "none")};
   }
+
+  & div input {
+    border: ${({ $isInvalid }) => ($isInvalid ? "none" : "")};
+
+    &:focus,
+    &:hover {
+      border: ${({ $isInvalid }) => ($isInvalid ? "none" : "")};
+    }
+  }
 `;
 
 const TextFieldInput = styled.div`
@@ -25,20 +34,9 @@ const TextFieldInput = styled.div`
   align-items: center;
   width: 100%;
   border-radius: 4px;
-  background: #fff;
-  color: #000112;
-  padding: 0px 1px;
-
-  &:focus,
-  &:active,
-  &:hover {
-    cursor: pointer;
-    border: 1px solid var(--Main-Purple, #635fc7);
-  }
 `;
 
 const TextFieldText = styled.span`
-  color: #828fa3;
   font-size: 0.75rem;
   font-weight: 700;
 `;
@@ -49,7 +47,16 @@ const Input = styled.input.attrs({ type: "text" })`
   font-weight: 500;
   line-height: 1.4375rem;
   outline: none;
-  border: none;
+  border: 1px solid rgba(130, 143, 163, 0.25);
+  border-radius: 4px;
+  background-color: inherit;
+  color: inherit;
+
+  &:focus,
+  &:hover {
+    cursor: pointer;
+    border: 1px solid var(--Main-Purple, #635fc7);
+  }
 `;
 const ErrorMessage = styled.span`
   width: 150px;
