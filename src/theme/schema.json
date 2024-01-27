@@ -9,10 +9,15 @@
           "background": "#FFF",
           "text": "#000112"
         },
+        "dropdown": {
+          "text": "#000112",
+          "menu": {
+            "background": "#FFF"
+          }
+        },
         "textFeild": {
           "background": "#FFF",
-          "inputText": "#000112",
-          "labelText": "#828FA3"
+          "text": "#000112"
         },
         "checkbox": {
           "background": "#F4F7FD",
@@ -54,10 +59,15 @@
           "background": "#2B2C37",
           "text": "#FFF"
         },
+        "dropdown": {
+          "text": "#FFF",
+          "menu": {
+            "background": "#20212C"
+          }
+        },
         "textFeild": {
           "background": "#2B2C37",
-          "inputText": "#FFF",
-          "labelText": "#FFF"
+          "text": "#FFF"
         },
         "checkbox": {
           "background": "#20212C",

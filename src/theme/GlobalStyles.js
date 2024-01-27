@@ -10,7 +10,8 @@ import { NewTaskColumn } from "../components/TaskBoard";
 import { EllipsisOptionContainer } from "../components/EllipsisButton";
 import { CheckBoxLabel } from "../components/InputCheckBox";
 import { StyledTaskDetailModal } from "../components/TaskDetailModal";
-import { TextFieldLabel } from "../components/InputTextField";
+import { TextField } from "../components/InputTextField";
+import { Dropdown } from "../components/InputDropdown";
 
 export const GlobalStyles = createGlobalStyle`
   * {
@@ -26,15 +27,17 @@ export const GlobalStyles = createGlobalStyle`
   ${StyledTaskDetailModal} {
     background-color: ${({ theme }) => theme.colors.modal.background};
   }
-  ${TextFieldLabel} {
-    span {
-      color: ${({ theme }) => theme.colors.textFeild.labelText};
+  ${Dropdown} {
+    div span {
+      color: ${({ theme }) => theme.colors.dropdown.text}; 
     }
-    div {
+    menu {
+      background-color: ${({ theme }) => theme.colors.dropdown.menu.background};      
+    }
+  }
+  ${TextField} {
       background-color: ${({ theme }) => theme.colors.textFeild.background};
-      color: ${({ theme }) => theme.colors.textFeild.inputText};
-    }
-    
+      color: ${({ theme }) => theme.colors.textFeild.text}; 
   }
   ${CheckBoxLabel} {
     background-color: ${({ theme }) => theme.colors.checkbox.background};
