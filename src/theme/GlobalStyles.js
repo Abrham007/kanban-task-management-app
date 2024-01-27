@@ -9,9 +9,10 @@ import { StyledTask } from "../components/Task";
 import { NewTaskColumn } from "../components/TaskBoard";
 import { EllipsisOptionContainer } from "../components/EllipsisButton";
 import { CheckBoxLabel } from "../components/InputCheckBox";
-import { StyledTaskDetailModal } from "../components/TaskDetailModal";
+import { TaskDetail } from "../components/ModalTaskDetail";
 import { TextField } from "../components/InputTextField";
 import { Dropdown } from "../components/InputDropdown";
+import { AddEditTask } from "../components/ModalAddEditTask";
 
 export const GlobalStyles = createGlobalStyle`
   * {
@@ -24,8 +25,15 @@ export const GlobalStyles = createGlobalStyle`
     background-color: ${({ theme }) => theme.colors.body};
     color: #828fa3;
   }
-  ${StyledTaskDetailModal} {
+
+  ${TaskDetail}, ${AddEditTask} {
     background-color: ${({ theme }) => theme.colors.modal.background};
+    h3 {
+      color: ${({ theme }) => theme.colors.modal.header};
+    }
+    span {
+      color: ${({ theme }) => theme.colors.modal.label};
+    }
   }
   ${Dropdown} {
     div span {
@@ -81,7 +89,7 @@ export const GlobalStyles = createGlobalStyle`
     background-color: ${({ theme }) => theme.colors.secondaryButton.background};
     color: ${({ theme }) => theme.colors.secondaryButton.text};
 
-    &:hover {
+    &:focus,&:hover {
       background-color: ${({ theme }) => theme.colors.secondaryButton.hover.background};
     }
   }

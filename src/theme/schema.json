@@ -30,7 +30,9 @@
         },
         "ellipsisContainer": "#FFF",
         "modal": {
-          "background": "#FFF"
+          "background": "#FFF",
+          "header": "#000112",
+          "label": "#828FA3"
         },
         "header": {
           "background": "#FFF",
@@ -80,7 +82,9 @@
         },
         "ellipsisContainer": "#20212C",
         "modal": {
-          "background": "#2B2C37"
+          "background": "#2B2C37",
+          "header": "#FFF",
+          "label": "#FFF"
         },
         "header": {
           "background": "#2B2C37",
