@@ -2,37 +2,14 @@ import styled from "styled-components";
 import InputCheckBox from "./InputCheckBox";
 import InputDropdown from "./InputDropdown";
 import EllipsisButton from "./EllipsisButton";
+import { Modal } from "./ModalStyles.";
 
-export const TaskDetail = styled.dialog`
-  position: absolute;
-  top: calc(50% - 240px);
-  left: calc(50% - 260px);
-  width: 480px;
-  display: flex;
-  gap: 20px;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border-radius: 6px;
-  border: none;
-  outline: none;
-  padding: 32px;
-
-  & h3 {
-    font-size: 1.125rem;
-    font-weight: 700;
-  }
-
+const TaskDetail = styled(Modal)`
   & > p {
     color: #828fa3;
     font-size: 0.8125rem;
     font-weight: 500;
     line-height: 1.4375rem;
-  }
-
-  & span {
-    font-size: 0.75rem;
-    font-weight: 700;
   }
 `;
 
