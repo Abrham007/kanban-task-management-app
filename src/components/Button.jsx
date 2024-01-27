@@ -25,6 +25,7 @@ const PrimaryButton = styled(StyledButton)`
   /* padding: ${({ $size }) => ($size === "small" ? "9px 0px 9px 0px" : "9px 25px 9px 25px")}; */
   width: ${({ $size }) => ($size === "small" ? "100%" : "auto")};
 
+  &:focus,
   &:hover {
     background-color: #a8a4ff;
   }
@@ -36,6 +37,7 @@ const DestructiveButton = styled(StyledButton)`
   color: #fff;
   background-color: #ea5555;
 
+  &:focus,
   &:hover {
     background-color: #ff9898;
   }
