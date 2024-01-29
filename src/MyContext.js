@@ -1,3 +1,4 @@
 import { createContext } from "react";
 
-export const MyContext = createContext(null);
+export const BoardContext = createContext(null);
+export const DataContext = createContext(null);
