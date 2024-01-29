@@ -71,23 +71,19 @@ const DropdownMenu = styled.menu`
   }
 `;
 
-export default function InputDropdown() {
+export default function InputDropdown({ status, statuslist }) {
   return (
     <Dropdown $isOpen={false} aria-live="polite">
       <DropdownInput tabIndex={0}>
-        <span>Doing</span>
+        <span>{status}</span>
         <img src={downIcon} alt=""></img>
       </DropdownInput>
       <DropdownMenu>
-        <li>
-          <button>Todo</button>
-        </li>
-        <li>
-          <button>Doing</button>
-        </li>
-        <li>
-          <button>Done</button>
-        </li>
+        {statuslist.map((status) => (
+          <li>
+            <button>{status}</button>
+          </li>
+        ))}
       </DropdownMenu>
     </Dropdown>
   );

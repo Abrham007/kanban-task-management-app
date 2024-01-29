@@ -52,10 +52,10 @@ const CheckBoxText = styled.span`
     background: #fff;
   }
 `;
-export default function InputCheckBox({children}) {
+export default function InputCheckBox({ children, isChecked }) {
   return (
     <CheckBoxLabel>
-      <CheckBoxInput></CheckBoxInput>
+      <CheckBoxInput defaultChecked={isChecked}></CheckBoxInput>
       <CheckBoxText>{children}</CheckBoxText>
     </CheckBoxLabel>
   );
