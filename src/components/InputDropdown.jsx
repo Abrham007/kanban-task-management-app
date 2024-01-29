@@ -80,7 +80,7 @@ export default function InputDropdown({ status, statuslist }) {
       </DropdownInput>
       <DropdownMenu>
         {statuslist.map((status) => (
-          <li>
+          <li key={status}>
             <button>{status}</button>
           </li>
         ))}
