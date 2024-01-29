@@ -6,13 +6,19 @@ export const Modal = styled.dialog`
   top: calc(50% - 240px);
   left: calc(50% - 260px);
   width: 480px;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
   border-radius: 6px;
   border: none;
   outline: none;
   padding: 32px;
+
+  &::backdrop {
+    opacity: 0.5;
+    background: #000;
+  }
+
+  & > * {
+    margin-bottom: 24px;
+  }
 
   h3 {
     font-size: 1.125rem;
