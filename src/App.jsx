@@ -6,8 +6,12 @@ import { useTheme } from "./theme/useTheme";
 import Board from "./components/Board";
 import Main from "./components/Main";
 import { devices } from "./utils/devices";
-import { MyContext } from "./MyContext";
-import TaskDetali from "./components/TaskDetail";
+import { BoardContext, DataContext } from "./MyContext";
+import ModalTaskDetail from "./components/ModalTaskDetail";
+import ModalAddEditTask from "./components/ModalAddEditTask";
+import ModalAddEditBoard from "./components/ModalAddEditBoard";
+import ModalDelete from "./components/ModalDelete";
+import data from "./data.json";
 
 const StyledApp = styled.div`
   width: 100vw;
@@ -40,6 +44,7 @@ export default function App() {
   const { theme, themeLoaded } = useTheme();
   const [selectedTheme, setSelectedTheme] = useState(theme);
   const [isBoardHidden, setisBoardHidden] = useState(false);
+  const [boardArray, setBoardArray] = useState(data.boards);
 
   function handleThemeChange(newTheme) {
     setSelectedTheme(newTheme);
@@ -55,17 +60,22 @@ export default function App() {
 
   return (
     <StyledApp $isBoardHidden={isBoardHidden}>
-      <TaskDetali></TaskDetali>
-      <MyContext.Provider value={{ isBoardHidden, handleBoardHidden }}>
-        {themeLoaded && (
-          <ThemeProvider theme={selectedTheme}>
-            <GlobalStyles></GlobalStyles>
-            <Header></Header>
-            <Board handleThemeChange={handleThemeChange}></Board>
-            <Main></Main>
-          </ThemeProvider>
-        )}
-      </MyContext.Provider>
+      {/* <ModalDelete></ModalDelete> */}
+      {/* <ModalAddEditBoard></ModalAddEditBoard> */}
+      {/* <ModalAddEditTask></ModalAddEditTask> */}
+      {/* <ModalTaskDetail></ModalTaskDetail> */}
+      <DataContext.Provider value={boardArray}>
+        <BoardContext.Provider value={{ isBoardHidden, handleBoardHidden }}>
+          {themeLoaded && (
+            <ThemeProvider theme={selectedTheme}>
+              <GlobalStyles></GlobalStyles>
+              <Header></Header>
+              <Board handleThemeChange={handleThemeChange}></Board>
+              <Main></Main>
+            </ThemeProvider>
+          )}
+        </BoardContext.Provider>
+      </DataContext.Provider>
     </StyledApp>
   );
 }
