@@ -2,7 +2,7 @@ import styled, { css } from "styled-components";
 import MainEmpty from "./MainEmpty";
 import { devices } from "../utils/devices";
 import { useContext } from "react";
-import { MyContext } from "../MyContext";
+import { BoardContext, DataContext } from "../MyContext";
 import TaskBoard from "./TaskBoard";
 
 export const StyledMain = styled.main`
@@ -39,11 +39,12 @@ export const StyledMain = styled.main`
 `;
 
 export default function Main() {
-  const { isBoardHidden } = useContext(MyContext);
+  const { isBoardHidden } = useContext(BoardContext);
+  const boardArray = useContext(DataContext);
   return (
     <StyledMain $isBoardHidden={isBoardHidden} $isMainEmpty={false}>
       {/* <MainEmpty></MainEmpty> */}
-      <TaskBoard></TaskBoard>
+      <TaskBoard activeBoard={boardArray[0]}></TaskBoard>
     </StyledMain>
   );
 }

@@ -6,7 +6,7 @@ import darkTheme from "../assets/icon-dark-theme.svg";
 import showIcon from "../assets/icon-show-sidebar.svg";
 import { useTheme } from "../theme/useTheme";
 import { useContext } from "react";
-import { MyContext } from "../MyContext";
+import { BoardContext } from "../MyContext";
 import { ThemeContext } from "styled-components";
 import { getFromLS } from "../utils/storage";
 import { devices } from "../utils/devices";
@@ -152,7 +152,7 @@ export default function Board(props) {
   const themesFromStore = getFromLS("all-themes");
   const { setMode } = useTheme();
   const themeContext = useContext(ThemeContext);
-  const { isBoardHidden, handleBoardHidden } = useContext(MyContext);
+  const { isBoardHidden, handleBoardHidden } = useContext(BoardContext);
 
   function themeSwithcher() {
     if (themeContext.name === "Light") {

@@ -7,7 +7,7 @@ import upIcon from "../assets/icon-chevron-up.svg";
 import addIcon from "../assets/icon-add-task-mobile.svg";
 import mobileLogo from "../assets/logo-mobile.svg";
 import { useContext } from "react";
-import { MyContext } from "../MyContext";
+import { BoardContext } from "../MyContext";
 import EllipsisButton from "./EllipsisButton";
 
 export const StyledHeader = styled.header`
@@ -123,7 +123,7 @@ const HeaderBtn = styled(Button)`
 `;
 
 export default function Header() {
-  const { isBoardHidden, handleBoardHidden } = useContext(MyContext);
+  const { isBoardHidden, handleBoardHidden } = useContext(BoardContext);
   return (
     <StyledHeader $isBoardHidden={isBoardHidden}>
       <div className="Header-text">
