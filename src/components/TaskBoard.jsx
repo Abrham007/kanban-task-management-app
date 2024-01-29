@@ -28,12 +28,13 @@ export const NewTaskColumn = styled.section`
     color: #635fc7;
   }
 `;
-export default function TaskBoard() {
+export default function TaskBoard({ activeBoard }) {
+  const statusList = activeBoard.columns.map((column) => column.name);
   return (
     <StyledTaskBoard>
-      <TaskColumn></TaskColumn>
-      <TaskColumn></TaskColumn>
-      <TaskColumn></TaskColumn>
+      {activeBoard.columns.map((column) => (
+        <TaskColumn key={column.name} {...column} statuslist={statusList}></TaskColumn>
+      ))}
       <NewTaskColumn>
         <button>+ New Column</button>
       </NewTaskColumn>

@@ -21,16 +21,18 @@ const TaskTitle = styled.h2`
   }
 `;
 
-export default function TasksColumn() {
+export default function TasksColumn({ name, tasks, statuslist }) {
   return (
     <StyledTaskColumn>
       <TaskTitle>
         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
           <circle cx="7.5" cy="7.5" r="7.5" fill="#49C4E5" />
         </svg>
-        <span>TODO (4)</span>
+        <span>
+          {name} ({tasks.length})
+        </span>
       </TaskTitle>
-      <TaskList></TaskList>
+      <TaskList tasks={tasks} statuslist={statuslist}></TaskList>
     </StyledTaskColumn>
   );
 }
