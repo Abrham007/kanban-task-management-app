@@ -65,8 +65,10 @@ const ModalTaskDetail = forwardRef(function (
           Subtasks ({numOfFinishedTasks} of {subtasks.length})
         </span>
         <div role="presentation">
-          {subtasks.map((subtask) => (
-            <InputCheckBox isChecked={subtask.isCompleted}>{subtask.title}</InputCheckBox>
+          {subtasks.map((subtask, index) => (
+            <InputCheckBox key={subtask.title} isChecked={subtask.isCompleted}>
+              {subtask.title}
+            </InputCheckBox>
           ))}
         </div>
       </TaskDetailCheckbox>
