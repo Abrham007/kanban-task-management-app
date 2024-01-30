@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import downIcon from "../assets/icon-chevron-down.svg";
 import upIcon from "../assets/icon-chevron-up.svg";
+import { useContext, useEffect, useState } from "react";
+import { DataContext } from "../MyContext";
 
 export const Dropdown = styled.div`
   position: relative;
@@ -14,7 +16,7 @@ export const Dropdown = styled.div`
   }
 `;
 
-const DropdownInput = styled.div`
+const DropdownInput = styled.button`
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -23,6 +25,7 @@ const DropdownInput = styled.div`
   border-radius: 4px;
   border: 1px solid rgba(130, 143, 163, 0.25);
   outline: none;
+  background-color: transparent;
 
   &:focus,
   &:hover {
@@ -55,7 +58,7 @@ const DropdownMenu = styled.menu`
   }
 
   button {
-    width: 50%;
+    width: 100%;
     border: none;
     outline: none;
     background-color: transparent;
@@ -71,17 +74,35 @@ const DropdownMenu = styled.menu`
   }
 `;
 
-export default function InputDropdown({ status, statuslist }) {
+export default function InputDropdown({ status }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedStatus, setSelectedStatus] = useState();
+  const { boardArray, selectedBoard } = useContext(DataContext);
+  const activeBoard = boardArray.find((board) => board.name === selectedBoard);
+  const statuslist = activeBoard.columns.map((col) => col.name);
+
+  function toggleOpen() {
+    setIsOpen((prevValue) => !prevValue);
+  }
+
+  useEffect(() => {
+    if (!status) {
+      setSelectedStatus(statuslist[0]);
+    } else {
+      setSelectedStatus(status);
+    }
+  }, []);
+
   return (
-    <Dropdown $isOpen={false} aria-live="polite">
+    <Dropdown onClick={toggleOpen} $isOpen={isOpen} aria-live="polite">
       <DropdownInput tabIndex={0}>
-        <span>{status}</span>
+        <span>{selectedStatus}</span>
         <img src={downIcon} alt=""></img>
       </DropdownInput>
       <DropdownMenu>
         {statuslist.map((status) => (
           <li key={status}>
-            <button>{status}</button>
+            <button onClick={() => setSelectedStatus(status)}>{status}</button>
           </li>
         ))}
       </DropdownMenu>
