@@ -4,6 +4,7 @@ import InputDropdown from "./InputDropdown";
 import EllipsisButton from "./EllipsisButton";
 import { Modal } from "./ModalStyles.";
 import { forwardRef, useImperativeHandle, useRef } from "react";
+import { createPortal } from "react-dom";
 
 const TaskDetail = styled(Modal)`
   & > p {
@@ -53,7 +54,7 @@ const ModalTaskDetail = forwardRef(function (
       },
     };
   });
-  return (
+  return createPortal(
     <TaskDetail ref={dialog}>
       <TaskDetailHeader>
         <h3>{title}</h3>
@@ -76,7 +77,8 @@ const ModalTaskDetail = forwardRef(function (
         <span>Current Status</span>
         <InputDropdown status={status} statuslist={statuslist}></InputDropdown>
       </TaskDetailDropdown>
-    </TaskDetail>
+    </TaskDetail>,
+    document.getElementById("modal")
   );
 });
 
