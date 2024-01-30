@@ -9,6 +9,7 @@ import { useContext, useRef } from "react";
 import { DataContext, SideBarContext } from "../MyContext";
 import EllipsisButton from "./EllipsisButton";
 import ModalAddEditTask from "./ModalAddEditTask";
+import ModalAddEditBoard from "./ModalAddEditBoard";
 
 export const StyledHeader = styled.header`
   grid-area: header;
@@ -123,12 +124,18 @@ const HeaderBtn = styled(Button)`
 `;
 
 export default function Header() {
-  const dialog = useRef();
+  const taskDialog = useRef();
+  const boardDialog = useRef();
   const { isSideBarHidden, handleSideBarHidden } = useContext(SideBarContext);
-  const { selectedBoard } = useContext(DataContext);
+  const { boardArray, selectedBoard } = useContext(DataContext);
+  const activeBoard = boardArray.find((board) => board.name === selectedBoard);
 
-  function handleOpenModal() {
-    dialog.current.open();
+  function handleModalTaskCreate() {
+    taskDialog.current.open();
+  }
+
+  function handleModalBoardEdit() {
+    boardDialog.current.open();
   }
 
   return (
@@ -143,14 +150,19 @@ export default function Header() {
         </div>
 
         <div className="Header-btns">
-          <HeaderBtn onClick={handleOpenModal} type={"primary"} size="large">
+          <HeaderBtn onClick={handleModalTaskCreate} type={"primary"} size="large">
             <span className="for-large">+ Add New Task</span>
             <img src={addIcon} alt="add sign" className="for-small"></img>
           </HeaderBtn>
-          <EllipsisButton></EllipsisButton>
+          <EllipsisButton handleEdit={handleModalBoardEdit}></EllipsisButton>
         </div>
       </StyledHeader>
-      <ModalAddEditTask ref={dialog}></ModalAddEditTask>
+      <ModalAddEditTask ref={taskDialog}></ModalAddEditTask>
+      <ModalAddEditBoard
+        ref={boardDialog}
+        name={activeBoard.name}
+        boardColumns={activeBoard.columns}
+      ></ModalAddEditBoard>
     </>
   );
 }
