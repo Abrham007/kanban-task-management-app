@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { devices } from "../utils/devices";
 
 export const Modal = styled.dialog`
-  position: fixed;
+  position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
@@ -42,17 +42,18 @@ export const Label = styled.label`
   gap: 8px;
 `;
 
-export const InputContainer = styled.div`
+export const InputContainer = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 12px;
+  list-style: none;
 
-  & > div {
+  & > li {
     display: flex;
     gap: 16px;
   }
 
-  & > div > button {
+  & > li > button {
     background-color: transparent;
     border: none;
     outline: none;

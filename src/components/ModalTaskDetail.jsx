@@ -7,6 +7,7 @@ import { forwardRef, useImperativeHandle, useRef } from "react";
 import { createPortal } from "react-dom";
 
 const TaskDetail = styled(Modal)`
+  overflow: visible;
   & > p {
     color: #828fa3;
     font-size: 0.8125rem;
@@ -41,10 +42,7 @@ const TaskDetailDropdown = styled.div`
   gap: 8px;
 `;
 
-const ModalTaskDetail = forwardRef(function (
-  { title, description, status, subtasks, numOfFinishedTasks, statuslist },
-  ref
-) {
+const ModalTaskDetail = forwardRef(function ({ title, description, status, subtasks, numOfFinishedTasks }, ref) {
   const dialog = useRef();
 
   useImperativeHandle(ref, () => {
@@ -75,7 +73,7 @@ const ModalTaskDetail = forwardRef(function (
       </TaskDetailCheckbox>
       <TaskDetailDropdown>
         <span>Current Status</span>
-        <InputDropdown status={status} statuslist={statuslist}></InputDropdown>
+        <InputDropdown status={status}></InputDropdown>
       </TaskDetailDropdown>
     </TaskDetail>,
     document.getElementById("modal")
