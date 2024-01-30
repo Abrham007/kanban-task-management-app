@@ -54,10 +54,10 @@ const TextFieldErrorMessage = styled.span`
   line-height: 1.4375rem;
 `;
 
-export default function InputTextField({ as = "input" }) {
+export default function InputTextField({ as = "input", defaultValue, placeholder }) {
   return (
     <TextField $isInvalid={false}>
-      <TextFieldInput as={as} required placeholder="Enter task name"></TextFieldInput>
+      <TextFieldInput as={as} defaultValue={defaultValue} required placeholder={placeholder}></TextFieldInput>
       <TextFieldErrorMessage>Can’t be empty</TextFieldErrorMessage>
     </TextField>
   );
