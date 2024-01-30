@@ -7,7 +7,7 @@ import upIcon from "../assets/icon-chevron-up.svg";
 import addIcon from "../assets/icon-add-task-mobile.svg";
 import mobileLogo from "../assets/logo-mobile.svg";
 import { useContext } from "react";
-import { BoardContext } from "../MyContext";
+import { SideBarContext } from "../MyContext";
 import EllipsisButton from "./EllipsisButton";
 
 export const StyledHeader = styled.header`
@@ -15,12 +15,12 @@ export const StyledHeader = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: ${({ $isBoardHidden }) => ($isBoardHidden ? "0px 32px 0px 24px" : "0px 32px 0px 34px")};
+  padding: ${({ $isSideBarHidden }) => ($isSideBarHidden ? "0px 32px 0px 24px" : "0px 32px 0px 34px")};
   transition: all 0.5s linear;
 
   .Header-text {
     display: flex;
-    gap: ${({ $isBoardHidden }) => ($isBoardHidden ? "37px" : "69px")};
+    gap: ${({ $isSideBarHidden }) => ($isSideBarHidden ? "37px" : "69px")};
     align-items: center;
   }
 
@@ -45,7 +45,7 @@ export const StyledHeader = styled.header`
 
   @media ${devices.tablet} {
     .Header-text {
-      gap: ${({ $isBoardHidden }) => ($isBoardHidden ? "24px" : "53px")};
+      gap: ${({ $isSideBarHidden }) => ($isSideBarHidden ? "24px" : "53px")};
     }
 
     h1 {
@@ -70,8 +70,8 @@ export const StyledHeader = styled.header`
 `;
 
 const VerticalLine = styled.hr`
-  ${({ $isBoardHidden }) => {
-    if (!$isBoardHidden) {
+  ${({ $isSideBarHidden }) => {
+    if (!$isSideBarHidden) {
       return css`
         width: 0;
         height: 0;
@@ -123,14 +123,14 @@ const HeaderBtn = styled(Button)`
 `;
 
 export default function Header() {
-  const { isBoardHidden, handleBoardHidden } = useContext(BoardContext);
+  const { isSideBarHidden, handleSideBarHidden } = useContext(SideBarContext);
   return (
-    <StyledHeader $isBoardHidden={isBoardHidden}>
+    <StyledHeader $isSideBarHidden={isSideBarHidden}>
       <div className="Header-text">
         <Logo role="presentation"></Logo>
-        <VerticalLine $isBoardHidden={isBoardHidden}></VerticalLine>
-        <h1 onClick={handleBoardHidden}>
-          <span>Platform Launch</span> <img src={isBoardHidden ? upIcon : downIcon} alt=""></img>
+        <VerticalLine $isSideBarHidden={isSideBarHidden}></VerticalLine>
+        <h1 onClick={handleSideBarHidden}>
+          <span>Platform Launch</span> <img src={isSideBarHidden ? upIcon : downIcon} alt=""></img>
         </h1>
       </div>
 

@@ -2,8 +2,8 @@ import { createGlobalStyle } from "styled-components";
 import { SecondaryButton } from "../components/Button";
 import { Logo } from "../components/Header";
 import { StyledHeader } from "../components/Header";
-import { StyledBoard } from "../components/Board";
-import { SliderWapper } from "../components/Board";
+import { StyledSideBar } from "../components/SideBar";
+import { SliderWapper } from "../components/SideBar";
 import { StyledMain } from "../components/Main";
 import { StyledTask } from "../components/Task";
 import { NewTaskColumn } from "../components/TaskBoard";
@@ -70,8 +70,8 @@ export const GlobalStyles = createGlobalStyle`
   ${StyledMain} {
     background-color: ${({ theme }) => theme.colors.main}
   }
-  ${StyledBoard} {
-    background-color: ${({ theme }) => theme.colors.board}
+  ${StyledSideBar} {
+    background-color: ${({ theme }) => theme.colors.SideBar}
   }
   ${SliderWapper} {
     background-color: ${({ theme }) => theme.colors.slider};

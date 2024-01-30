@@ -2,7 +2,7 @@ import styled, { css } from "styled-components";
 import MainEmpty from "./MainEmpty";
 import { devices } from "../utils/devices";
 import { useContext } from "react";
-import { BoardContext, DataContext } from "../MyContext";
+import { SideBarContext, DataContext } from "../MyContext";
 import TaskBoard from "./TaskBoard";
 
 export const StyledMain = styled.main`
@@ -26,8 +26,8 @@ export const StyledMain = styled.main`
       opacity: 0;
       transition: opacity 0.5s linear;
     }
-    ${({ $isBoardHidden }) => {
-      if ($isBoardHidden) {
+    ${({ $isSideBarHidden }) => {
+      if ($isSideBarHidden) {
         return css`
           &::after {
             opacity: 1;
@@ -39,10 +39,10 @@ export const StyledMain = styled.main`
 `;
 
 export default function Main() {
-  const { isBoardHidden } = useContext(BoardContext);
+  const { isSideBarHidden } = useContext(SideBarContext);
   const boardArray = useContext(DataContext);
   return (
-    <StyledMain $isBoardHidden={isBoardHidden} $isMainEmpty={false}>
+    <StyledMain $isSideBarHidden={isSideBarHidden} $isMainEmpty={false}>
       {/* <MainEmpty></MainEmpty> */}
       <TaskBoard activeBoard={boardArray[0]}></TaskBoard>
     </StyledMain>

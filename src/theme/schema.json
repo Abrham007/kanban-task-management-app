@@ -38,7 +38,7 @@
           "background": "#FFF",
           "text": "#000112"
         },
-        "board": "#FFF",
+        "sidebar": "#FFF",
         "slider": "#f4f7fd",
         "secondaryButton": {
           "background": "rgba(99, 95, 199, 0.10)",
@@ -90,7 +90,7 @@
           "background": "#2B2C37",
           "text": "#FFF"
         },
-        "board": "#2B2C37",
+        "sidebar": "#2B2C37",
         "slider": "#20212C",
         "secondaryButton": {
           "background": "#FFF",

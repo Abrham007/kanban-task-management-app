@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import TaskList from "./TaskList";
+import IconCircle from "./IconCircle";
 
 const StyledTaskColumn = styled.section`
   flex-shrink: 0;
@@ -21,13 +22,14 @@ const TaskTitle = styled.h2`
   }
 `;
 
-export default function TasksColumn({ name, tasks, statuslist }) {
+export default function TasksColumn({ name, tasks, statuslist, index }) {
+  const colorList = ["#49C4E5", "#8471F2", "#67E2AE", "#EA5555"];
+  const num = index < 4 ? index : index % 4;
+  const color = colorList[num];
   return (
     <StyledTaskColumn>
       <TaskTitle>
-        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
-          <circle cx="7.5" cy="7.5" r="7.5" fill="#49C4E5" />
-        </svg>
+        <IconCircle fill={color}></IconCircle>
         <span>
           {name} ({tasks.length})
         </span>

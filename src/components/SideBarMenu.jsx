@@ -4,7 +4,7 @@ import IconBoard from "./IconBoard";
 import { useContext } from "react";
 import { DataContext } from "../MyContext";
 
-const StyledBoardMenu = styled.div`
+const StyledSideBarMenu = styled.div`
   width: 276px;
   display: flex;
   flex-direction: column;
@@ -79,11 +79,11 @@ const CreateBtn = styled(MenuBtn)`
   color: #635fc7;
 `;
 
-export default function BoardMenu() {
+export default function SideBarMenu() {
   const boardArray = useContext(DataContext);
   const boardNameList = boardArray.map((board) => board.name);
   return (
-    <StyledBoardMenu>
+    <StyledSideBarMenu>
       <h2>ALL BOARDS ({boardArray.length})</h2>
       <Menu>
         {boardNameList.map((name) => (
@@ -101,6 +101,6 @@ export default function BoardMenu() {
           </CreateBtn>
         </li>
       </Menu>
-    </StyledBoardMenu>
+    </StyledSideBarMenu>
   );
 }
