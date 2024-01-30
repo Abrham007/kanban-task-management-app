@@ -71,7 +71,7 @@ export const GlobalStyles = createGlobalStyle`
     background-color: ${({ theme }) => theme.colors.main}
   }
   ${StyledSideBar} {
-    background-color: ${({ theme }) => theme.colors.SideBar}
+    background-color: ${({ theme }) => theme.colors.sidebar}
   }
   ${SliderWapper} {
     background-color: ${({ theme }) => theme.colors.slider};
