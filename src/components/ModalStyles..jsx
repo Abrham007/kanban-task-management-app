@@ -2,9 +2,10 @@ import styled from "styled-components";
 import { devices } from "../utils/devices";
 
 export const Modal = styled.dialog`
-  position: absolute;
-  top: calc(50% - 240px);
-  left: calc(50% - 260px);
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   width: 480px;
   border-radius: 6px;
   border: none;
