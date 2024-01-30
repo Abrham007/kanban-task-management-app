@@ -22,7 +22,7 @@ const TaskTitle = styled.h2`
   }
 `;
 
-export default function TasksColumn({ name, tasks, statuslist, index }) {
+export default function TasksColumn({ name, tasks, index }) {
   const colorList = ["#49C4E5", "#8471F2", "#67E2AE", "#EA5555"];
   const num = index < 4 ? index : index % 4;
   const color = colorList[num];
@@ -34,7 +34,7 @@ export default function TasksColumn({ name, tasks, statuslist, index }) {
           {name} ({tasks.length})
         </span>
       </TaskTitle>
-      <TaskList tasks={tasks} statuslist={statuslist}></TaskList>
+      <TaskList tasks={tasks}></TaskList>
     </StyledTaskColumn>
   );
 }

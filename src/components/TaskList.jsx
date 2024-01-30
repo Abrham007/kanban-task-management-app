@@ -7,11 +7,11 @@ const StyledTaskList = styled.div`
   gap: 20px;
 `;
 
-export default function TaskList({ tasks, statuslist }) {
+export default function TaskList({ tasks }) {
   return (
     <StyledTaskList>
       {tasks.map((task) => (
-        <Task key={task.title} {...task} statuslist={statuslist}></Task>
+        <Task key={task.title} {...task}></Task>
       ))}
     </StyledTaskList>
   );
