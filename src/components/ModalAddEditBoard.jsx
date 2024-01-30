@@ -5,8 +5,13 @@ import Button from "./Button";
 import { forwardRef, useImperativeHandle, useRef } from "react";
 import { createPortal } from "react-dom";
 
-const ModalAddEditBoard = forwardRef(function (props, ref) {
+const ModalAddEditBoard = forwardRef(function ({ name, boardColumns }, ref) {
   const dialog = useRef();
+  let defaultColumnNames = ["Todo", "Doing"];
+
+  if (boardColumns) {
+    defaultColumnNames = boardColumns.map((col) => col.name);
+  }
 
   useImperativeHandle(ref, () => {
     return {
@@ -20,23 +25,19 @@ const ModalAddEditBoard = forwardRef(function (props, ref) {
       <h3>Add New Board</h3>
       <Label>
         <span>Name</span>
-        <InputTextField></InputTextField>
+        <InputTextField defaultValue={name} placeholder="e.g. Web Design"></InputTextField>
       </Label>
       <Label>
         <span>Columns</span>
-        <InputContainer as="div">
-          <div>
-            <InputTextField></InputTextField>
-            <button>
-              <IconCross></IconCross>
-            </button>
-          </div>
-          <div>
-            <InputTextField></InputTextField>
-            <button>
-              <IconCross></IconCross>
-            </button>
-          </div>
+        <InputContainer>
+          {defaultColumnNames.map((name) => (
+            <li key={name}>
+              <InputTextField defaultValue={name}></InputTextField>
+              <button>
+                <IconCross></IconCross>
+              </button>
+            </li>
+          ))}
           <Button type="secondary">+ Add New Column</Button>
         </InputContainer>
       </Label>
