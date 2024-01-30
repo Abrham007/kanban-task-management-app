@@ -40,11 +40,12 @@ export const StyledMain = styled.main`
 
 export default function Main() {
   const { isSideBarHidden } = useContext(SideBarContext);
-  const boardArray = useContext(DataContext);
+  const { boardArray, selectedBoard } = useContext(DataContext);
+  const activeBoard = boardArray.find((board) => board.name === selectedBoard);
   return (
     <StyledMain $isSideBarHidden={isSideBarHidden} $isMainEmpty={false}>
       {/* <MainEmpty></MainEmpty> */}
-      <TaskBoard activeBoard={boardArray[0]}></TaskBoard>
+      <TaskBoard activeBoard={activeBoard}></TaskBoard>
     </StyledMain>
   );
 }
