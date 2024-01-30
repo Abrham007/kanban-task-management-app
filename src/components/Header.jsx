@@ -1,14 +1,14 @@
 import Button from "./Button";
 import styled, { css } from "styled-components";
-
 import { devices } from "../utils/devices";
 import downIcon from "../assets/icon-chevron-down.svg";
 import upIcon from "../assets/icon-chevron-up.svg";
 import addIcon from "../assets/icon-add-task-mobile.svg";
 import mobileLogo from "../assets/logo-mobile.svg";
-import { useContext } from "react";
-import { SideBarContext } from "../MyContext";
+import { useContext, useRef } from "react";
+import { DataContext, SideBarContext } from "../MyContext";
 import EllipsisButton from "./EllipsisButton";
+import ModalAddEditTask from "./ModalAddEditTask";
 
 export const StyledHeader = styled.header`
   grid-area: header;
@@ -123,24 +123,34 @@ const HeaderBtn = styled(Button)`
 `;
 
 export default function Header() {
+  const dialog = useRef();
   const { isSideBarHidden, handleSideBarHidden } = useContext(SideBarContext);
-  return (
-    <StyledHeader $isSideBarHidden={isSideBarHidden}>
-      <div className="Header-text">
-        <Logo role="presentation"></Logo>
-        <VerticalLine $isSideBarHidden={isSideBarHidden}></VerticalLine>
-        <h1 onClick={handleSideBarHidden}>
-          <span>Platform Launch</span> <img src={isSideBarHidden ? upIcon : downIcon} alt=""></img>
-        </h1>
-      </div>
+  const { selectedBoard } = useContext(DataContext);
 
-      <div className="Header-btns">
-        <HeaderBtn type={"primary"} size="large">
-          <span className="for-large">+ Add New Task</span>
-          <img src={addIcon} alt="add sign" className="for-small"></img>
-        </HeaderBtn>
-        <EllipsisButton></EllipsisButton>
-      </div>
-    </StyledHeader>
+  function handleOpenModal() {
+    dialog.current.open();
+  }
+
+  return (
+    <>
+      <StyledHeader $isSideBarHidden={isSideBarHidden}>
+        <div className="Header-text">
+          <Logo role="presentation"></Logo>
+          <VerticalLine $isSideBarHidden={isSideBarHidden}></VerticalLine>
+          <h1 onClick={handleSideBarHidden}>
+            <span>{selectedBoard}</span> <img src={isSideBarHidden ? upIcon : downIcon} alt=""></img>
+          </h1>
+        </div>
+
+        <div className="Header-btns">
+          <HeaderBtn onClick={handleOpenModal} type={"primary"} size="large">
+            <span className="for-large">+ Add New Task</span>
+            <img src={addIcon} alt="add sign" className="for-small"></img>
+          </HeaderBtn>
+          <EllipsisButton></EllipsisButton>
+        </div>
+      </StyledHeader>
+      <ModalAddEditTask ref={dialog}></ModalAddEditTask>
+    </>
   );
 }

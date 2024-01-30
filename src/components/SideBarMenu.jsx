@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import { devices } from "../utils/devices";
 import IconBoard from "./IconBoard";
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import { DataContext } from "../MyContext";
+import ModalAddEditBoard from "./ModalAddEditBoard";
 
 const StyledSideBarMenu = styled.div`
   width: 276px;
@@ -46,17 +47,21 @@ export const MenuBtn = styled.button`
   gap: 16px;
   border: none;
   outline: none;
-  background-color: transparent;
+  background-color: ${({ $isSelected }) => ($isSelected ? "#635fc7" : "transparent")};
   padding: 15px 32px 15px 32px;
   border-radius: 0px 100px 100px 0px;
-  color: inherit;
+  color: ${({ $isSelected }) => ($isSelected ? "#FFF" : "inherit")};
   font-size: 0.9375rem;
   font-weight: 700;
   transition: 0.3s;
 
+  svg {
+    fill: ${({ $isSelected }) => ($isSelected ? "#FFF" : "")};
+  }
+
   &:hover {
-    background-color: #f4f7fd;
-    color: #635fc7;
+    background-color: ${({ $isSelected }) => ($isSelected ? "#635fc7" : "#f4f7fd")};
+    color: ${({ $isSelected }) => ($isSelected ? "#FFF" : " #635fc7")};
   }
 
   &:focus,
@@ -66,7 +71,7 @@ export const MenuBtn = styled.button`
   }
 
   &:hover svg {
-    fill: #635fc7;
+    fill: ${({ $isSelected }) => ($isSelected ? "#FFF" : " #635fc7")};
   }
 
   &:focus svg,
@@ -77,30 +82,50 @@ export const MenuBtn = styled.button`
 
 const CreateBtn = styled(MenuBtn)`
   color: #635fc7;
+
+  &:focus,
+  &:active {
+    background-color: transparent;
+    color: #635fc7;
+  }
+  &:hover {
+    background-color: #f4f7fd;
+  }
+  &:focus svg,
+  &:active svg {
+    fill: #635fc7;
+  }
 `;
 
 export default function SideBarMenu() {
-  const boardArray = useContext(DataContext);
+  const dialog = useRef();
+  const { boardArray, selectedBoard, setSelectedBoard } = useContext(DataContext);
   const boardNameList = boardArray.map((board) => board.name);
+  function handleOpenModal() {
+    dialog.current.open();
+  }
   return (
-    <StyledSideBarMenu>
-      <h2>ALL BOARDS ({boardArray.length})</h2>
-      <Menu>
-        {boardNameList.map((name) => (
-          <li key={name}>
-            <MenuBtn>
-              <IconBoard></IconBoard>
-              <span>{name}</span>
-            </MenuBtn>
+    <>
+      <StyledSideBarMenu>
+        <h2>ALL BOARDS ({boardArray.length})</h2>
+        <Menu>
+          {boardNameList.map((name) => (
+            <li key={name}>
+              <MenuBtn onClick={() => setSelectedBoard(name)} $isSelected={selectedBoard === name}>
+                <IconBoard></IconBoard>
+                <span>{name}</span>
+              </MenuBtn>
+            </li>
+          ))}
+          <li>
+            <CreateBtn onClick={handleOpenModal}>
+              <IconBoard fill="#635FC7"></IconBoard>
+              <span>+ Create New Board</span>
+            </CreateBtn>
           </li>
-        ))}
-        <li>
-          <CreateBtn>
-            <IconBoard fill="#635FC7"></IconBoard>
-            <span>+ Create New Board</span>
-          </CreateBtn>
-        </li>
-      </Menu>
-    </StyledSideBarMenu>
+        </Menu>
+      </StyledSideBarMenu>
+      <ModalAddEditBoard ref={dialog}></ModalAddEditBoard>
+    </>
   );
 }

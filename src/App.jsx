@@ -22,9 +22,9 @@ const StyledApp = styled.div`
   grid-template-rows: 96px 1fr;
   grid-template-areas:
     "header header"
-    "SideBar main";
+    "sidebar main";
   grid-template-areas: ${({ $isSideBarHidden }) =>
-    $isSideBarHidden ? `'header header' 'main main'` : `'header header' 'SideBar main'`};
+    $isSideBarHidden ? `'header header' 'main main'` : `'header header' 'sidebar main'`};
   transition: all 0.5s linear;
 
   @media ${devices.tablet} {
@@ -45,6 +45,7 @@ export default function App() {
   const [selectedTheme, setSelectedTheme] = useState(theme);
   const [isSideBarHidden, setisSideBarHidden] = useState(false);
   const [boardArray, setBoardArray] = useState(data.boards);
+  const [selectedBoard, setSelectedBoard] = useState(data.boards[0].name);
 
   function handleThemeChange(newTheme) {
     setSelectedTheme(newTheme);
@@ -64,7 +65,7 @@ export default function App() {
       {/* <ModalAddEditBoard></ModalAddEditBoard> */}
       {/* <ModalAddEditTask></ModalAddEditTask> */}
       {/* <ModalTaskDetail></ModalTaskDetail> */}
-      <DataContext.Provider value={boardArray}>
+      <DataContext.Provider value={{ boardArray, selectedBoard, setSelectedBoard }}>
         <SideBarContext.Provider value={{ isSideBarHidden, handleSideBarHidden }}>
           {themeLoaded && (
             <ThemeProvider theme={selectedTheme}>

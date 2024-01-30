@@ -35,7 +35,7 @@ export const StyledSideBar = styled.div`
     } else {
       return css`
         position: relative;
-        grid-area: SideBar;
+        grid-area: sidebar;
 
         @media ${devices.mobile} {
           opacity: 0;
