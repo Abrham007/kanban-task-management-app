@@ -3,10 +3,21 @@ import Button from "./Button";
 import InputDropdown from "./InputDropdown";
 import IconCross from "./IconCross";
 import { Modal, Label, InputContainer } from "./ModalStyles.";
+import { forwardRef, useImperativeHandle, useRef } from "react";
+import { createPortal } from "react-dom";
 
-export default function ModalAddEditTask() {
-  return (
-    <Modal>
+const ModalAddEditTask = forwardRef(function (props, ref) {
+  const dialog = useRef();
+
+  useImperativeHandle(ref, () => {
+    return {
+      open() {
+        dialog.current.showModal();
+      },
+    };
+  });
+  return createPortal(
+    <Modal ref={dialog}>
       <h3>Add New Task</h3>
       <Label>
         <span>Title</span>
@@ -38,7 +49,10 @@ export default function ModalAddEditTask() {
         <span>Status</span>
         <InputDropdown></InputDropdown>
       </Label>
-      <Button size="large">Create Task</Button>
-    </Modal>
+      <Button>Create Task</Button>
+    </Modal>,
+    document.getElementById("modal")
   );
-}
+});
+
+export default ModalAddEditTask;

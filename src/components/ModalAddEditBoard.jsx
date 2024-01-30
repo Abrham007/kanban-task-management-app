@@ -2,10 +2,21 @@ import InputTextField from "./InputTextField";
 import IconCross from "./IconCross";
 import { Modal, Label, InputContainer } from "./ModalStyles.";
 import Button from "./Button";
+import { forwardRef, useImperativeHandle, useRef } from "react";
+import { createPortal } from "react-dom";
 
-export default function ModalAddEditBoard() {
-  return (
-    <Modal>
+const ModalAddEditBoard = forwardRef(function (props, ref) {
+  const dialog = useRef();
+
+  useImperativeHandle(ref, () => {
+    return {
+      open() {
+        dialog.current.showModal();
+      },
+    };
+  });
+  return createPortal(
+    <Modal ref={dialog}>
       <h3>Add New Board</h3>
       <Label>
         <span>Name</span>
@@ -29,7 +40,10 @@ export default function ModalAddEditBoard() {
           <Button type="secondary">+ Add New Column</Button>
         </InputContainer>
       </Label>
-      <Button size="large">Create New Board</Button>
-    </Modal>
+      <Button>Create New Board</Button>
+    </Modal>,
+    document.getElementById("modal")
   );
-}
+});
+
+export default ModalAddEditBoard;
