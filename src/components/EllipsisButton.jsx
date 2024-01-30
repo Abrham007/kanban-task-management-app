@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import verticalEllipsis from "../assets/icon-vertical-ellipsis.svg";
+import { useState } from "react";
 
 const EllipsisContainer = styled.div`
   position: relative;
@@ -25,6 +26,7 @@ export const EllipsisOptionContainer = styled.menu`
   border-radius: 8px;
   box-shadow: 0px 10px 20px 0px rgba(54, 78, 126, 0.25);
   color: #828fa3;
+  transform: ${({ $purpose }) => ($purpose === "Board" ? "" : "translateX(50%)")};
 
   li {
     list-style: none;
@@ -46,20 +48,28 @@ export const EllipsisOptionContainer = styled.menu`
   }
 `;
 
-export default function EllipsisButton({ purpose = "Board" }) {
+export default function EllipsisButton({ purpose = "Board", handleEdit, handleDelete }) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  function toggleOpen() {
+    setIsOpen((prevValue) => !prevValue);
+  }
+
   return (
-    <EllipsisContainer>
-      <StyledEllipsisButton>
-        <img src={verticalEllipsis} alt=""></img>
-      </StyledEllipsisButton>
-      <EllipsisOptionContainer $isOpen={false}>
-        <li>
-          <button>Edit {purpose}</button>
-        </li>
-        <li>
-          <button>Delete {purpose}</button>
-        </li>
-      </EllipsisOptionContainer>
-    </EllipsisContainer>
+    <>
+      <EllipsisContainer>
+        <StyledEllipsisButton onClick={toggleOpen}>
+          <img src={verticalEllipsis} alt=""></img>
+        </StyledEllipsisButton>
+        <EllipsisOptionContainer $isOpen={isOpen} $purpose={purpose}>
+          <li>
+            <button onClick={handleEdit}>Edit {purpose}</button>
+          </li>
+          <li>
+            <button onClick={handleDelete}>Delete {purpose}</button>
+          </li>
+        </EllipsisOptionContainer>
+      </EllipsisContainer>
+    </>
   );
 }
