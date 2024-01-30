@@ -30,18 +30,18 @@ const ModalAddEditTask = forwardRef(function (props, ref) {
       <Label as="div">
         <span>Subtasks</span>
         <InputContainer>
-          <div>
+          <li>
             <InputTextField></InputTextField>
             <button>
               <IconCross></IconCross>
             </button>
-          </div>
-          <div>
+          </li>
+          <li>
             <InputTextField></InputTextField>
             <button>
               <IconCross></IconCross>
             </button>
-          </div>
+          </li>
           <Button type="secondary">+ Add New Subtask</Button>
         </InputContainer>
       </Label>
