@@ -35,7 +35,7 @@ export const GlobalStyles = createGlobalStyle`
     }
   }
   ${Dropdown} {
-    div span {
+    button span {
       color: ${({ theme }) => theme.colors.dropdown.text}; 
     }
     menu {
