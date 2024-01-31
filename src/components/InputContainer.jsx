@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import InputTextField from "./InputTextField";
 import IconCross from "./IconCross";
@@ -27,37 +27,44 @@ export const StyledInputContainer = styled.ul`
   }
 `;
 export default function InputContainer({ purpose = "board" }) {
-  const [inputs, setInputs] = useState([
-    <li>
-      <InputTextField defaultValue="Todo" placeholder="e.g. Make coffee"></InputTextField>
-      <button>
-        <IconCross></IconCross>
-      </button>
-    </li>,
-    <li>
-      <InputTextField defaultValue="Doing" placeholder="e.g. Drink coffee & smile"></InputTextField>
-      <button>
-        <IconCross></IconCross>
-      </button>
-    </li>,
-  ]);
+  const [inputDetails, setInputDetails] = useState([]);
 
   function handleAddInputs() {
-    let singleInput = (
-      <li>
-        <InputTextField></InputTextField>
-        <button>
-          <IconCross></IconCross>
-        </button>
-      </li>
-    );
-    setInputs((prevValue) => {
-      return [...prevValue, singleInput];
+    setInputDetails((prevValue) => {
+      return [...prevValue, { value: "", placeholder: "" }];
     });
   }
+
+  function handleRemoveInputs(index) {
+    setInputDetails((prevValue) => {
+      let temp = [...prevValue];
+      temp.splice(index, 1);
+      return temp;
+    });
+  }
+
+  useEffect(() => {
+    setInputDetails([
+      {
+        value: "Todo",
+        placeholder: "e.g. Make coffee",
+      },
+      {
+        value: "Doing",
+        placeholder: "e.g. Drink coffee & smile",
+      },
+    ]);
+  }, []);
   return (
     <StyledInputContainer>
-      {inputs}
+      {inputDetails.map((detail, index) => (
+        <li>
+          <InputTextField defaultValue={detail.value} placeholder={detail.placeholder}></InputTextField>
+          <button onClick={() => handleRemoveInputs(index)}>
+            <IconCross></IconCross>
+          </button>
+        </li>
+      ))}
       <Button type="secondary" onClick={handleAddInputs}>
         + Add New {purpose === "board" ? "Column" : "SubTask"}
       </Button>
