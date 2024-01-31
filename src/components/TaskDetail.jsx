@@ -8,7 +8,6 @@ import Modal from "./Modal";
 import { useRef } from "react";
 
 const StyledTaskDetail = styled.div`
-  overflow: visible;
   & > * {
     margin-bottom: 24px;
   }
@@ -21,12 +20,6 @@ const StyledTaskDetail = styled.div`
   label {
     font-size: 0.75rem;
     font-weight: 700;
-  }
-
-  div {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
   }
 
   & > p {
@@ -42,7 +35,6 @@ const TaskDetailHeader = styled.div`
   flex-direction: row;
   gap: 24px;
   justify-content: space-between;
-  background-color: black;
 `;
 
 const TaskDetailCheckbox = styled.div`
