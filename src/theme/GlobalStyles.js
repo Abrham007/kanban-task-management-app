@@ -88,7 +88,7 @@ export const GlobalStyles = createGlobalStyle`
     background-color: ${({ theme }) => theme.colors.secondaryButton.background};
     color: ${({ theme }) => theme.colors.secondaryButton.text};
 
-    &:focus,&:hover {
+    &:hover {
       background-color: ${({ theme }) => theme.colors.secondaryButton.hover.background};
     }
   }
