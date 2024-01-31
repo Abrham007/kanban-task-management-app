@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { devices } from "../utils/devices";
 import { forwardRef, useImperativeHandle, useRef } from "react";
 import { createPortal } from "react-dom";
+import TaskDetail from "./TaskDetail";
 
 export const StyledModal = styled.dialog`
   position: absolute;
@@ -9,10 +10,12 @@ export const StyledModal = styled.dialog`
   top: 50%;
   transform: translate(-50%, -50%);
   width: 480px;
+  height: max-content;
   border-radius: 6px;
   border: none;
   outline: none;
   padding: 32px;
+  overflow: ${({ $child }) => ($child === "TaskDetail" ? "visible" : "auto")};
 
   &::backdrop {
     opacity: 0.5;
@@ -25,7 +28,7 @@ export const StyledModal = styled.dialog`
   }
 `;
 
-const Modal = forwardRef(function ({ children }, ref) {
+const Modal = forwardRef(function ({ children, child }, ref) {
   const dialog = useRef();
 
   useImperativeHandle(ref, () => {
@@ -35,7 +38,12 @@ const Modal = forwardRef(function ({ children }, ref) {
       },
     };
   });
-  return createPortal(<StyledModal ref={dialog}>{children}</StyledModal>, document.getElementById("modal"));
+  return createPortal(
+    <StyledModal ref={dialog} $child={child}>
+      {children}
+    </StyledModal>,
+    document.getElementById("modal")
+  );
 });
 
 export default Modal;
