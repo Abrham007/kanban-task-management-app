@@ -16,38 +16,61 @@ const ModalAddEditTask = forwardRef(function (props, ref) {
       },
     };
   });
+
+  let subtaskInputList = (
+    <>
+      <li>
+        <InputTextField placeholder="e.g. Make coffee"></InputTextField>
+        <button>
+          <IconCross></IconCross>
+        </button>
+      </li>
+      <li>
+        <InputTextField placeholder="e.g. Drink coffee & smile"></InputTextField>
+        <button>
+          <IconCross></IconCross>
+        </button>
+      </li>
+    </>
+  );
+
+  if (props.subtasks) {
+    subtaskInputList = props.subtasks.map((subtask) => (
+      <li>
+        <InputTextField defaultValue={subtask.title}></InputTextField>
+        <button>
+          <IconCross></IconCross>
+        </button>
+      </li>
+    ));
+  }
   return createPortal(
     <Modal ref={dialog}>
       <h3>Add New Task</h3>
       <Label>
         <span>Title</span>
-        <InputTextField></InputTextField>
+        <InputTextField defaultValue={props.title} placeholder="e.g. Take coffee break"></InputTextField>
       </Label>
       <Label>
         <span>Description</span>
-        <InputTextField as="textarea"></InputTextField>
+        <InputTextField
+          as="textarea"
+          defaultValue={props.description}
+          placeholder={
+            "e.g. It’s always good to take a break. This 15 minute break will recharge the batteries a little."
+          }
+        ></InputTextField>
       </Label>
       <Label as="div">
         <span>Subtasks</span>
         <InputContainer>
-          <li>
-            <InputTextField></InputTextField>
-            <button>
-              <IconCross></IconCross>
-            </button>
-          </li>
-          <li>
-            <InputTextField></InputTextField>
-            <button>
-              <IconCross></IconCross>
-            </button>
-          </li>
+          {subtaskInputList}
           <Button type="secondary">+ Add New Subtask</Button>
         </InputContainer>
       </Label>
       <Label>
         <span>Status</span>
-        <InputDropdown></InputDropdown>
+        <InputDropdown status={props.status}></InputDropdown>
       </Label>
       <Button>Create Task</Button>
     </Modal>,

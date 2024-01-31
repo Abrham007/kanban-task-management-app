@@ -5,6 +5,8 @@ import EllipsisButton from "./EllipsisButton";
 import { Modal } from "./ModalStyles.";
 import { forwardRef, useImperativeHandle, useRef } from "react";
 import { createPortal } from "react-dom";
+import ModalAddEditTask from "./ModalAddEditTask";
+import ModalDelete from "./ModalDelete";
 
 const TaskDetail = styled(Modal)`
   overflow: visible;
@@ -42,40 +44,58 @@ const TaskDetailDropdown = styled.div`
   gap: 8px;
 `;
 
-const ModalTaskDetail = forwardRef(function ({ title, description, status, subtasks, numOfFinishedTasks }, ref) {
-  const dialog = useRef();
+const ModalTaskDetail = forwardRef(function (props, ref) {
+  const ownDialog = useRef();
+  const editDialog = useRef();
+  const deleteDialog = useRef();
 
   useImperativeHandle(ref, () => {
     return {
       open() {
-        dialog.current.showModal();
+        ownDialog.current.showModal();
       },
     };
   });
+
+  function handleEditModalOpen() {
+    editDialog.current.open();
+  }
+
+  function handleDeleteModalOpen() {
+    deleteDialog.current.open();
+  }
   return createPortal(
-    <TaskDetail ref={dialog}>
-      <TaskDetailHeader>
-        <h3>{title}</h3>
-        <EllipsisButton purpose={"Task"}></EllipsisButton>
-      </TaskDetailHeader>
-      <p>{description}</p>
-      <TaskDetailCheckbox>
-        <span>
-          Subtasks ({numOfFinishedTasks} of {subtasks.length})
-        </span>
-        <div role="presentation">
-          {subtasks.map((subtask, index) => (
-            <InputCheckBox key={subtask.title} isChecked={subtask.isCompleted}>
-              {subtask.title}
-            </InputCheckBox>
-          ))}
-        </div>
-      </TaskDetailCheckbox>
-      <TaskDetailDropdown>
-        <span>Current Status</span>
-        <InputDropdown status={status}></InputDropdown>
-      </TaskDetailDropdown>
-    </TaskDetail>,
+    <>
+      <TaskDetail ref={ownDialog}>
+        <TaskDetailHeader>
+          <h3>{props.title}</h3>
+          <EllipsisButton
+            handleEdit={handleEditModalOpen}
+            handleDelete={handleDeleteModalOpen}
+            purpose={"Task"}
+          ></EllipsisButton>
+        </TaskDetailHeader>
+        <p>{props.description}</p>
+        <TaskDetailCheckbox>
+          <span>
+            Subtasks ({props.numOfFinishedTasks} of {props.subtasks.length})
+          </span>
+          <div role="presentation">
+            {props.subtasks.map((subtask) => (
+              <InputCheckBox key={subtask.title} isChecked={subtask.isCompleted}>
+                {subtask.title}
+              </InputCheckBox>
+            ))}
+          </div>
+        </TaskDetailCheckbox>
+        <TaskDetailDropdown>
+          <span>Current Status</span>
+          <InputDropdown status={props.status}></InputDropdown>
+        </TaskDetailDropdown>
+      </TaskDetail>
+      <ModalAddEditTask ref={editDialog} {...props}></ModalAddEditTask>
+      <ModalDelete ref={deleteDialog} purpose="Task" title={props.title}></ModalDelete>
+    </>,
     document.getElementById("modal")
   );
 });

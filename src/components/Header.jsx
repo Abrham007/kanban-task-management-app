@@ -10,6 +10,7 @@ import { DataContext, SideBarContext } from "../MyContext";
 import EllipsisButton from "./EllipsisButton";
 import ModalAddEditTask from "./ModalAddEditTask";
 import ModalAddEditBoard from "./ModalAddEditBoard";
+import ModalDelete from "./ModalDelete";
 
 export const StyledHeader = styled.header`
   grid-area: header;
@@ -126,6 +127,7 @@ const HeaderBtn = styled(Button)`
 export default function Header() {
   const taskDialog = useRef();
   const boardDialog = useRef();
+  const deleteDialog = useRef();
   const { isSideBarHidden, handleSideBarHidden } = useContext(SideBarContext);
   const { boardArray, selectedBoard } = useContext(DataContext);
   const activeBoard = boardArray.find((board) => board.name === selectedBoard);
@@ -136,6 +138,10 @@ export default function Header() {
 
   function handleModalBoardEdit() {
     boardDialog.current.open();
+  }
+
+  function handleModalDelete() {
+    deleteDialog.current.open();
   }
 
   return (
@@ -154,7 +160,7 @@ export default function Header() {
             <span className="for-large">+ Add New Task</span>
             <img src={addIcon} alt="add sign" className="for-small"></img>
           </HeaderBtn>
-          <EllipsisButton handleEdit={handleModalBoardEdit}></EllipsisButton>
+          <EllipsisButton handleEdit={handleModalBoardEdit} handleDelete={handleModalDelete}></EllipsisButton>
         </div>
       </StyledHeader>
       <ModalAddEditTask ref={taskDialog}></ModalAddEditTask>
@@ -163,6 +169,7 @@ export default function Header() {
         name={activeBoard.name}
         boardColumns={activeBoard.columns}
       ></ModalAddEditBoard>
+      <ModalDelete ref={deleteDialog} title={activeBoard.name}></ModalDelete>
     </>
   );
 }

@@ -2,6 +2,8 @@ import styled from "styled-components";
 import { Modal } from "./ModalStyles.";
 import Button from "./Button";
 import { devices } from "../utils/devices";
+import { forwardRef, useImperativeHandle, useRef } from "react";
+import { createPortal } from "react-dom";
 
 const StyledModalDelete = styled(Modal)`
   && h3 {
@@ -27,18 +29,32 @@ const StyledModalDelete = styled(Modal)`
   }
 `;
 
-export default function ModalDelete({ purpose = "board" }) {
-  return (
-    <StyledModalDelete>
-      <h3>Delete this {purpose}?</h3>
+const ModalDelete = forwardRef(function ({ purpose = "board", title }, ref) {
+  const dialog = useRef();
+
+  useImperativeHandle(ref, () => {
+    return {
+      open() {
+        dialog.current.showModal();
+      },
+    };
+  });
+  return createPortal(
+    <StyledModalDelete ref={dialog}>
+      <h3>{purpose === "board" ? "Delete this board?" : "Delete this task?"}</h3>
       <p>
-        Are you sure you want to delete the ‘Platform Launch’ {purpose}? This action will remove all columns and tasks
-        and cannot be reversed.
+        {purpose === "board"
+          ? `Are you sure you want to delete the ‘${title}’ {purpose}? This action will remove all columns and tasks
+        and cannot be reversed.`
+          : `Are you sure you want to delete the ‘${title}’ task and its subtasks? This action cannot be reversed.`}
       </p>
       <div>
         <Button type="destructive">Delete</Button>
         <Button type="secondary">Cancel</Button>
       </div>
-    </StyledModalDelete>
+    </StyledModalDelete>,
+    document.getElementById("modal")
   );
-}
+});
+
+export default ModalDelete;
