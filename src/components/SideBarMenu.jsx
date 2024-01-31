@@ -3,7 +3,8 @@ import { devices } from "../utils/devices";
 import IconBoard from "./IconBoard";
 import { useContext, useRef } from "react";
 import { DataContext } from "../MyContext";
-import ModalAddEditBoard from "./ModalAddEditBoard";
+import AddEditBoard from "./AddEditBoard";
+import Modal from "./Modal";
 
 const StyledSideBarMenu = styled.div`
   width: 276px;
@@ -99,7 +100,7 @@ const CreateBtn = styled(MenuBtn)`
 
 export default function SideBarMenu() {
   const dialog = useRef();
-  const { boardArray, selectedBoard, setSelectedBoard } = useContext(DataContext);
+  const { selectedBoard, boardArray, selectNewBoard } = useContext(DataContext);
   const boardNameList = boardArray.map((board) => board.name);
   function handleOpenModal() {
     dialog.current.open();
@@ -111,7 +112,7 @@ export default function SideBarMenu() {
         <Menu>
           {boardNameList.map((name) => (
             <li key={name}>
-              <MenuBtn onClick={() => setSelectedBoard(name)} $isSelected={selectedBoard === name}>
+              <MenuBtn onClick={() => selectNewBoard(name)} $isSelected={selectedBoard === name}>
                 <IconBoard></IconBoard>
                 <span>{name}</span>
               </MenuBtn>
@@ -125,7 +126,9 @@ export default function SideBarMenu() {
           </li>
         </Menu>
       </StyledSideBarMenu>
-      <ModalAddEditBoard ref={dialog}></ModalAddEditBoard>
+      <Modal ref={dialog}>
+        <AddEditBoard></AddEditBoard>
+      </Modal>
     </>
   );
 }

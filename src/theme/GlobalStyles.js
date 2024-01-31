@@ -11,7 +11,7 @@ import { EllipsisOptionContainer } from "../components/EllipsisButton";
 import { CheckBoxLabel } from "../components/InputCheckBox";
 import { TextField } from "../components/InputTextField";
 import { Dropdown } from "../components/InputDropdown";
-import { Modal } from "../components/ModalStyles.";
+import { StyledModal } from "../components/Modal";
 
 export const GlobalStyles = createGlobalStyle`
   * {
@@ -25,12 +25,12 @@ export const GlobalStyles = createGlobalStyle`
     color: #828fa3;
   }
 
-  ${Modal}{
+  ${StyledModal}{
     background-color: ${({ theme }) => theme.colors.modal.background};
     h3 {
       color: ${({ theme }) => theme.colors.modal.header};
     }
-    span {
+    label {
       color: ${({ theme }) => theme.colors.modal.label};
     }
   }

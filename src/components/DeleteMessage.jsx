@@ -1,11 +1,8 @@
 import styled from "styled-components";
-import { Modal } from "./ModalStyles.";
 import Button from "./Button";
 import { devices } from "../utils/devices";
-import { forwardRef, useImperativeHandle, useRef } from "react";
-import { createPortal } from "react-dom";
 
-const StyledModalDelete = styled(Modal)`
+const StyledDeleteMessage = styled.div`
   && h3 {
     color: #ea5555;
   }
@@ -29,18 +26,9 @@ const StyledModalDelete = styled(Modal)`
   }
 `;
 
-const ModalDelete = forwardRef(function ({ purpose = "board", title }, ref) {
-  const dialog = useRef();
-
-  useImperativeHandle(ref, () => {
-    return {
-      open() {
-        dialog.current.showModal();
-      },
-    };
-  });
-  return createPortal(
-    <StyledModalDelete ref={dialog}>
+export default function DeleteMessage({ purpose = "board", title }) {
+  return (
+    <StyledDeleteMessage>
       <h3>{purpose === "board" ? "Delete this board?" : "Delete this task?"}</h3>
       <p>
         {purpose === "board"
@@ -52,9 +40,6 @@ const ModalDelete = forwardRef(function ({ purpose = "board", title }, ref) {
         <Button type="destructive">Delete</Button>
         <Button type="secondary">Cancel</Button>
       </div>
-    </StyledModalDelete>,
-    document.getElementById("modal")
+    </StyledDeleteMessage>
   );
-});
-
-export default ModalDelete;
+}

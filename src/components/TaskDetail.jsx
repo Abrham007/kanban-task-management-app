@@ -2,14 +2,33 @@ import styled from "styled-components";
 import InputCheckBox from "./InputCheckBox";
 import InputDropdown from "./InputDropdown";
 import EllipsisButton from "./EllipsisButton";
-import { Modal } from "./ModalStyles.";
-import { forwardRef, useImperativeHandle, useRef } from "react";
-import { createPortal } from "react-dom";
-import ModalAddEditTask from "./ModalAddEditTask";
-import ModalDelete from "./ModalDelete";
+import AddEditTask from "./AddEditTask";
+import DeleteMessage from "./DeleteMessage";
+import Modal from "./Modal";
+import { useRef } from "react";
 
-const TaskDetail = styled(Modal)`
+const StyledTaskDetail = styled.div`
   overflow: visible;
+  & > * {
+    margin-bottom: 24px;
+  }
+
+  h3 {
+    font-size: 1.125rem;
+    font-weight: 700;
+  }
+
+  label {
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  div {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
   & > p {
     color: #828fa3;
     font-size: 0.8125rem;
@@ -20,11 +39,13 @@ const TaskDetail = styled(Modal)`
 
 const TaskDetailHeader = styled.div`
   display: flex;
+  flex-direction: row;
   gap: 24px;
   justify-content: space-between;
+  background-color: black;
 `;
 
-const TaskDetailCheckbox = styled.label`
+const TaskDetailCheckbox = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -44,18 +65,9 @@ const TaskDetailDropdown = styled.div`
   gap: 8px;
 `;
 
-const ModalTaskDetail = forwardRef(function (props, ref) {
-  const ownDialog = useRef();
+export default function TaskDetail(props) {
   const editDialog = useRef();
   const deleteDialog = useRef();
-
-  useImperativeHandle(ref, () => {
-    return {
-      open() {
-        ownDialog.current.showModal();
-      },
-    };
-  });
 
   function handleEditModalOpen() {
     editDialog.current.open();
@@ -64,9 +76,9 @@ const ModalTaskDetail = forwardRef(function (props, ref) {
   function handleDeleteModalOpen() {
     deleteDialog.current.open();
   }
-  return createPortal(
+  return (
     <>
-      <TaskDetail ref={ownDialog}>
+      <StyledTaskDetail>
         <TaskDetailHeader>
           <h3>{props.title}</h3>
           <EllipsisButton
@@ -77,9 +89,9 @@ const ModalTaskDetail = forwardRef(function (props, ref) {
         </TaskDetailHeader>
         <p>{props.description}</p>
         <TaskDetailCheckbox>
-          <span>
+          <label>
             Subtasks ({props.numOfFinishedTasks} of {props.subtasks.length})
-          </span>
+          </label>
           <div role="presentation">
             {props.subtasks.map((subtask) => (
               <InputCheckBox key={subtask.title} isChecked={subtask.isCompleted}>
@@ -89,15 +101,16 @@ const ModalTaskDetail = forwardRef(function (props, ref) {
           </div>
         </TaskDetailCheckbox>
         <TaskDetailDropdown>
-          <span>Current Status</span>
+          <label>Current Status</label>
           <InputDropdown status={props.status}></InputDropdown>
         </TaskDetailDropdown>
-      </TaskDetail>
-      <ModalAddEditTask ref={editDialog} {...props}></ModalAddEditTask>
-      <ModalDelete ref={deleteDialog} purpose="Task" title={props.title}></ModalDelete>
-    </>,
-    document.getElementById("modal")
+      </StyledTaskDetail>
+      <Modal ref={editDialog}>
+        <AddEditTask {...props}></AddEditTask>
+      </Modal>
+      <Modal ref={deleteDialog}>
+        <DeleteMessage purpose="Task" title={props.title}></DeleteMessage>
+      </Modal>
+    </>
   );
-});
-
-export default ModalTaskDetail;
+}

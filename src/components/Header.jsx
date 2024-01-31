@@ -8,9 +8,10 @@ import mobileLogo from "../assets/logo-mobile.svg";
 import { useContext, useRef } from "react";
 import { DataContext, SideBarContext } from "../MyContext";
 import EllipsisButton from "./EllipsisButton";
-import ModalAddEditTask from "./ModalAddEditTask";
-import ModalAddEditBoard from "./ModalAddEditBoard";
-import ModalDelete from "./ModalDelete";
+import AddEditTask from "./AddEditTask";
+import AddEditBoard from "./AddEditBoard";
+import DeleteMessage from "./DeleteMessage";
+import Modal from "./Modal";
 
 export const StyledHeader = styled.header`
   grid-area: header;
@@ -163,13 +164,15 @@ export default function Header() {
           <EllipsisButton handleEdit={handleModalBoardEdit} handleDelete={handleModalDelete}></EllipsisButton>
         </div>
       </StyledHeader>
-      <ModalAddEditTask ref={taskDialog}></ModalAddEditTask>
-      <ModalAddEditBoard
-        ref={boardDialog}
-        name={activeBoard.name}
-        boardColumns={activeBoard.columns}
-      ></ModalAddEditBoard>
-      <ModalDelete ref={deleteDialog} title={activeBoard.name}></ModalDelete>
+      <Modal ref={taskDialog}>
+        <AddEditTask></AddEditTask>
+      </Modal>
+      <Modal ref={boardDialog}>
+        <AddEditBoard name={activeBoard.name} boardColumns={activeBoard.columns}></AddEditBoard>
+      </Modal>
+      <Modal ref={deleteDialog}>
+        <DeleteMessage title={activeBoard.name}></DeleteMessage>
+      </Modal>
     </>
   );
 }

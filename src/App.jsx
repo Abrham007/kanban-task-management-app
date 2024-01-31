@@ -7,10 +7,10 @@ import SideBar from "./components/SideBar";
 import Main from "./components/Main";
 import { devices } from "./utils/devices";
 import { SideBarContext, DataContext } from "./MyContext";
-import ModalTaskDetail from "./components/ModalTaskDetail";
-import ModalAddEditTask from "./components/ModalAddEditTask";
-import ModalAddEditBoard from "./components/ModalAddEditBoard";
-import ModalDelete from "./components/ModalDelete";
+import ModalTaskDetail from "./components/TaskDetail";
+import ModalAddEditTask from "./components/AddEditTask";
+import ModalAddEditBoard from "./components/AddEditBoard";
+import ModalDelete from "./components/DeleteMessage";
 import data from "./data.json";
 
 const StyledApp = styled.div`
@@ -44,8 +44,19 @@ export default function App() {
   const { theme, themeLoaded } = useTheme();
   const [selectedTheme, setSelectedTheme] = useState(theme);
   const [isSideBarHidden, setisSideBarHidden] = useState(false);
-  const [boardArray, setBoardArray] = useState(data.boards);
-  const [selectedBoard, setSelectedBoard] = useState(data.boards[0].name);
+  const [appState, setAppState] = useState({
+    selectedBoard: null,
+    boardArray: [],
+  });
+
+  function selectNewBoard(newBoard) {
+    setAppState((prevValue) => {
+      return {
+        ...prevValue,
+        selectedBoard: newBoard,
+      };
+    });
+  }
 
   function handleThemeChange(newTheme) {
     setSelectedTheme(newTheme);
@@ -59,13 +70,16 @@ export default function App() {
     setSelectedTheme(theme);
   }, [themeLoaded]);
 
+  useEffect(() => {
+    setAppState({
+      selectedBoard: data.boards[0].name,
+      boardArray: data.boards,
+    });
+  }, []);
+
   return (
     <StyledApp $isSideBarHidden={isSideBarHidden}>
-      {/* <ModalDelete></ModalDelete> */}
-      {/* <ModalAddEditBoard></ModalAddEditBoard> */}
-      {/* <ModalAddEditTask></ModalAddEditTask> */}
-      {/* <ModalTaskDetail></ModalTaskDetail> */}
-      <DataContext.Provider value={{ boardArray, selectedBoard, setSelectedBoard }}>
+      <DataContext.Provider value={{ ...appState, selectNewBoard }}>
         <SideBarContext.Provider value={{ isSideBarHidden, handleSideBarHidden }}>
           {themeLoaded && (
             <ThemeProvider theme={selectedTheme}>
