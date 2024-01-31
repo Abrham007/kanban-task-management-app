@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import ModalTaskDetail from "./TaskDetail";
+import TaskDetail from "./TaskDetail";
 import { useRef } from "react";
 import Modal from "./Modal";
 
@@ -48,8 +48,8 @@ export default function Task(props) {
           {numOfFinishedTasks} of {props.subtasks.length} substasks
         </p>
       </StyledTask>
-      <Modal ref={taskModal}>
-        <ModalTaskDetail {...props} numOfFinishedTasks={numOfFinishedTasks}></ModalTaskDetail>
+      <Modal ref={taskModal} child="TaskDetail">
+        <TaskDetail {...props} numOfFinishedTasks={numOfFinishedTasks}></TaskDetail>
       </Modal>
     </>
   );
