@@ -28,10 +28,10 @@ const StyledAddEditTask = styled.div`
   }
 `;
 
-export default function AddEditTask(props) {
+export default function AddEditTask({ isEdit, ...props }) {
   return (
     <StyledAddEditTask>
-      <h3>Add New Task</h3>
+      <h3>{isEdit ? "Edit" : "Add New"} Task</h3>
       <div>
         <label>Title</label>
         <InputTextField defaultValue={props.title} placeholder="e.g. Take coffee break"></InputTextField>
@@ -48,7 +48,7 @@ export default function AddEditTask(props) {
       </div>
       <div>
         <label>Subtasks</label>
-        <InputContainer></InputContainer>
+        <InputContainer purpose="task" defaultInputs={props.subtasks?.map((task) => task.title)}></InputContainer>
       </div>
       <div>
         <label>Status</label>
