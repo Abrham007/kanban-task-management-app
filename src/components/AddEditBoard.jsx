@@ -2,6 +2,8 @@ import styled from "styled-components";
 import InputTextField from "./InputTextField";
 import Button from "./Button";
 import InputContainer from "./InputContainer";
+import { useContext, useEffect } from "react";
+import { DataContext } from "../MyContext";
 
 const StyledAddEditBoard = styled.div`
   width: 100%;
@@ -27,18 +29,23 @@ const StyledAddEditBoard = styled.div`
   }
 `;
 
-export default function AddEditBoard({ name, boardColumns }) {
+export default function AddEditBoard({ isEdit }) {
+  const { boardArray, selectedBoard } = useContext(DataContext);
   let defaultColumnNames = ["Todo", "Doing"];
+  let title = "";
 
-  if (boardColumns) {
-    defaultColumnNames = boardColumns.map((col) => col.name);
+  if (isEdit) {
+    const activeBoard = boardArray.find((board) => board.name === selectedBoard);
+    defaultColumnNames = activeBoard.columns.map((col) => col.name);
+    title = selectedBoard;
   }
+
   return (
     <StyledAddEditBoard>
       <h3>Add New Board</h3>
       <div>
         <label>Name</label>
-        <InputTextField defaultValue={name} placeholder="e.g. Web Design"></InputTextField>
+        <InputTextField defaultValue={title} placeholder="e.g. Web Design"></InputTextField>
       </div>
       <div>
         <label>Columns</label>
