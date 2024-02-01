@@ -20,13 +20,12 @@ export const StyledInputContainer = styled.ul`
     border: none;
     outline: none;
 
-    &:focus svg,
     &:hover svg {
       fill: #ea5555;
     }
   }
 `;
-export default function InputContainer({ purpose = "board" }) {
+export default function InputContainer({ purpose = "board", defaultInputs }) {
   const [inputDetails, setInputDetails] = useState([]);
 
   function handleAddInputs() {
@@ -44,21 +43,29 @@ export default function InputContainer({ purpose = "board" }) {
   }
 
   useEffect(() => {
-    setInputDetails([
-      {
-        value: "Todo",
-        placeholder: "e.g. Make coffee",
-      },
-      {
-        value: "Doing",
-        placeholder: "e.g. Drink coffee & smile",
-      },
-    ]);
-  }, []);
+    if (purpose === "board") {
+      setInputDetails(
+        defaultInputs.map((inputValue) => {
+          return {
+            value: inputValue,
+          };
+        })
+      );
+    } else {
+      setInputDetails([
+        {
+          placeholder: "e.g. Make coffee",
+        },
+        {
+          placeholder: "e.g. Drink coffee & smile",
+        },
+      ]);
+    }
+  }, [defaultInputs, purpose]);
   return (
     <StyledInputContainer>
       {inputDetails.map((detail, index) => (
-        <li>
+        <li key={index}>
           <InputTextField defaultValue={detail.value} placeholder={detail.placeholder}></InputTextField>
           <button onClick={() => handleRemoveInputs(index)}>
             <IconCross></IconCross>
