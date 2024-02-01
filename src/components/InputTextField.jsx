@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 export const TextField = styled.div`
@@ -55,9 +56,18 @@ const TextFieldErrorMessage = styled.span`
 `;
 
 export default function InputTextField({ as = "input", defaultValue, placeholder }) {
+  const [value, setValue] = useState(defaultValue);
+
+  function handleChange(event) {
+    setValue(event.target.value);
+  }
+
+  useEffect(() => {
+    setValue(defaultValue);
+  }, [defaultValue]);
   return (
     <TextField $isInvalid={false}>
-      <TextFieldInput as={as} defaultValue={defaultValue} required placeholder={placeholder}></TextFieldInput>
+      <TextFieldInput as={as} value={value} onChange={handleChange} required placeholder={placeholder}></TextFieldInput>
       <TextFieldErrorMessage>Can’t be empty</TextFieldErrorMessage>
     </TextField>
   );
