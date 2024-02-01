@@ -4,20 +4,24 @@ import { useState } from "react";
 
 const EllipsisContainer = styled.div`
   position: relative;
+
+  &:hover menu {
+    display: flex;
+  }
 `;
 
 const StyledEllipsisButton = styled.button`
   background-color: transparent;
   border: none;
   outline: none;
-  padding: 10px;
+  padding: 20px;
 `;
 
 export const EllipsisOptionContainer = styled.menu`
   position: absolute;
-  top: 58px;
+  top: 60px;
   right: 0;
-  display: ${({ $isOpen }) => ($isOpen ? "flex" : "none")};
+  display: none;
   flex-direction: column;
   gap: 16px;
   padding: 16px;
@@ -26,7 +30,7 @@ export const EllipsisOptionContainer = styled.menu`
   border-radius: 8px;
   box-shadow: 0px 10px 20px 0px rgba(54, 78, 126, 0.25);
   color: #828fa3;
-  transform: ${({ $purpose }) => ($purpose === "Board" ? "" : "translateX(50%)")};
+  transform: ${({ $purpose }) => ($purpose === "Board" ? "" : "translateX(calc(50% - 20px))")};
 
   li {
     list-style: none;
@@ -49,19 +53,13 @@ export const EllipsisOptionContainer = styled.menu`
 `;
 
 export default function EllipsisButton({ purpose = "Board", handleEdit, handleDelete }) {
-  const [isOpen, setIsOpen] = useState(false);
-
-  function toggleOpen() {
-    setIsOpen((prevValue) => !prevValue);
-  }
-
   return (
     <>
       <EllipsisContainer>
-        <StyledEllipsisButton onClick={toggleOpen}>
+        <StyledEllipsisButton>
           <img src={verticalEllipsis} alt=""></img>
         </StyledEllipsisButton>
-        <EllipsisOptionContainer $isOpen={isOpen} $purpose={purpose}>
+        <EllipsisOptionContainer $purpose={purpose}>
           <li>
             <button onClick={handleEdit}>Edit {purpose}</button>
           </li>

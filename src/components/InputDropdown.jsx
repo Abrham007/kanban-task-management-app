@@ -10,9 +10,10 @@ export const Dropdown = styled.div`
   display: flex;
   flex-direction: column;
   gap: 7px;
+  padding-bottom: 10px;
 
-  menu {
-    display: ${({ $isOpen }) => ($isOpen ? "flex" : "none")};
+  &:hover menu {
+    display: flex;
   }
 `;
 
@@ -41,11 +42,11 @@ const DropdownInput = styled.button`
 `;
 
 const DropdownMenu = styled.menu`
+  display: none;
   position: absolute;
   top: 47px;
   left: 0;
   width: 100%;
-  display: flex;
   gap: 8px;
   flex-direction: column;
   padding: 16px;
@@ -75,15 +76,10 @@ const DropdownMenu = styled.menu`
 `;
 
 export default function InputDropdown({ status }) {
-  const [isOpen, setIsOpen] = useState(false);
   const [selectedStatus, setSelectedStatus] = useState();
   const { boardArray, selectedBoard } = useContext(DataContext);
   const activeBoard = boardArray.find((board) => board.name === selectedBoard);
   const statuslist = activeBoard.columns.map((col) => col.name);
-
-  function toggleOpen() {
-    setIsOpen((prevValue) => !prevValue);
-  }
 
   useEffect(() => {
     if (!status) {
@@ -94,7 +90,7 @@ export default function InputDropdown({ status }) {
   }, []);
 
   return (
-    <Dropdown onClick={toggleOpen} $isOpen={isOpen} aria-live="polite">
+    <Dropdown aria-live="polite">
       <DropdownInput tabIndex={0}>
         <span>{selectedStatus}</span>
         <img src={downIcon} alt=""></img>
