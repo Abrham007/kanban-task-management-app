@@ -13,7 +13,7 @@ const StyledSideBarMenu = styled.div`
   gap: 19px;
   margin-top: 15px;
   & h2 {
-    color: inherit;
+    color: #828fa3;
     font-size: 0.75rem;
     font-weight: 700;
     letter-spacing: 0.15rem;
@@ -51,7 +51,7 @@ export const MenuBtn = styled.button`
   background-color: ${({ $isSelected }) => ($isSelected ? "#635fc7" : "transparent")};
   padding: 15px 32px 15px 32px;
   border-radius: 0px 100px 100px 0px;
-  color: ${({ $isSelected }) => ($isSelected ? "#FFF" : "inherit")};
+  color: ${({ $isSelected }) => ($isSelected ? "#FFF" : "#828fa3")};
   font-size: 0.9375rem;
   font-weight: 700;
   transition: 0.3s;

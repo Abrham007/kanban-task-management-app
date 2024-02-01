@@ -15,7 +15,7 @@ const TaskTitle = styled.h2`
   gap: 12px;
 
   span {
-    color: inherit;
+    color: #828fa3;
     font-size: 0.75rem;
     font-weight: 700;
     letter-spacing: 0.15rem;
