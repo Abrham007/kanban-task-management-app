@@ -22,7 +22,7 @@ export const GlobalStyles = createGlobalStyle`
   body { 
     font-family: 'Plus Jakarta Sans', sans-serif;
     background-color: ${({ theme }) => theme.colors.body};
-    color: #828fa3;
+    
   }
 
   ${StyledModal}{
@@ -80,9 +80,6 @@ export const GlobalStyles = createGlobalStyle`
     background-color: ${({ theme }) => theme.colors.header.background};
     color: ${({ theme }) => theme.colors.header.text}
   }
-  ${Logo} {
-    background-image: url(${({ theme }) => require(`../${theme.images.logo}`)})
-    }
   
   ${SecondaryButton} {
     background-color: ${({ theme }) => theme.colors.secondaryButton.background};

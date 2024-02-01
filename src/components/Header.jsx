@@ -5,8 +5,11 @@ import downIcon from "../assets/icon-chevron-down.svg";
 import upIcon from "../assets/icon-chevron-up.svg";
 import addIcon from "../assets/icon-add-task-mobile.svg";
 import mobileLogo from "../assets/logo-mobile.svg";
-import { useContext, useRef } from "react";
+import lightLogo from "../assets/logo-light.svg";
+import darkLogo from "../assets/logo-dark.svg";
+import { useContext, useEffect, useRef } from "react";
 import { DataContext, SideBarContext } from "../MyContext";
+import { ThemeContext } from "styled-components";
 import EllipsisButton from "./EllipsisButton";
 import AddEditTask from "./AddEditTask";
 import AddEditBoard from "./AddEditBoard";
@@ -93,6 +96,7 @@ const VerticalLine = styled.hr`
 export const Logo = styled.div`
   width: 153px;
   height: 25px;
+  background-image: url(${({ $theme }) => ($theme.name === "Light" ? lightLogo : darkLogo)});
 
   @media ${devices.mobile} {
     width: 24px;
@@ -131,6 +135,7 @@ export default function Header() {
   const deleteDialog = useRef();
   const { isSideBarHidden, handleSideBarHidden } = useContext(SideBarContext);
   const { boardArray, selectedBoard } = useContext(DataContext);
+  const themeContext = useContext(ThemeContext);
   const activeBoard = boardArray.find((board) => board.name === selectedBoard);
 
   function handleModalTaskCreate() {
@@ -149,7 +154,7 @@ export default function Header() {
     <>
       <StyledHeader $isSideBarHidden={isSideBarHidden}>
         <div className="Header-text">
-          <Logo role="presentation"></Logo>
+          <Logo role="presentation" $theme={themeContext}></Logo>
           <VerticalLine $isSideBarHidden={isSideBarHidden}></VerticalLine>
           <h1 onClick={handleSideBarHidden}>
             <span>{selectedBoard}</span> <img src={isSideBarHidden ? upIcon : downIcon} alt=""></img>
@@ -168,7 +173,7 @@ export default function Header() {
         <AddEditTask></AddEditTask>
       </Modal>
       <Modal ref={boardDialog}>
-        <AddEditBoard name={activeBoard.name} boardColumns={activeBoard.columns}></AddEditBoard>
+        <AddEditBoard isEdit={true}></AddEditBoard>
       </Modal>
       <Modal ref={deleteDialog}>
         <DeleteMessage title={activeBoard.name}></DeleteMessage>
