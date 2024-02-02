@@ -134,9 +134,9 @@ export default function Header() {
   const boardDialog = useRef();
   const deleteDialog = useRef();
   const { isSideBarHidden, handleSideBarHidden } = useContext(SideBarContext);
-  const { boardArray, selectedBoard } = useContext(DataContext);
+  const { columnArray, boardArray, selectedBoard } = useContext(DataContext);
+  const selectedColumn = columnArray?.filter((col) => col.project_id === selectedBoard);
   const themeContext = useContext(ThemeContext);
-  const activeBoard = boardArray.find((board) => board.name === selectedBoard);
 
   function handleModalTaskCreate() {
     taskDialog.current.open();
@@ -162,22 +162,22 @@ export default function Header() {
         </div>
 
         <div className="Header-btns">
-          <HeaderBtn onClick={handleModalTaskCreate} type={"primary"} size="large">
+          <HeaderBtn onClick={handleModalTaskCreate} disabled={selectedColumn} type={"primary"} size="large">
             <span className="for-large">+ Add New Task</span>
             <img src={addIcon} alt="add sign" className="for-small"></img>
           </HeaderBtn>
-          <EllipsisButton handleEdit={handleModalBoardEdit} handleDelete={handleModalDelete}></EllipsisButton>
+          <EllipsisButton
+            disabled={boardArray.length === 0}
+            handleEdit={handleModalBoardEdit}
+            handleDelete={handleModalDelete}
+          ></EllipsisButton>
         </div>
       </StyledHeader>
-      <Modal ref={taskDialog}>
-        <AddEditTask></AddEditTask>
-      </Modal>
+      <Modal ref={taskDialog}>{selectedColumn.length !== 0 && <AddEditTask></AddEditTask>}</Modal>
       <Modal ref={boardDialog}>
         <AddEditBoard isEdit={true}></AddEditBoard>
       </Modal>
-      <Modal ref={deleteDialog}>
-        <DeleteMessage title={activeBoard.name}></DeleteMessage>
-      </Modal>
+      <Modal ref={deleteDialog}>{boardArray.length !== 0 && <DeleteMessage></DeleteMessage>}</Modal>
     </>
   );
 }

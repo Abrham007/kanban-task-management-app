@@ -19,7 +19,7 @@ const StyledEllipsisButton = styled.button`
 
 export const EllipsisOptionContainer = styled.menu`
   position: absolute;
-  top: 60px;
+  top: 57px;
   right: 0;
   display: none;
   flex-direction: column;
@@ -52,7 +52,7 @@ export const EllipsisOptionContainer = styled.menu`
   }
 `;
 
-export default function EllipsisButton({ purpose = "Board", handleEdit, handleDelete }) {
+export default function EllipsisButton({ purpose = "Board", handleEdit, handleDelete, disabled }) {
   return (
     <>
       <EllipsisContainer>
@@ -61,10 +61,14 @@ export default function EllipsisButton({ purpose = "Board", handleEdit, handleDe
         </StyledEllipsisButton>
         <EllipsisOptionContainer $purpose={purpose}>
           <li>
-            <button onClick={handleEdit}>Edit {purpose}</button>
+            <button disabled={disabled} onClick={handleEdit}>
+              Edit {purpose}
+            </button>
           </li>
           <li>
-            <button onClick={handleDelete}>Delete {purpose}</button>
+            <button disabled={disabled} onClick={handleDelete}>
+              Delete {purpose}
+            </button>
           </li>
         </EllipsisOptionContainer>
       </EllipsisContainer>

@@ -7,10 +7,6 @@ import SideBar from "./components/SideBar";
 import Main from "./components/Main";
 import { devices } from "./utils/devices";
 import { SideBarContext, DataContext } from "./MyContext";
-import ModalTaskDetail from "./components/TaskDetail";
-import ModalAddEditTask from "./components/AddEditTask";
-import ModalAddEditBoard from "./components/AddEditBoard";
-import ModalDelete from "./components/DeleteMessage";
 import data from "./data.json";
 
 const StyledApp = styled.div`
@@ -47,6 +43,9 @@ export default function App() {
   const [appState, setAppState] = useState({
     selectedBoard: null,
     boardArray: [],
+    columnArray: [],
+    taskArray: [],
+    subtaskArray: [],
   });
 
   function selectNewBoard(newBoard) {
@@ -57,6 +56,7 @@ export default function App() {
       };
     });
   }
+  function addNewBoard() {}
 
   function handleThemeChange(newTheme) {
     setSelectedTheme(newTheme);
@@ -70,12 +70,12 @@ export default function App() {
     setSelectedTheme(theme);
   }, [themeLoaded]);
 
-  useEffect(() => {
-    setAppState({
-      selectedBoard: data.boards[0].name,
-      boardArray: data.boards,
-    });
-  }, []);
+  // useEffect(() => {
+  //   setAppState({
+  //     selectedBoard: data.boards[0].name,
+  //     boardArray: data.boards,
+  //   });
+  // }, []);
 
   return (
     <StyledApp $isSideBarHidden={isSideBarHidden}>

@@ -34,7 +34,7 @@ export default function AddEditBoard({ isEdit }) {
   let defaultColumnNames = ["Todo", "Doing"];
   let title = "";
 
-  if (isEdit) {
+  if (isEdit && boardArray.length !== 0) {
     const activeBoard = boardArray.find((board) => board.name === selectedBoard);
     defaultColumnNames = activeBoard.columns.map((col) => col.name);
     title = selectedBoard;

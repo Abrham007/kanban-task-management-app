@@ -27,6 +27,7 @@ export const StyledInputContainer = styled.ul`
 `;
 export default function InputContainer({ purpose = "board", defaultInputs }) {
   const [inputDetails, setInputDetails] = useState([]);
+  console.log(defaultInputs);
 
   function handleAddInputs() {
     setInputDetails((prevValue) => {
@@ -43,7 +44,7 @@ export default function InputContainer({ purpose = "board", defaultInputs }) {
   }
 
   useEffect(() => {
-    if (purpose === "board") {
+    if (defaultInputs) {
       setInputDetails(
         defaultInputs.map((inputValue) => {
           return {
