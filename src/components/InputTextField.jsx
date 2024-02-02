@@ -55,19 +55,20 @@ const TextFieldErrorMessage = styled.span`
   line-height: 1.4375rem;
 `;
 
-export default function InputTextField({ as = "input", defaultValue, placeholder }) {
-  const [value, setValue] = useState(defaultValue);
-
+export default function InputTextField({ as = "input", defaultValue, placeholder, onChange, name }) {
   function handleChange(event) {
-    setValue(event.target.value);
+    onChange(name, event.target.value);
   }
 
-  useEffect(() => {
-    setValue(defaultValue);
-  }, [defaultValue]);
   return (
     <TextField $isInvalid={false}>
-      <TextFieldInput as={as} value={value} onChange={handleChange} required placeholder={placeholder}></TextFieldInput>
+      <TextFieldInput
+        as={as}
+        value={defaultValue}
+        onChange={handleChange}
+        required
+        placeholder={placeholder}
+      ></TextFieldInput>
       <TextFieldErrorMessage>Can’t be empty</TextFieldErrorMessage>
     </TextField>
   );

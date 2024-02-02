@@ -25,50 +25,19 @@ export const StyledInputContainer = styled.ul`
     }
   }
 `;
-export default function InputContainer({ purpose = "board", defaultInputs }) {
-  const [inputDetails, setInputDetails] = useState([]);
-  console.log(defaultInputs);
-
-  function handleAddInputs() {
-    setInputDetails((prevValue) => {
-      return [...prevValue, { value: "", placeholder: "" }];
-    });
-  }
-
-  function handleRemoveInputs(index) {
-    setInputDetails((prevValue) => {
-      let temp = [...prevValue];
-      temp.splice(index, 1);
-      return temp;
-    });
-  }
-
-  useEffect(() => {
-    if (defaultInputs) {
-      setInputDetails(
-        defaultInputs.map((inputValue) => {
-          return {
-            value: inputValue,
-          };
-        })
-      );
-    } else {
-      setInputDetails([
-        {
-          placeholder: "e.g. Make coffee",
-        },
-        {
-          placeholder: "e.g. Drink coffee & smile",
-        },
-      ]);
-    }
-  }, [defaultInputs, purpose]);
+export default function InputContainer({
+  purpose = "board",
+  defaultInputs,
+  onChange,
+  handleAddInputs,
+  handleRemoveInputs,
+}) {
   return (
     <StyledInputContainer>
-      {inputDetails.map((detail, index) => (
+      {Object.entries(defaultInputs).map(([name, value], index) => (
         <li key={index}>
-          <InputTextField defaultValue={detail.value} placeholder={detail.placeholder}></InputTextField>
-          <button onClick={() => handleRemoveInputs(index)}>
+          <InputTextField name={name} onChange={onChange} defaultValue={value} placeholder={value}></InputTextField>
+          <button onClick={() => handleRemoveInputs(name)}>
             <IconCross></IconCross>
           </button>
         </li>
