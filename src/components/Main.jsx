@@ -52,7 +52,11 @@ export default function Main() {
   }
   return (
     <StyledMain $isSideBarHidden={isSideBarHidden} $isMainEmpty={isEmptyColumn}>
-      {isEmptyBoard || isEmptyColumn ? <MainEmpty></MainEmpty> : <TaskBoard activeBoard={activeBoard}></TaskBoard>}
+      {isEmptyBoard || isEmptyColumn ? (
+        <MainEmpty isEmptyBoard={isEmptyBoard} isEmptyColumn={isEmptyColumn}></MainEmpty>
+      ) : (
+        <TaskBoard activeBoard={activeBoard}></TaskBoard>
+      )}
     </StyledMain>
   );
 }
