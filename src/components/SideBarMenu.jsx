@@ -100,21 +100,20 @@ const CreateBtn = styled(MenuBtn)`
 
 export default function SideBarMenu() {
   const dialog = useRef();
-  const { selectedBoard, boardArray, selectNewBoard } = useContext(DataContext);
-  const boardNameList = boardArray.map((board) => board.name);
+  const { selectedProjectId, projectArray, selectNewProject } = useContext(DataContext);
   function handleOpenModal() {
     dialog.current.open();
   }
   return (
     <>
       <StyledSideBarMenu>
-        <h2>ALL BOARDS ({boardArray.length})</h2>
+        <h2>ALL BOARDS ({projectArray.length})</h2>
         <Menu>
-          {boardNameList.map((name) => (
-            <li key={name}>
-              <MenuBtn onClick={() => selectNewBoard(name)} $isSelected={selectedBoard === name}>
+          {projectArray.map((project) => (
+            <li key={project.id}>
+              <MenuBtn onClick={() => selectNewProject(project.name)} $isSelected={selectedProjectId === project.id}>
                 <IconBoard></IconBoard>
-                <span>{name}</span>
+                <span>{project.name}</span>
               </MenuBtn>
             </li>
           ))}

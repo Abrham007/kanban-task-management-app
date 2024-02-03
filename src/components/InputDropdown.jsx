@@ -77,9 +77,9 @@ const DropdownMenu = styled.menu`
 
 export default function InputDropdown({ status }) {
   const [selectedStatus, setSelectedStatus] = useState();
-  const { boardArray, selectedBoard } = useContext(DataContext);
-  const activeBoard = boardArray.find((board) => board.name === selectedBoard);
-  const statuslist = activeBoard.columns.map((col) => col.name);
+  const { projectArray, selectedProjectId } = useContext(DataContext);
+  const activeBoard = projectArray.find((board) => board.name === selectedProjectId);
+  const statuslist = activeBoard.columns;
 
   useEffect(() => {
     if (!status) {

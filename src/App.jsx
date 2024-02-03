@@ -8,6 +8,7 @@ import Main from "./components/Main";
 import { devices } from "./utils/devices";
 import { SideBarContext, DataContext } from "./MyContext";
 import data from "./data.json";
+import { postNewProject } from "./api/client.mjs";
 
 const StyledApp = styled.div`
   width: 100vw;
@@ -41,14 +42,12 @@ export default function App() {
   const [selectedTheme, setSelectedTheme] = useState(theme);
   const [isSideBarHidden, setisSideBarHidden] = useState(false);
   const [appState, setAppState] = useState({
-    selectedBoard: null,
-    boardArray: [],
-    columnArray: [],
+    selectedProjectId: 1,
+    projectArray: [],
     taskArray: [],
-    subtaskArray: [],
   });
 
-  function selectNewBoard(newBoard) {
+  function selectNewProject(newBoard) {
     setAppState((prevValue) => {
       return {
         ...prevValue,
@@ -56,7 +55,10 @@ export default function App() {
       };
     });
   }
-  function addNewBoard() {}
+  function addNewProject(newBoard) {
+    console.log(newBoard);
+    postNewProject(newBoard).then(() => console.log("sent from front"));
+  }
 
   function handleThemeChange(newTheme) {
     setSelectedTheme(newTheme);
@@ -79,7 +81,7 @@ export default function App() {
 
   return (
     <StyledApp $isSideBarHidden={isSideBarHidden}>
-      <DataContext.Provider value={{ ...appState, selectNewBoard }}>
+      <DataContext.Provider value={{ ...appState, selectNewProject, addNewProject }}>
         <SideBarContext.Provider value={{ isSideBarHidden, handleSideBarHidden }}>
           {themeLoaded && (
             <ThemeProvider theme={selectedTheme}>

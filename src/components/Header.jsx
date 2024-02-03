@@ -134,8 +134,11 @@ export default function Header() {
   const boardDialog = useRef();
   const deleteDialog = useRef();
   const { isSideBarHidden, handleSideBarHidden } = useContext(SideBarContext);
-  const { columnArray, boardArray, selectedBoard } = useContext(DataContext);
-  const selectedColumn = columnArray?.filter((col) => col.project_id === selectedBoard);
+  const { projectArray, selectedProjectId } = useContext(DataContext);
+  const selectedProject = projectArray?.find((project) => project.id === selectedProjectId);
+  const selectedProjectColumns = selectedProject?.columns;
+  const isEmptyColumn = !selectedProjectColumns ?? selectedProjectColumns.length === 0;
+  const selectedProjectName = selectedProject?.name ?? "No Project Created";
   const themeContext = useContext(ThemeContext);
 
   function handleModalTaskCreate() {
@@ -157,27 +160,27 @@ export default function Header() {
           <Logo role="presentation" $theme={themeContext}></Logo>
           <VerticalLine $isSideBarHidden={isSideBarHidden}></VerticalLine>
           <h1 onClick={handleSideBarHidden}>
-            <span>{selectedBoard}</span> <img src={isSideBarHidden ? upIcon : downIcon} alt=""></img>
+            <span>{selectedProjectName}</span> <img src={isSideBarHidden ? upIcon : downIcon} alt=""></img>
           </h1>
         </div>
 
         <div className="Header-btns">
-          <HeaderBtn onClick={handleModalTaskCreate} disabled={selectedColumn} type={"primary"} size="large">
+          <HeaderBtn onClick={handleModalTaskCreate} disabled={!isEmptyColumn} type={"primary"} size="large">
             <span className="for-large">+ Add New Task</span>
             <img src={addIcon} alt="add sign" className="for-small"></img>
           </HeaderBtn>
           <EllipsisButton
-            disabled={boardArray.length === 0}
+            disabled={projectArray.length === 0}
             handleEdit={handleModalBoardEdit}
             handleDelete={handleModalDelete}
           ></EllipsisButton>
         </div>
       </StyledHeader>
-      <Modal ref={taskDialog}>{selectedColumn.length !== 0 && <AddEditTask></AddEditTask>}</Modal>
+      <Modal ref={taskDialog}>{!isEmptyColumn && <AddEditTask></AddEditTask>}</Modal>
       <Modal ref={boardDialog}>
         <AddEditBoard isEdit={true}></AddEditBoard>
       </Modal>
-      <Modal ref={deleteDialog}>{boardArray.length !== 0 && <DeleteMessage></DeleteMessage>}</Modal>
+      <Modal ref={deleteDialog}>{projectArray.length !== 0 && <DeleteMessage></DeleteMessage>}</Modal>
     </>
   );
 }

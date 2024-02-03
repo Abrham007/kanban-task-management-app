@@ -29,12 +29,12 @@ const StyledDeleteMessage = styled.div`
 `;
 
 export default function DeleteMessage({ purpose = "board", title }) {
-  const { boardArray, selectedBoard } = useContext(DataContext);
-  let activeBoard;
+  const { projectArray, selectedProjectId } = useContext(DataContext);
+  let activeBoard = projectArray.find((project) => project.id === selectedProjectId);
   let message;
 
   if (purpose === "board") {
-    activeBoard = boardArray.find((board) => board.name === selectedBoard);
+    activeBoard = projectArray.find((board) => board.name === selectedProjectId);
     message = `Are you sure you want to delete the ‘${activeBoard.name}’ board? This action will remove all columns and tasks
   and cannot be reversed.`;
   } else if (purpose === "task") {

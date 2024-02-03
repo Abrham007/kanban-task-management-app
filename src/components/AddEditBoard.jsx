@@ -30,14 +30,14 @@ const StyledAddEditBoard = styled.div`
 `;
 
 export default function AddEditBoard({ isEdit }) {
-  const [boardDetail, setBoardDetail] = useState({
-    boardName: "",
+  const [projectDetail, setBoardDetail] = useState({
+    projectName: "",
     columnNames: { colName1: "Todo", colName2: "Doing" },
   });
-  const { boardArray, selectedBoard, addNewBoard } = useContext(DataContext);
+  const { projectArray, selectedProjectId, addNewProject } = useContext(DataContext);
 
-  if (isEdit && boardArray.length !== 0) {
-    const activeBoard = boardArray.find((board) => board.name === selectedBoard);
+  if (isEdit && projectArray.length !== 0) {
+    const activeBoard = projectArray.find((board) => board.name === selectedProjectId);
 
     setBoardDetail((prevValue) => {
       return {
@@ -60,7 +60,7 @@ export default function AddEditBoard({ isEdit }) {
   }
 
   function handleAddInputs() {
-    let name = "colName" + (Object.keys(boardDetail.columnNames).length + 1);
+    let name = "colName" + (Object.keys(projectDetail.columnNames).length + 1);
     setBoardDetail((prevValue) => {
       return {
         ...prevValue,
@@ -88,7 +88,7 @@ export default function AddEditBoard({ isEdit }) {
     }
   }
   function handleAddBoard() {
-    addNewBoard(boardDetail);
+    addNewProject(projectDetail);
   }
 
   return (
@@ -99,7 +99,7 @@ export default function AddEditBoard({ isEdit }) {
         <InputTextField
           onChange={createNewBoard}
           name="boardName"
-          defaultValue={boardDetail.boardName}
+          defaultValue={projectDetail.boardName}
           placeholder="e.g. Web Design"
         ></InputTextField>
       </div>
@@ -108,7 +108,7 @@ export default function AddEditBoard({ isEdit }) {
         <InputContainer
           onChange={createNewBoard}
           name="columnNames"
-          defaultInputs={boardDetail.columnNames}
+          defaultInputs={projectDetail.columnNames}
           handleAddInputs={handleAddInputs}
           handleRemoveInputs={handleRemoveInputs}
         ></InputContainer>
