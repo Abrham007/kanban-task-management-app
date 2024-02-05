@@ -5,6 +5,10 @@ import { useContext } from "react";
 import { DataContext } from "../MyContext";
 
 const StyledDeleteMessage = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
   && h3 {
     color: #ea5555;
   }
@@ -29,14 +33,16 @@ const StyledDeleteMessage = styled.div`
 `;
 
 export default function DeleteMessage({ purpose = "board", title }) {
-  const { projectArray, selectedProjectId } = useContext(DataContext);
+  const { projectArray, selectedProjectId, deleteProject } = useContext(DataContext);
   let activeBoard = projectArray.find((project) => project.id === selectedProjectId);
   let message;
+  let destructiveBtnFunction;
 
   if (purpose === "board") {
-    activeBoard = projectArray.find((board) => board.id === selectedProjectId);
+    activeBoard = projectArray.find((project) => project.id === selectedProjectId);
     message = `Are you sure you want to delete the ‘${activeBoard.name}’ board? This action will remove all columns and tasks
   and cannot be reversed.`;
+    destructiveBtnFunction = () => deleteProject(activeBoard.id);
   } else if (purpose === "task") {
     message = `Are you sure you want to delete the ‘${title}’ task and its subtasks? This action cannot be reversed.`;
   }
@@ -46,8 +52,12 @@ export default function DeleteMessage({ purpose = "board", title }) {
       <h3>{purpose === "board" ? "Delete this board?" : "Delete this task?"}</h3>
       <p>{message}</p>
       <div>
-        <Button type="destructive">Delete</Button>
-        <Button type="secondary">Cancel</Button>
+        <form method="dialog">
+          <Button type="destructive" onClick={destructiveBtnFunction}>
+            Delete
+          </Button>
+          <Button type="secondary">Cancel</Button>
+        </form>
       </div>
     </StyledDeleteMessage>
   );
