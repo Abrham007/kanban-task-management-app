@@ -111,7 +111,7 @@ export default function SideBarMenu() {
         <Menu>
           {projectArray.map((project) => (
             <li key={project.id}>
-              <MenuBtn onClick={() => selectNewProject(project.name)} $isSelected={selectedProjectId === project.id}>
+              <MenuBtn onClick={() => selectNewProject(project.id)} $isSelected={selectedProjectId === project.id}>
                 <IconBoard></IconBoard>
                 <span>{project.name}</span>
               </MenuBtn>
