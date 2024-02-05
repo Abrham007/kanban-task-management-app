@@ -55,7 +55,7 @@ const TextFieldErrorMessage = styled.span`
   line-height: 1.4375rem;
 `;
 
-export default function InputTextField({ as = "input", defaultValue, placeholder, onChange, name }) {
+export default function InputTextField({ as = "input", defaultValue, placeholder, onChange, name, ...props }) {
   function handleChange(event) {
     onChange(name, event.target.value);
   }
@@ -63,6 +63,7 @@ export default function InputTextField({ as = "input", defaultValue, placeholder
   return (
     <TextField $isInvalid={false}>
       <TextFieldInput
+        {...props}
         as={as}
         value={defaultValue}
         onChange={handleChange}
