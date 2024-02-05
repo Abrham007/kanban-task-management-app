@@ -30,14 +30,14 @@ const StyledAddEditBoard = styled.div`
 `;
 
 export default function AddEditBoard({ isEdit }) {
-  const [projectDetail, setBoardDetail] = useState({
+  const [projectDetail, setProjectDetail] = useState({
     projectName: "",
     columnNames: { colName1: "Todo", colName2: "Doing" },
   });
-  const { projectArray, columnArray, selectedProjectId, addNewProjectAndColumn } = useContext(DataContext);
+  const { projectArray, columnArray, selectedProjectId, addNewProject } = useContext(DataContext);
 
   function handleRemoveInputs(name) {
-    setBoardDetail((prevValue) => {
+    setProjectDetail((prevValue) => {
       let tempColList = { ...prevValue.columnNames };
       delete tempColList[name];
       return {
@@ -49,7 +49,7 @@ export default function AddEditBoard({ isEdit }) {
 
   function handleAddInputs() {
     let name = "colName" + (Object.keys(projectDetail.columnNames).length + 1);
-    setBoardDetail((prevValue) => {
+    setProjectDetail((prevValue) => {
       return {
         ...prevValue,
         columnNames: { ...prevValue.columnNames, [name]: "" },
@@ -60,14 +60,14 @@ export default function AddEditBoard({ isEdit }) {
   function createNewBoard(name, value) {
     let columnPattern = /colName/;
     if (name === "projectName") {
-      setBoardDetail((prevValue) => {
+      setProjectDetail((prevValue) => {
         return {
           ...prevValue,
           projectName: value,
         };
       });
     } else if (columnPattern.test(name)) {
-      setBoardDetail((prevValue) => {
+      setProjectDetail((prevValue) => {
         return {
           ...prevValue,
           columnNames: { ...prevValue.columnNames, [name]: value },
@@ -76,7 +76,11 @@ export default function AddEditBoard({ isEdit }) {
     }
   }
   function handleAddBoard() {
-    addNewProjectAndColumn(projectDetail);
+    addNewProject(projectDetail);
+    setProjectDetail({
+      projectName: "",
+      columnNames: { colName1: "Todo", colName2: "Doing" },
+    });
   }
 
   useEffect(() => {
@@ -89,7 +93,7 @@ export default function AddEditBoard({ isEdit }) {
         newColumnNames[name] = col.name;
       });
 
-      setBoardDetail((prevValue) => {
+      setProjectDetail((prevValue) => {
         return {
           ...prevValue,
           projectName: activeBoard.name,
@@ -115,13 +119,16 @@ export default function AddEditBoard({ isEdit }) {
         <label>Columns</label>
         <InputContainer
           onChange={createNewBoard}
-          name="columnNames"
           defaultInputs={projectDetail.columnNames}
           handleAddInputs={handleAddInputs}
           handleRemoveInputs={handleRemoveInputs}
         ></InputContainer>
       </div>
-      <Button onClick={handleAddBoard}>Create New Board</Button>
+      <form method="dialog">
+        <Button type="submit" onClick={handleAddBoard}>
+          Create New Board
+        </Button>
+      </form>
     </StyledAddEditBoard>
   );
 }
