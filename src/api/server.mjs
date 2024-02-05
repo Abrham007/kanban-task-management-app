@@ -42,7 +42,7 @@ app.post("/project", async (req, res) => {
     let newProjectResponse = await db.query("INSERT INTO project (name) VALUES ($1) RETURNING *", [
       req.body.projectName,
     ]);
-    newProject = newProjectResponse.rows[0];
+    newProject = newProjectResponse.rows;
     try {
       Object.values(req.body.columnNames).forEach(async (columnName) => {
         let newColumnResponse = await db.query(
