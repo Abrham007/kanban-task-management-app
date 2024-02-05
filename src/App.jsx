@@ -8,7 +8,7 @@ import Main from "./components/Main";
 import { devices } from "./utils/devices";
 import { SideBarContext, DataContext } from "./MyContext";
 import data from "./data.json";
-import { postProjectAndColumn, fetchProjectAndColumnArray } from "./api/client.mjs";
+import { postProject, fetchProject, removeProject } from "./api/client.mjs";
 
 const StyledApp = styled.div`
   width: 100vw;
@@ -49,23 +49,33 @@ export default function App() {
     subtaskArray: [],
   });
 
-  function selectNewProject(newBoard) {
+  function selectNewProject(newProjectId) {
     setAppState((prevValue) => {
       return {
         ...prevValue,
-        selectedBoard: newBoard,
+        selectedProjectId: newProjectId,
       };
     });
   }
-  async function addNewProjectAndColumn(project) {
-    console.log(project);
-    let [newProject, newColumns] = await postProjectAndColumn(project);
-    console.log(newProject);
+  async function addNewProject(project) {
+    let [newProjecArray, newColumnArray] = await postProject(project);
     setAppState((prevValue) => {
       return {
         ...prevValue,
-        projectArray: [...prevValue.projectArray, ...newProject],
-        columnArray: [...prevValue.columnArray, ...newColumns],
+        projectArray: [...prevValue.projectArray, ...newProjecArray],
+        columnArray: [...prevValue.columnArray, ...newColumnArray],
+      };
+    });
+  }
+
+  async function deleteProject(id) {
+    let response = await removeProject(id);
+    setAppState((prevValue) => {
+      return {
+        ...prevValue,
+        selectedProjectId: prevValue.projectArray.length !== 0 ? prevValue.projectArray[0].id : null,
+        projectArray: [...prevValue.projectArray].filter((project) => project.id !== id),
+        columnArray: [...prevValue.columnArray].filter((col) => col.project_id !== id),
       };
     });
   }
@@ -83,7 +93,7 @@ export default function App() {
   }, [themeLoaded]);
 
   useEffect(() => {
-    fetchProjectAndColumnArray().then(([projectArray, columnArray]) => {
+    fetchProject().then(([projectArray, columnArray]) => {
       setAppState((prevValue) => {
         return {
           ...prevValue,
@@ -97,7 +107,7 @@ export default function App() {
 
   return (
     <StyledApp $isSideBarHidden={isSideBarHidden}>
-      <DataContext.Provider value={{ ...appState, selectNewProject, addNewProjectAndColumn }}>
+      <DataContext.Provider value={{ ...appState, selectNewProject, addNewProject, deleteProject }}>
         <SideBarContext.Provider value={{ isSideBarHidden, handleSideBarHidden }}>
           {themeLoaded && (
             <ThemeProvider theme={selectedTheme}>

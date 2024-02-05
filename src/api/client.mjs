@@ -1,4 +1,4 @@
-export async function postProjectAndColumn(newProject) {
+export async function postProject(newProject) {
   const response = await fetch("http://localhost:4000/project", {
     method: "POST",
     headers: {
@@ -6,12 +6,20 @@ export async function postProjectAndColumn(newProject) {
     },
     body: JSON.stringify(newProject),
   });
-  const newProjectJson = await response.json();
-  return newProjectJson;
+  const newProjectArray = await response.json();
+  return newProjectArray;
 }
 
-export async function fetchProjectAndColumnArray() {
+export async function fetchProject() {
   const response = await fetch("http://localhost:4000/project");
-  const projectAndColumnArray = await response.json();
-  return projectAndColumnArray;
+  const projectArray = await response.json();
+  return projectArray;
+}
+
+export async function removeProject(id) {
+  const response = await fetch("http://localhost:4000/project", {
+    method: "DELETE",
+  });
+  const projectArray = await response.json();
+  return projectArray;
 }

@@ -26,7 +26,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 app.get("/project", async (req, res) => {
-  console.log("server reached");
+  console.log("server get project reached");
   let projectArray = (await db.query("SELECT * FROM project")).rows;
   let columnArray = (await db.query("SELECT * FROM project_column")).rows;
 
@@ -35,22 +35,23 @@ app.get("/project", async (req, res) => {
 });
 
 app.post("/project", async (req, res) => {
-  console.log("sever reached");
-  let newProject;
-  let newColumns = [];
+  console.log("sever post project reached");
+  let newProjectArray;
+  let newColumnArray = [];
   try {
     let newProjectResponse = await db.query("INSERT INTO project (name) VALUES ($1) RETURNING *", [
       req.body.projectName,
     ]);
-    newProject = newProjectResponse.rows;
+    newProjectArray = newProjectResponse.rows;
+    let newProjectId = newProjectResponse.rows[0].id;
     try {
-      Object.values(req.body.columnNames).forEach(async (columnName) => {
+      for await (const columnName of Object.values(req.body.columnNames)) {
         let newColumnResponse = await db.query(
           "INSERT INTO project_column (name, project_id) VALUES ($1, $2) RETURNING *",
-          [columnName, newProject.id]
+          [columnName, newProjectId]
         );
-        newColumns.push(newColumnResponse.rows[0]);
-      });
+        newColumnArray.push(newColumnResponse.rows[0]);
+      }
     } catch (e) {
       console.log(e);
     }
@@ -58,7 +59,16 @@ app.post("/project", async (req, res) => {
     console.log(e);
   }
 
-  res.json([newProject, newColumns]);
+  res.json([newProjectArray, newColumnArray]);
+});
+
+app.delete("/project", async (req, res) => {
+  console.log("server delelte reached");
+
+  const projectResponse = await db.query("DELETE FROM project WHERE id = $1", [req.body.id]);
+  const columnResponse = await db.query("DELETE FROM project_column WHERE project_id = $1", [req.body.id]);
+
+  res.status(200).json([]);
 });
 
 app.listen(port, () => {
