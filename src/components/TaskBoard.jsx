@@ -4,6 +4,8 @@ import { useContext } from "react";
 import { DataContext } from "../MyContext";
 
 const StyledTaskBoard = styled.div`
+  min-height: 100%;
+  min-width: 100%;
   display: flex;
   gap: 24px;
 `;
@@ -21,7 +23,7 @@ export const NewTaskColumn = styled.section`
     background-color: transparent;
     border: none;
     outline: none;
-    color: inherit;
+    color: #828fa3;
     font-size: 1.5rem;
     font-weight: 700;
   }
