@@ -3,6 +3,7 @@ import InputTextField from "./InputTextField";
 import Button from "./Button";
 import InputDropdown from "./InputDropdown";
 import InputContainer from "./InputContainer";
+import { useState } from "react";
 
 const StyledAddEditTask = styled.div`
   width: 100%;
@@ -29,18 +30,31 @@ const StyledAddEditTask = styled.div`
 `;
 
 export default function AddEditTask({ isEdit, ...props }) {
+  const [taskDetail, setTaskDetail] = useState({
+    title: props.title ?? "",
+    description: props.description ?? "",
+    status: props.status,
+    subtasks: { subtask1: "", subtask2: "" },
+  });
   return (
     <StyledAddEditTask>
       <h3>{isEdit ? "Edit" : "Add New"} Task</h3>
       <div>
-        <label>Title</label>
-        <InputTextField defaultValue={props.title} placeholder="e.g. Take coffee break"></InputTextField>
+        <label htmlFor="taskName">Title</label>
+        <InputTextField
+          name="taskName"
+          id="taskName"
+          defaultValue={taskDetail.title}
+          placeholder="e.g. Take coffee break"
+        ></InputTextField>
       </div>
       <div>
-        <label>Description</label>
+        <label htmlFor="taskDescription">Description</label>
         <InputTextField
+          name="taskDescription"
+          id="taskDescription"
           as="textarea"
-          defaultValue={props.description}
+          defaultValue={taskDetail.description}
           placeholder={
             "e.g. It’s always good to take a break. This 15 minute break will recharge the batteries a little."
           }
@@ -48,11 +62,15 @@ export default function AddEditTask({ isEdit, ...props }) {
       </div>
       <div>
         <label>Subtasks</label>
-        <InputContainer purpose="task" defaultInputs={props.subtasks?.map((task) => task.title)}></InputContainer>
+        <InputContainer
+          purpose="task"
+          defaultInputs={taskDetail.subtasks}
+          placeholder={["e.g. Make coffee", "e.g. Drink coffee & smile"]}
+        ></InputContainer>
       </div>
       <div>
         <label>Status</label>
-        <InputDropdown status={props.status}></InputDropdown>
+        <InputDropdown status={taskDetail.status}></InputDropdown>
       </div>
       <Button>Create Task</Button>
     </StyledAddEditTask>
