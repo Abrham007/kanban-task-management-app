@@ -77,9 +77,9 @@ const DropdownMenu = styled.menu`
 
 export default function InputDropdown({ status }) {
   const [selectedStatus, setSelectedStatus] = useState();
-  const { projectArray, selectedProjectId } = useContext(DataContext);
-  const activeBoard = projectArray.find((board) => board.name === selectedProjectId);
-  const statuslist = activeBoard.columns;
+  const { projectArray, columnArray, selectedProjectId } = useContext(DataContext);
+  const activeBoard = projectArray.find((project) => project.id === selectedProjectId);
+  const statuslist = columnArray.filter((col) => col.project_id === activeBoard.id).map((col) => col.name);
 
   useEffect(() => {
     if (!status) {
@@ -87,7 +87,7 @@ export default function InputDropdown({ status }) {
     } else {
       setSelectedStatus(status);
     }
-  }, []);
+  }, [status, statuslist]);
 
   return (
     <Dropdown aria-live="polite">
