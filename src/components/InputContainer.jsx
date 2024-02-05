@@ -31,12 +31,18 @@ export default function InputContainer({
   onChange,
   handleAddInputs,
   handleRemoveInputs,
+  placeholder,
 }) {
   return (
     <StyledInputContainer>
       {Object.entries(defaultInputs).map(([name, value], index) => (
         <li key={index}>
-          <InputTextField name={name} onChange={onChange} defaultValue={value} placeholder={value}></InputTextField>
+          <InputTextField
+            name={name}
+            onChange={onChange}
+            defaultValue={value}
+            placeholder={placeholder && placeholder[0]}
+          ></InputTextField>
           <button onClick={() => handleRemoveInputs(name)}>
             <IconCross></IconCross>
           </button>
