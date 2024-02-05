@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import TaskColumn from "./TaskColumn";
+import { useContext } from "react";
+import { DataContext } from "../MyContext";
 
 const StyledTaskBoard = styled.div`
   display: flex;
@@ -29,9 +31,12 @@ export const NewTaskColumn = styled.section`
   }
 `;
 export default function TaskBoard({ activeBoard }) {
+  const { projectArray, columnArray, selectedProjectId } = useContext(DataContext);
+  activeBoard = projectArray.find((project) => project.id === selectedProjectId);
+  const selectedColumn = columnArray.filter((col) => col.project_id === activeBoard.id);
   return (
     <StyledTaskBoard>
-      {activeBoard.columns.map((column, index) => (
+      {selectedColumn.map((column, index) => (
         <TaskColumn key={column.name} index={index} {...column}></TaskColumn>
       ))}
       <NewTaskColumn>

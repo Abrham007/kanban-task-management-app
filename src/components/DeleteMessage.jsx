@@ -34,7 +34,7 @@ export default function DeleteMessage({ purpose = "board", title }) {
   let message;
 
   if (purpose === "board") {
-    activeBoard = projectArray.find((board) => board.name === selectedProjectId);
+    activeBoard = projectArray.find((board) => board.id === selectedProjectId);
     message = `Are you sure you want to delete the ‘${activeBoard.name}’ board? This action will remove all columns and tasks
   and cannot be reversed.`;
   } else if (purpose === "task") {

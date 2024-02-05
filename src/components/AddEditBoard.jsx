@@ -34,19 +34,7 @@ export default function AddEditBoard({ isEdit }) {
     projectName: "",
     columnNames: { colName1: "Todo", colName2: "Doing" },
   });
-  const { projectArray, selectedProjectId, addNewProject } = useContext(DataContext);
-
-  if (isEdit && projectArray.length !== 0) {
-    const activeBoard = projectArray.find((board) => board.name === selectedProjectId);
-
-    setBoardDetail((prevValue) => {
-      return {
-        ...prevValue,
-        boardName: activeBoard.name,
-        columnNames: activeBoard.columns.map((col) => col.name),
-      };
-    });
-  }
+  const { projectArray, columnArray, selectedProjectId, addNewProjectAndColumn } = useContext(DataContext);
 
   function handleRemoveInputs(name) {
     setBoardDetail((prevValue) => {
@@ -71,11 +59,11 @@ export default function AddEditBoard({ isEdit }) {
 
   function createNewBoard(name, value) {
     let columnPattern = /colName/;
-    if (name === "boardName") {
+    if (name === "projectName") {
       setBoardDetail((prevValue) => {
         return {
           ...prevValue,
-          boardName: value,
+          projectName: value,
         };
       });
     } else if (columnPattern.test(name)) {
@@ -88,8 +76,28 @@ export default function AddEditBoard({ isEdit }) {
     }
   }
   function handleAddBoard() {
-    addNewProject(projectDetail);
+    addNewProjectAndColumn(projectDetail);
   }
+
+  useEffect(() => {
+    if (isEdit && projectArray.length !== 0) {
+      const activeBoard = projectArray.find((project) => project.id === selectedProjectId);
+      const activeBoardColumns = columnArray.filter((col) => col.project_id === activeBoard.id);
+      let newColumnNames = {};
+      activeBoardColumns.forEach((col, index) => {
+        let name = "colName" + (index + 1);
+        newColumnNames[name] = col.name;
+      });
+
+      setBoardDetail((prevValue) => {
+        return {
+          ...prevValue,
+          projectName: activeBoard.name,
+          columnNames: { ...newColumnNames },
+        };
+      });
+    }
+  }, [isEdit, selectedProjectId, projectArray, columnArray]);
 
   return (
     <StyledAddEditBoard>
@@ -98,8 +106,8 @@ export default function AddEditBoard({ isEdit }) {
         <label>Name</label>
         <InputTextField
           onChange={createNewBoard}
-          name="boardName"
-          defaultValue={projectDetail.boardName}
+          name="projectName"
+          defaultValue={projectDetail.projectName}
           placeholder="e.g. Web Design"
         ></InputTextField>
       </div>

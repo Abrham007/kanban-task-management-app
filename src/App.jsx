@@ -8,7 +8,7 @@ import Main from "./components/Main";
 import { devices } from "./utils/devices";
 import { SideBarContext, DataContext } from "./MyContext";
 import data from "./data.json";
-import { postNewProject } from "./api/client.mjs";
+import { postProjectAndColumn, fetchProjectAndColumnArray } from "./api/client.mjs";
 
 const StyledApp = styled.div`
   width: 100vw;
@@ -42,9 +42,11 @@ export default function App() {
   const [selectedTheme, setSelectedTheme] = useState(theme);
   const [isSideBarHidden, setisSideBarHidden] = useState(false);
   const [appState, setAppState] = useState({
-    selectedProjectId: 1,
+    selectedProjectId: null,
     projectArray: [],
+    columnArray: [],
     taskArray: [],
+    subtaskArray: [],
   });
 
   function selectNewProject(newBoard) {
@@ -55,9 +57,17 @@ export default function App() {
       };
     });
   }
-  function addNewProject(newBoard) {
-    console.log(newBoard);
-    postNewProject(newBoard).then(() => console.log("sent from front"));
+  async function addNewProjectAndColumn(project) {
+    console.log(project);
+    let [newProject, newColumns] = await postProjectAndColumn(project);
+    console.log(newProject);
+    setAppState((prevValue) => {
+      return {
+        ...prevValue,
+        projectArray: [...prevValue.projectArray, ...newProject],
+        columnArray: [...prevValue.columnArray, ...newColumns],
+      };
+    });
   }
 
   function handleThemeChange(newTheme) {
@@ -72,16 +82,22 @@ export default function App() {
     setSelectedTheme(theme);
   }, [themeLoaded]);
 
-  // useEffect(() => {
-  //   setAppState({
-  //     selectedBoard: data.boards[0].name,
-  //     boardArray: data.boards,
-  //   });
-  // }, []);
+  useEffect(() => {
+    fetchProjectAndColumnArray().then(([projectArray, columnArray]) => {
+      setAppState((prevValue) => {
+        return {
+          ...prevValue,
+          selectedProjectId: projectArray.length !== 0 ? projectArray[0].id : null,
+          projectArray: [...projectArray],
+          columnArray: [...columnArray],
+        };
+      });
+    });
+  }, []);
 
   return (
     <StyledApp $isSideBarHidden={isSideBarHidden}>
-      <DataContext.Provider value={{ ...appState, selectNewProject, addNewProject }}>
+      <DataContext.Provider value={{ ...appState, selectNewProject, addNewProjectAndColumn }}>
         <SideBarContext.Provider value={{ isSideBarHidden, handleSideBarHidden }}>
           {themeLoaded && (
             <ThemeProvider theme={selectedTheme}>

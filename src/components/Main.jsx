@@ -40,14 +40,14 @@ export const StyledMain = styled.main`
 
 export default function Main() {
   const { isSideBarHidden } = useContext(SideBarContext);
-  const { projectArray, selectedProjectId } = useContext(DataContext);
+  const { projectArray, columnArray, selectedProjectId } = useContext(DataContext);
   const isEmptyBoard = projectArray.length === 0;
   let isEmptyColumn = true;
   let activeBoard;
 
   if (!isEmptyBoard) {
-    activeBoard = projectArray.find((project) => project.name === selectedProjectId);
-    const selectedColumn = activeBoard?.columns;
+    activeBoard = projectArray.find((project) => project.id === selectedProjectId);
+    const selectedColumn = columnArray.filter((col) => col.project_id === activeBoard.id);
     isEmptyColumn = !selectedColumn || selectedColumn.length === 0;
   }
   return (
@@ -55,7 +55,7 @@ export default function Main() {
       {isEmptyBoard || isEmptyColumn ? (
         <MainEmpty isEmptyBoard={isEmptyBoard} isEmptyColumn={isEmptyColumn}></MainEmpty>
       ) : (
-        <TaskBoard activeBoard={activeBoard}></TaskBoard>
+        <TaskBoard></TaskBoard>
       )}
     </StyledMain>
   );

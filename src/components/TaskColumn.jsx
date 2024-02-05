@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import TaskList from "./TaskList";
 import IconCircle from "./IconCircle";
+import { useContext } from "react";
+import { DataContext } from "../MyContext";
 
 const StyledTaskColumn = styled.section`
   flex-shrink: 0;
@@ -22,7 +24,11 @@ const TaskTitle = styled.h2`
   }
 `;
 
-export default function TasksColumn({ name, tasks, index }) {
+export default function TasksColumn({ name, index }) {
+  const { projectArray, columnArray, taskArray, selectedProjectId } = useContext(DataContext);
+  const activeBoard = projectArray.find((project) => project.id === selectedProjectId);
+  const selectedColumn = columnArray.filter((col) => col.project_id === activeBoard.id);
+  const tasks = taskArray.filter((task) => task.column_id === selectedColumn.id);
   const colorList = ["#49C4E5", "#8471F2", "#67E2AE", "#EA5555"];
   const num = index < 4 ? index : index % 4;
   const color = colorList[num];

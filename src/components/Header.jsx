@@ -134,11 +134,11 @@ export default function Header() {
   const boardDialog = useRef();
   const deleteDialog = useRef();
   const { isSideBarHidden, handleSideBarHidden } = useContext(SideBarContext);
-  const { projectArray, selectedProjectId } = useContext(DataContext);
-  const selectedProject = projectArray?.find((project) => project.id === selectedProjectId);
-  const selectedProjectColumns = selectedProject?.columns;
-  const isEmptyColumn = !selectedProjectColumns ?? selectedProjectColumns.length === 0;
-  const selectedProjectName = selectedProject?.name ?? "No Project Created";
+  const { projectArray, columnArray, selectedProjectId } = useContext(DataContext);
+  const activeBoard = projectArray?.find((project) => project.id === selectedProjectId);
+  const activeBoardColumns = columnArray.filter((col) => col.project_id === activeBoard.id);
+  const isEmptyColumn = !activeBoardColumns ?? activeBoardColumns.length === 0;
+  const activeBoardName = activeBoard?.name ?? "";
   const themeContext = useContext(ThemeContext);
 
   function handleModalTaskCreate() {
@@ -160,12 +160,12 @@ export default function Header() {
           <Logo role="presentation" $theme={themeContext}></Logo>
           <VerticalLine $isSideBarHidden={isSideBarHidden}></VerticalLine>
           <h1 onClick={handleSideBarHidden}>
-            <span>{selectedProjectName}</span> <img src={isSideBarHidden ? upIcon : downIcon} alt=""></img>
+            <span>{activeBoardName}</span> <img src={isSideBarHidden ? upIcon : downIcon} alt=""></img>
           </h1>
         </div>
 
         <div className="Header-btns">
-          <HeaderBtn onClick={handleModalTaskCreate} disabled={!isEmptyColumn} type={"primary"} size="large">
+          <HeaderBtn onClick={handleModalTaskCreate} disabled={isEmptyColumn} type={"primary"} size="large">
             <span className="for-large">+ Add New Task</span>
             <img src={addIcon} alt="add sign" className="for-small"></img>
           </HeaderBtn>
