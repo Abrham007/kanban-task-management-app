@@ -20,13 +20,13 @@ const StyledDeleteMessage = styled.div`
     line-height: 1.4375rem;
   }
 
-  div {
+  form {
     display: flex;
     gap: 16px;
   }
 
   @media ${devices.mobile} {
-    div {
+    form {
       flex-direction: column;
     }
   }
@@ -51,14 +51,13 @@ export default function DeleteMessage({ purpose = "board", title }) {
     <StyledDeleteMessage>
       <h3>{purpose === "board" ? "Delete this board?" : "Delete this task?"}</h3>
       <p>{message}</p>
-      <div>
-        <form method="dialog">
-          <Button type="destructive" onClick={destructiveBtnFunction}>
-            Delete
-          </Button>
-          <Button type="secondary">Cancel</Button>
-        </form>
-      </div>
+
+      <form method="dialog">
+        <Button type="destructive" onClick={destructiveBtnFunction}>
+          Delete
+        </Button>
+        <Button type="secondary">Cancel</Button>
+      </form>
     </StyledDeleteMessage>
   );
 }
