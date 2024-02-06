@@ -91,6 +91,43 @@ app.delete("/project/:id", async (req, res) => {
   res.status(200).json(projectResponse.rows);
 });
 
+app.get("/task", async (req, res) => {
+  console.log("server get task reached");
+  let taskArray = (await db.query("SELECT * FROM project_task ORDER BY project_id ASC")).rows;
+  let subtaskArray = (await db.query("SELECT * FROM project_subtask ORDER BY project_id ASC")).rows;
+
+  res.json([taskArray, subtaskArray]);
+});
+
+app.post("/task", async (req, res) => {
+  console.log("sever post task reached");
+  let newTaskArray;
+  let newSubtaskArray = [];
+  try {
+    let newTaskResponse = await db.query(
+      "INSERT INTO project_task (title, description, status, column_id, project_id) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+      [req.body.title, req.body.description, req.body.status, req.body.column_id, req.body.project_id]
+    );
+    newTaskArray = newTaskResponse.rows;
+    let newTaskId = newTaskResponse.rows[0].id;
+    try {
+      for await (const subtask of Object.values(req.body.subtasks)) {
+        let newSubtaskResponse = await db.query(
+          "INSERT INTO project_subtask (title, is_completed, task_id , column_id, project_id) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+          [subtask, false, newTaskId, req.body.column_id, req.body.project_id]
+        );
+        newSubtaskArray.push(newSubtaskResponse.rows[0]);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  } catch (e) {
+    console.log(e);
+  }
+
+  res.json([newTaskArray, newSubtaskArray]);
+});
+
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
 });

@@ -8,7 +8,7 @@ import Main from "./components/Main";
 import { devices } from "./utils/devices";
 import { SideBarContext, DataContext } from "./MyContext";
 import data from "./data.json";
-import { postProject, fetchProject, removeProject, updateProject } from "./api/client.mjs";
+import { fetchProject, postProject, removeProject, updateProject, fetchTask, postTask } from "./api/client.mjs";
 
 const StyledApp = styled.div`
   width: 100vw;
@@ -106,6 +106,20 @@ export default function App() {
     }
   }
 
+  async function addTask(task) {
+    let [newTaskArray, newSubtaskArray] = await postTask(task);
+
+    if (newTaskArray && newSubtaskArray) {
+      setAppState((prevValue) => {
+        return {
+          ...prevValue,
+          taskArray: [...newTaskArray],
+          subtaskArray: [...newSubtaskArray],
+        };
+      });
+    }
+  }
+
   function handleThemeChange(newTheme) {
     setSelectedTheme(newTheme);
   }
@@ -129,11 +143,20 @@ export default function App() {
         };
       });
     });
+    fetchTask().then(([taskArray, subtaskArray]) => {
+      setAppState((prevValue) => {
+        return {
+          ...prevValue,
+          taskArray: [...taskArray],
+          subtaskArray: [...subtaskArray],
+        };
+      });
+    });
   }, []);
 
   return (
     <StyledApp $isSideBarHidden={isSideBarHidden}>
-      <DataContext.Provider value={{ ...appState, selectNewProject, addProject, deleteProject, editProject }}>
+      <DataContext.Provider value={{ ...appState, selectNewProject, addProject, deleteProject, editProject, addTask }}>
         <SideBarContext.Provider value={{ isSideBarHidden, handleSideBarHidden }}>
           {themeLoaded && (
             <ThemeProvider theme={selectedTheme}>
