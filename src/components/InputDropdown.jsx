@@ -75,30 +75,24 @@ const DropdownMenu = styled.menu`
   }
 `;
 
-export default function InputDropdown({ status }) {
-  const [selectedStatus, setSelectedStatus] = useState();
+export default function InputDropdown({ status, name, onChange }) {
   const { projectArray, columnArray, selectedProjectId } = useContext(DataContext);
   const activeBoard = projectArray.find((project) => project.id === selectedProjectId);
   const statuslist = columnArray.filter((col) => col.project_id === activeBoard.id).map((col) => col.name);
-
-  useEffect(() => {
-    if (!status) {
-      setSelectedStatus(statuslist[0]);
-    } else {
-      setSelectedStatus(status);
-    }
-  }, [status, statuslist]);
+  function handleSelectedStatus(status) {
+    onChange(name, status);
+  }
 
   return (
     <Dropdown aria-live="polite">
       <DropdownInput tabIndex={0}>
-        <span>{selectedStatus}</span>
+        <span>{status}</span>
         <img src={downIcon} alt=""></img>
       </DropdownInput>
       <DropdownMenu>
         {statuslist.map((status) => (
           <li key={status}>
-            <button onClick={() => setSelectedStatus(status)}>{status}</button>
+            <button onClick={() => handleSelectedStatus(status)}>{status}</button>
           </li>
         ))}
       </DropdownMenu>
