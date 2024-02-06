@@ -2,7 +2,7 @@ import styled from "styled-components";
 import InputTextField from "./InputTextField";
 import Button from "./Button";
 import InputContainer from "./InputContainer";
-import { useContext, useEffect, useState, useSyncExternalStore } from "react";
+import { useContext, useEffect, useState } from "react";
 import { DataContext } from "../MyContext";
 
 const StyledAddEditBoard = styled.div`
@@ -66,7 +66,7 @@ export default function AddEditBoard({ isEdit }) {
     });
   }
 
-  function createNewBoard(name, value) {
+  function createNewProject(name, value) {
     let columnPattern = /colName/;
     if (name === "projectName") {
       setProjectDetail((prevValue) => {
@@ -126,7 +126,7 @@ export default function AddEditBoard({ isEdit }) {
       <div>
         <label>Name</label>
         <InputTextField
-          onChange={createNewBoard}
+          onChange={createNewProject}
           name="projectName"
           defaultValue={projectDetail.projectName}
           placeholder="e.g. Web Design"
@@ -135,7 +135,7 @@ export default function AddEditBoard({ isEdit }) {
       <div>
         <label>Columns</label>
         <InputContainer
-          onChange={createNewBoard}
+          onChange={createNewProject}
           defaultInputs={projectDetail.columnNames}
           handleAddInputs={handleAddInputs}
           handleRemoveInputs={handleRemoveInputs}
