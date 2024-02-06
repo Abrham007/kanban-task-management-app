@@ -2,6 +2,8 @@ import styled from "styled-components";
 import TaskDetail from "./TaskDetail";
 import { useRef } from "react";
 import Modal from "./Modal";
+import { useContext } from "react";
+import { DataContext } from "../MyContext";
 
 export const StyledTask = styled.button`
   display: flex;
@@ -34,8 +36,10 @@ export const StyledTask = styled.button`
 `;
 
 export default function Task(props) {
+  const { subtaskArray } = useContext(DataContext);
+  const activeSubtaskList = subtaskArray.filter((subtask) => subtask.task_id === props.id);
+  const numOfFinishedTasks = activeSubtaskList.filter((subtask) => subtask.is_completed).length;
   const taskModal = useRef();
-  const numOfFinishedTasks = props.subtasks.filter((subtask) => subtask.isCompleted).length;
 
   function openModal() {
     taskModal.current.open();
@@ -45,7 +49,7 @@ export default function Task(props) {
       <StyledTask onClick={openModal}>
         <h3>{props.title}</h3>
         <p>
-          {numOfFinishedTasks} of {props.subtasks.length} substasks
+          {numOfFinishedTasks} of {activeSubtaskList.length} substasks
         </p>
       </StyledTask>
       <Modal ref={taskModal} child="TaskDetail">

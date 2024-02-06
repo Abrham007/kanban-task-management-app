@@ -32,9 +32,9 @@ export const NewTaskColumn = styled.section`
     color: #635fc7;
   }
 `;
-export default function TaskBoard({ activeBoard }) {
+export default function TaskBoard() {
   const { projectArray, columnArray, selectedProjectId } = useContext(DataContext);
-  activeBoard = projectArray.find((project) => project.id === selectedProjectId);
+  const activeBoard = projectArray.find((project) => project.id === selectedProjectId);
   const selectedColumn = columnArray.filter((col) => col.project_id === activeBoard.id);
   return (
     <StyledTaskBoard>
