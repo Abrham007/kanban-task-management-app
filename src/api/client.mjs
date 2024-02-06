@@ -17,9 +17,22 @@ export async function fetchProject() {
 }
 
 export async function removeProject(id) {
-  const response = await fetch("http://localhost:4000/project", {
+  const response = await fetch(`http://localhost:4000/project/${id}`, {
     method: "DELETE",
   });
-  const projectArray = await response.json();
-  return projectArray;
+  const deletedProjectId = response.json();
+  return deletedProjectId;
+}
+
+export async function updateProject(id, project) {
+  const response = await fetch(`http://localhost:4000/project/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(project),
+  });
+
+  const updatedProjectArray = response.json();
+  return updatedProjectArray;
 }

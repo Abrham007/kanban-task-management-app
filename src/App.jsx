@@ -8,7 +8,7 @@ import Main from "./components/Main";
 import { devices } from "./utils/devices";
 import { SideBarContext, DataContext } from "./MyContext";
 import data from "./data.json";
-import { postProject, fetchProject, removeProject } from "./api/client.mjs";
+import { postProject, fetchProject, removeProject, updateProject } from "./api/client.mjs";
 
 const StyledApp = styled.div`
   width: 100vw;
@@ -57,27 +57,53 @@ export default function App() {
       };
     });
   }
-  async function addNewProject(project) {
+  async function addProject(project) {
     let [newProjecArray, newColumnArray] = await postProject(project);
-    setAppState((prevValue) => {
-      return {
-        ...prevValue,
-        projectArray: [...prevValue.projectArray, ...newProjecArray],
-        columnArray: [...prevValue.columnArray, ...newColumnArray],
-      };
-    });
+
+    if (newProjecArray && newColumnArray) {
+      setAppState((prevValue) => {
+        return {
+          ...prevValue,
+          projectArray: [...prevValue.projectArray, ...newProjecArray],
+          columnArray: [...prevValue.columnArray, ...newColumnArray],
+        };
+      });
+    }
   }
 
   async function deleteProject(id) {
     let response = await removeProject(id);
-    setAppState((prevValue) => {
-      return {
-        ...prevValue,
-        selectedProjectId: prevValue.projectArray.length !== 0 ? prevValue.projectArray[0].id : null,
-        projectArray: [...prevValue.projectArray].filter((project) => project.id !== id),
-        columnArray: [...prevValue.columnArray].filter((col) => col.project_id !== id),
-      };
-    });
+
+    if (response[0].id === id) {
+      setAppState((prevValue) => {
+        return {
+          ...prevValue,
+          selectedProjectId: prevValue.projectArray.length !== 0 ? prevValue.projectArray[0].id : null,
+          projectArray: [...prevValue.projectArray].filter((project) => project.id !== id),
+          columnArray: [...prevValue.columnArray].filter((col) => col.project_id !== id),
+        };
+      });
+    }
+  }
+
+  async function editProject(id, project) {
+    console.log(project);
+    let [updatedProject, updatedColumnArray] = await updateProject(id, project);
+
+    if (updateProject && updatedColumnArray) {
+      setAppState((prevValue) => {
+        let tempProject = [...prevValue.projectArray];
+        let tempColumn = [...prevValue.columnArray].filter((col) => col.project_id !== id);
+        let tempProjectIndex = tempProject.findIndex((project) => project.id === id);
+        tempProject[tempProjectIndex] = updatedProject[0];
+        console.log(tempProject);
+        return {
+          ...prevValue,
+          projectArray: tempProject,
+          columnArray: [...tempColumn, ...updatedColumnArray],
+        };
+      });
+    }
   }
 
   function handleThemeChange(newTheme) {
@@ -107,7 +133,7 @@ export default function App() {
 
   return (
     <StyledApp $isSideBarHidden={isSideBarHidden}>
-      <DataContext.Provider value={{ ...appState, selectNewProject, addNewProject, deleteProject }}>
+      <DataContext.Provider value={{ ...appState, selectNewProject, addProject, deleteProject, editProject }}>
         <SideBarContext.Provider value={{ isSideBarHidden, handleSideBarHidden }}>
           {themeLoaded && (
             <ThemeProvider theme={selectedTheme}>
