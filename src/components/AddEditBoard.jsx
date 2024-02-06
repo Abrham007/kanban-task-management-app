@@ -34,7 +34,16 @@ export default function AddEditBoard({ isEdit }) {
     projectName: "",
     columnNames: { colName1: "Todo", colName2: "Doing" },
   });
-  const { projectArray, columnArray, selectedProjectId, addNewProject } = useContext(DataContext);
+  const { projectArray, columnArray, selectedProjectId, addProject, editProject } = useContext(DataContext);
+  let titleText = "Add New Board";
+  let btnText = "Create New Board";
+  let btnFunction = handleAddProject;
+
+  if (isEdit) {
+    titleText = "Edit Board";
+    btnText = "Edit Board";
+    btnFunction = handleEditProject;
+  }
 
   function handleRemoveInputs(name) {
     setProjectDetail((prevValue) => {
@@ -75,8 +84,16 @@ export default function AddEditBoard({ isEdit }) {
       });
     }
   }
-  function handleAddBoard() {
-    addNewProject(projectDetail);
+  function handleAddProject() {
+    addProject(projectDetail);
+    setProjectDetail({
+      projectName: "",
+      columnNames: { colName1: "Todo", colName2: "Doing" },
+    });
+  }
+
+  function handleEditProject() {
+    editProject(selectedProjectId, projectDetail);
     setProjectDetail({
       projectName: "",
       columnNames: { colName1: "Todo", colName2: "Doing" },
@@ -105,7 +122,7 @@ export default function AddEditBoard({ isEdit }) {
 
   return (
     <StyledAddEditBoard>
-      <h3>Add New Board</h3>
+      <h3>{titleText}</h3>
       <div>
         <label>Name</label>
         <InputTextField
@@ -125,8 +142,8 @@ export default function AddEditBoard({ isEdit }) {
         ></InputContainer>
       </div>
       <form method="dialog">
-        <Button type="submit" onClick={handleAddBoard}>
-          Create New Board
+        <Button type="submit" onClick={btnFunction}>
+          {btnText}
         </Button>
       </form>
     </StyledAddEditBoard>
