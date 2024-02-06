@@ -3,7 +3,8 @@ import InputTextField from "./InputTextField";
 import Button from "./Button";
 import InputDropdown from "./InputDropdown";
 import InputContainer from "./InputContainer";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { DataContext } from "../MyContext";
 
 const StyledAddEditTask = styled.div`
   width: 100%;
@@ -30,29 +31,88 @@ const StyledAddEditTask = styled.div`
 `;
 
 export default function AddEditTask({ isEdit, ...props }) {
+  const { projectArray, columnArray, selectedProjectId, addTask } = useContext(DataContext);
+  const activeProject = projectArray.find((project) => project.id === selectedProjectId);
+  const activeProjectColumns = columnArray.filter((col) => col.project_id === activeProject.id);
+  const statuslist = columnArray.filter((col) => col.project_id === activeProject.id).map((col) => col.name);
+  const defaultStatus = statuslist[0];
   const [taskDetail, setTaskDetail] = useState({
     title: props.title ?? "",
     description: props.description ?? "",
-    status: props.status,
+    status: props.status ?? defaultStatus,
     subtasks: { subtask1: "", subtask2: "" },
   });
+
+  function handleRemoveInputs(name) {
+    setTaskDetail((prevValue) => {
+      let tempSubtaskList = { ...prevValue.subtasks };
+      delete tempSubtaskList[name];
+      return {
+        ...prevValue,
+        subtasks: tempSubtaskList,
+      };
+    });
+  }
+
+  function handleAddInputs() {
+    let name = "subtask" + (Object.keys(taskDetail.subtasks).length + 1);
+    setTaskDetail((prevValue) => {
+      return {
+        ...prevValue,
+        subtasks: { ...prevValue.subtasks, [name]: "" },
+      };
+    });
+  }
+
+  function createNewTask(name, value) {
+    let subtaskPattern = /subtask/;
+    if (subtaskPattern.test(name)) {
+      setTaskDetail((prevValue) => {
+        return {
+          ...prevValue,
+          subtasks: { ...prevValue.subtasks, [name]: value },
+        };
+      });
+    } else {
+      setTaskDetail((prevValue) => {
+        return {
+          ...prevValue,
+          [name]: value,
+        };
+      });
+    }
+  }
+
+  function handleAddTask() {
+    const columnOfTask = activeProjectColumns.find((col) => col.name === taskDetail.status);
+    let newTask = {
+      ...taskDetail,
+      column_id: columnOfTask.id,
+      project_id: selectedProjectId,
+    };
+
+    addTask(newTask);
+  }
+
   return (
     <StyledAddEditTask>
       <h3>{isEdit ? "Edit" : "Add New"} Task</h3>
       <div>
-        <label htmlFor="taskName">Title</label>
+        <label htmlFor="title">Title</label>
         <InputTextField
-          name="taskName"
-          id="taskName"
+          name="title"
+          onChange={createNewTask}
+          id="title"
           defaultValue={taskDetail.title}
           placeholder="e.g. Take coffee break"
         ></InputTextField>
       </div>
       <div>
-        <label htmlFor="taskDescription">Description</label>
+        <label htmlFor="description">Description</label>
         <InputTextField
-          name="taskDescription"
-          id="taskDescription"
+          name="description"
+          onChange={createNewTask}
+          id="description"
           as="textarea"
           defaultValue={taskDetail.description}
           placeholder={
@@ -63,16 +123,19 @@ export default function AddEditTask({ isEdit, ...props }) {
       <div>
         <label>Subtasks</label>
         <InputContainer
+          onChange={createNewTask}
           purpose="task"
           defaultInputs={taskDetail.subtasks}
           placeholder={["e.g. Make coffee", "e.g. Drink coffee & smile"]}
+          handleAddInputs={handleAddInputs}
+          handleRemoveInputs={handleRemoveInputs}
         ></InputContainer>
       </div>
       <div>
         <label>Status</label>
-        <InputDropdown status={taskDetail.status}></InputDropdown>
+        <InputDropdown name="status" status={taskDetail.status} onChange={createNewTask}></InputDropdown>
       </div>
-      <Button>Create Task</Button>
+      <Button onClick={handleAddTask}>Create Task</Button>
     </StyledAddEditTask>
   );
 }
