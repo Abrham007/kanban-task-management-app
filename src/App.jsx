@@ -23,6 +23,7 @@ const StyledApp = styled.div`
   grid-template-areas: ${({ $isSideBarHidden }) =>
     $isSideBarHidden ? `'header header' 'main main'` : `'header header' 'sidebar main'`};
   transition: all 0.5s linear;
+  overflow-x: hidden;
 
   @media ${devices.tablet} {
     grid-template-columns: 260px 1fr;
@@ -113,8 +114,8 @@ export default function App() {
       setAppState((prevValue) => {
         return {
           ...prevValue,
-          taskArray: [...newTaskArray],
-          subtaskArray: [...newSubtaskArray],
+          taskArray: [...prevValue.taskArray, ...newTaskArray],
+          subtaskArray: [...prevValue.subtaskArray, ...newSubtaskArray],
         };
       });
     }

@@ -26,11 +26,7 @@ const TaskTitle = styled.h2`
 
 export default function TasksColumn({ name, index, id }) {
   const { taskArray } = useContext(DataContext);
-  console.log(id);
-  console.log(taskArray);
   const tasks = taskArray.filter((task) => task.column_id === id);
-  console.log(tasks);
-
   const colorList = ["#49C4E5", "#8471F2", "#67E2AE", "#EA5555"];
   const num = index < 4 ? index : index % 4;
   const color = colorList[num];

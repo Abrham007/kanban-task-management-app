@@ -142,9 +142,7 @@ export default function AddEditBoard({ isEdit }) {
         ></InputContainer>
       </label>
       <form method="dialog">
-        <Button type="submit" onClick={btnFunction}>
-          {btnText}
-        </Button>
+        <Button onClick={btnFunction}>{btnText}</Button>
       </form>
     </StyledAddEditBoard>
   );

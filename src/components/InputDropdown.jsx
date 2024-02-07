@@ -34,7 +34,7 @@ const DropdownInput = styled.button`
     border: 1px solid #635fc7;
   }
 
-  span {
+  && > span {
     font-size: 0.8125rem;
     font-weight: 500;
     line-height: 1.4375rem;
@@ -79,6 +79,7 @@ export default function InputDropdown({ status, name, onChange }) {
   const { projectArray, columnArray, selectedProjectId } = useContext(DataContext);
   const activeBoard = projectArray.find((project) => project.id === selectedProjectId);
   const statuslist = columnArray.filter((col) => col.project_id === activeBoard.id).map((col) => col.name);
+
   function handleSelectedStatus(status) {
     onChange(name, status);
   }
