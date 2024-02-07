@@ -41,7 +41,7 @@ export default function InputContainer({
             name={name}
             onChange={onChange}
             defaultValue={value}
-            placeholder={placeholder && placeholder[0]}
+            placeholder={placeholder && placeholder[index]}
           ></InputTextField>
           <button onClick={() => handleRemoveInputs(name)}>
             <IconCross></IconCross>
