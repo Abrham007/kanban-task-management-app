@@ -35,7 +35,6 @@ const CheckBoxInput = styled.input.attrs({ type: "checkbox" })`
 const CheckBoxText = styled.span`
   display: flex;
   gap: 16px;
-
   font-size: 0.75rem;
   font-weight: 700;
 

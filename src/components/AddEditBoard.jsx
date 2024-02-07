@@ -17,12 +17,12 @@ const StyledAddEditBoard = styled.div`
     font-weight: 700;
   }
 
-  label {
+  span {
     font-size: 0.75rem;
     font-weight: 700;
   }
 
-  div {
+  label {
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -123,24 +123,24 @@ export default function AddEditBoard({ isEdit }) {
   return (
     <StyledAddEditBoard>
       <h3>{titleText}</h3>
-      <div>
-        <label>Name</label>
+      <label>
+        <span>Name</span>
         <InputTextField
           onChange={createNewProject}
           name="projectName"
           defaultValue={projectDetail.projectName}
           placeholder="e.g. Web Design"
         ></InputTextField>
-      </div>
-      <div>
-        <label>Columns</label>
+      </label>
+      <label>
+        <span>Columns</span>
         <InputContainer
           onChange={createNewProject}
           defaultInputs={projectDetail.columnNames}
           handleAddInputs={handleAddInputs}
           handleRemoveInputs={handleRemoveInputs}
         ></InputContainer>
-      </div>
+      </label>
       <form method="dialog">
         <Button type="submit" onClick={btnFunction}>
           {btnText}

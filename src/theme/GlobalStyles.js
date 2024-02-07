@@ -30,7 +30,7 @@ export const GlobalStyles = createGlobalStyle`
     h3 {
       color: ${({ theme }) => theme.colors.modal.header};
     }
-    label {
+    span {
       color: ${({ theme }) => theme.colors.modal.label};
     }
   }
@@ -48,9 +48,12 @@ export const GlobalStyles = createGlobalStyle`
   }
   ${CheckBoxLabel} {
     background-color: ${({ theme }) => theme.colors.checkbox.background};
-    color: ${({ theme }) => theme.colors.checkbox.text};
 
-      input:checked ~ span {
+    span {
+        color: ${({ theme }) => theme.colors.checkbox.text};
+    }
+    
+    input:checked ~ span {
       color: ${({ theme }) => theme.colors.checkbox.onCheck};
     }
   }

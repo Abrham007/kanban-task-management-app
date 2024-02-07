@@ -17,7 +17,7 @@ const StyledTaskDetail = styled.div`
     font-weight: 700;
   }
 
-  label {
+  span {
     font-size: 0.75rem;
     font-weight: 700;
   }
@@ -37,7 +37,7 @@ const TaskDetailHeader = styled.div`
   justify-content: space-between;
 `;
 
-const TaskDetailCheckbox = styled.div`
+const TaskDetailCheckbox = styled.label`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -50,7 +50,7 @@ const TaskDetailCheckbox = styled.div`
   }
 `;
 
-const TaskDetailDropdown = styled.div`
+const TaskDetailDropdown = styled.label`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -81,11 +81,11 @@ export default function TaskDetail(props) {
         </TaskDetailHeader>
         <p>{props.description}</p>
         <TaskDetailCheckbox>
-          <label>
-            Subtasks ({props.numOfFinishedTasks} of {props.subtasks.length})
-          </label>
+          <span>
+            Subtasks ({props.numOfFinishedTasks} of {props.activeSubtaskList.length})
+          </span>
           <div role="presentation">
-            {props.subtasks.map((subtask) => (
+            {props.activeSubtaskList.map((subtask) => (
               <InputCheckBox key={subtask.title} isChecked={subtask.isCompleted}>
                 {subtask.title}
               </InputCheckBox>
@@ -93,7 +93,7 @@ export default function TaskDetail(props) {
           </div>
         </TaskDetailCheckbox>
         <TaskDetailDropdown>
-          <label>Current Status</label>
+          <span>Current Status</span>
           <InputDropdown status={props.status}></InputDropdown>
         </TaskDetailDropdown>
       </StyledTaskDetail>

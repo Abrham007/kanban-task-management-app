@@ -18,12 +18,12 @@ const StyledAddEditTask = styled.div`
     font-weight: 700;
   }
 
-  label {
+  span {
     font-size: 0.75rem;
     font-weight: 700;
   }
 
-  div {
+  label {
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -97,31 +97,29 @@ export default function AddEditTask({ isEdit, ...props }) {
   return (
     <StyledAddEditTask>
       <h3>{isEdit ? "Edit" : "Add New"} Task</h3>
-      <div>
-        <label htmlFor="title">Title</label>
+      <label>
+        <span>Title</span>
         <InputTextField
           name="title"
           onChange={createNewTask}
-          id="title"
           defaultValue={taskDetail.title}
           placeholder="e.g. Take coffee break"
         ></InputTextField>
-      </div>
-      <div>
-        <label htmlFor="description">Description</label>
+      </label>
+      <label>
+        <span>Description</span>
         <InputTextField
           name="description"
           onChange={createNewTask}
-          id="description"
           as="textarea"
           defaultValue={taskDetail.description}
           placeholder={
             "e.g. It’s always good to take a break. This 15 minute break will recharge the batteries a little."
           }
         ></InputTextField>
-      </div>
-      <div>
-        <label>Subtasks</label>
+      </label>
+      <label>
+        <span>Subtasks</span>
         <InputContainer
           onChange={createNewTask}
           purpose="task"
@@ -130,11 +128,11 @@ export default function AddEditTask({ isEdit, ...props }) {
           handleAddInputs={handleAddInputs}
           handleRemoveInputs={handleRemoveInputs}
         ></InputContainer>
-      </div>
-      <div>
-        <label>Status</label>
+      </label>
+      <label>
+        <span>Status</span>
         <InputDropdown name="status" status={taskDetail.status} onChange={createNewTask}></InputDropdown>
-      </div>
+      </label>
       <Button onClick={handleAddTask}>Create Task</Button>
     </StyledAddEditTask>
   );

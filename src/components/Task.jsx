@@ -53,7 +53,11 @@ export default function Task(props) {
         </p>
       </StyledTask>
       <Modal ref={taskModal} child="TaskDetail">
-        <TaskDetail {...props} numOfFinishedTasks={numOfFinishedTasks}></TaskDetail>
+        <TaskDetail
+          {...props}
+          activeSubtaskList={activeSubtaskList}
+          numOfFinishedTasks={numOfFinishedTasks}
+        ></TaskDetail>
       </Modal>
     </>
   );
