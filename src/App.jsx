@@ -8,7 +8,15 @@ import Main from "./components/Main";
 import { devices } from "./utils/devices";
 import { SideBarContext, DataContext } from "./MyContext";
 import data from "./data.json";
-import { fetchProject, postProject, removeProject, updateProject, fetchTask, postTask } from "./api/client.mjs";
+import {
+  fetchProject,
+  postProject,
+  removeProject,
+  updateProject,
+  fetchTask,
+  postTask,
+  updateTask,
+} from "./api/client.mjs";
 
 const StyledApp = styled.div`
   width: 100vw;
@@ -72,6 +80,25 @@ export default function App() {
     }
   }
 
+  async function editProject(id, project) {
+    let [updatedProject, updatedColumnArray] = await updateProject(id, project);
+
+    if (updateProject && updatedColumnArray) {
+      setAppState((prevValue) => {
+        let tempProject = [...prevValue.projectArray];
+        let tempColumn = [...prevValue.columnArray].filter((col) => col.project_id !== id);
+        let tempProjectIndex = tempProject.findIndex((project) => project.id === id);
+        tempProject[tempProjectIndex] = updatedProject[0];
+
+        return {
+          ...prevValue,
+          projectArray: tempProject,
+          columnArray: [...tempColumn, ...updatedColumnArray],
+        };
+      });
+    }
+  }
+
   async function deleteProject(id) {
     let response = await removeProject(id);
 
@@ -87,26 +114,6 @@ export default function App() {
     }
   }
 
-  async function editProject(id, project) {
-    console.log(project);
-    let [updatedProject, updatedColumnArray] = await updateProject(id, project);
-
-    if (updateProject && updatedColumnArray) {
-      setAppState((prevValue) => {
-        let tempProject = [...prevValue.projectArray];
-        let tempColumn = [...prevValue.columnArray].filter((col) => col.project_id !== id);
-        let tempProjectIndex = tempProject.findIndex((project) => project.id === id);
-        tempProject[tempProjectIndex] = updatedProject[0];
-        console.log(tempProject);
-        return {
-          ...prevValue,
-          projectArray: tempProject,
-          columnArray: [...tempColumn, ...updatedColumnArray],
-        };
-      });
-    }
-  }
-
   async function addTask(task) {
     let [newTaskArray, newSubtaskArray] = await postTask(task);
 
@@ -116,6 +123,27 @@ export default function App() {
           ...prevValue,
           taskArray: [...prevValue.taskArray, ...newTaskArray],
           subtaskArray: [...prevValue.subtaskArray, ...newSubtaskArray],
+        };
+      });
+    }
+  }
+
+  async function editTask(id, task) {
+    console.log(task);
+    let [updatedTask, updatedSubtaskArray] = await updateTask(id, task);
+    console.log([updatedTask, updatedSubtaskArray]);
+
+    if (updateTask && updatedSubtaskArray) {
+      setAppState((prevValue) => {
+        let tempTask = [...prevValue.taskArray];
+        let tempSubtask = [...prevValue.subtaskArray].filter((col) => col.project_id !== id);
+        let tempProjectIndex = tempTask.findIndex((project) => project.id === id);
+        tempTask[tempProjectIndex] = updatedTask[0];
+
+        return {
+          ...prevValue,
+          taskArray: tempTask,
+          subtaskArray: [...tempSubtask, ...updatedSubtaskArray],
         };
       });
     }
@@ -157,7 +185,9 @@ export default function App() {
 
   return (
     <StyledApp $isSideBarHidden={isSideBarHidden}>
-      <DataContext.Provider value={{ ...appState, selectNewProject, addProject, deleteProject, editProject, addTask }}>
+      <DataContext.Provider
+        value={{ ...appState, selectNewProject, addProject, deleteProject, editProject, addTask, editTask }}
+      >
         <SideBarContext.Provider value={{ isSideBarHidden, handleSideBarHidden }}>
           {themeLoaded && (
             <ThemeProvider theme={selectedTheme}>

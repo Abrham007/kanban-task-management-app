@@ -16,14 +16,6 @@ export async function postProject(newProject) {
   return newProjectArray;
 }
 
-export async function removeProject(id) {
-  const response = await fetch(`http://localhost:4000/project/${id}`, {
-    method: "DELETE",
-  });
-  const deletedProjectId = response.json();
-  return deletedProjectId;
-}
-
 export async function updateProject(id, project) {
   const response = await fetch(`http://localhost:4000/project/${id}`, {
     method: "PUT",
@@ -35,6 +27,14 @@ export async function updateProject(id, project) {
 
   const updatedProjectArray = response.json();
   return updatedProjectArray;
+}
+
+export async function removeProject(id) {
+  const response = await fetch(`http://localhost:4000/project/${id}`, {
+    method: "DELETE",
+  });
+  const deletedProjectId = response.json();
+  return deletedProjectId;
 }
 
 export async function fetchTask() {
@@ -53,4 +53,17 @@ export async function postTask(newTask) {
   });
   const newTaskArray = await response.json();
   return newTaskArray;
+}
+
+export async function updateTask(id, task) {
+  const response = await fetch(`http://localhost:4000/task/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(task),
+  });
+
+  const updatedTaskArray = response.json();
+  return updatedTaskArray;
 }

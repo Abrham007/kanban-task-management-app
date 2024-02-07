@@ -31,7 +31,8 @@ const StyledAddEditTask = styled.div`
 `;
 
 export default function AddEditTask({ isEdit, ...props }) {
-  const { projectArray, columnArray, selectedProjectId, addTask } = useContext(DataContext);
+  const { projectArray, columnArray, selectedProjectId, taskArray, subtaskArray, addTask, editTask } =
+    useContext(DataContext);
   const activeProject = projectArray.find((project) => project.id === selectedProjectId);
   const activeProjectColumns = columnArray.filter((col) => col.project_id === activeProject.id);
   const statuslist = columnArray.filter((col) => col.project_id === activeProject.id).map((col) => col.name);
@@ -40,8 +41,24 @@ export default function AddEditTask({ isEdit, ...props }) {
     title: props.title ?? "",
     description: props.description ?? "",
     status: props.status ?? defaultStatus,
-    subtasks: { subtask1: "", subtask2: "" },
+    subtasks: { subtask1: { title: "", isCompleted: false }, subtask2: { title: "", isCompleted: false } },
   });
+
+  let titleText = "Add New Task";
+  let btnText = "Create Task";
+  let btnFunction = handleAddTask;
+
+  if (isEdit) {
+    titleText = "Edit Task";
+    btnText = "Edit Task";
+    btnFunction = handleEditTask;
+  }
+
+  let defaultInputs = {};
+
+  for (let [key, value] of Object.entries(taskDetail.subtasks)) {
+    defaultInputs[key] = value.title;
+  }
 
   function handleRemoveInputs(name) {
     setTaskDetail((prevValue) => {
@@ -59,7 +76,7 @@ export default function AddEditTask({ isEdit, ...props }) {
     setTaskDetail((prevValue) => {
       return {
         ...prevValue,
-        subtasks: { ...prevValue.subtasks, [name]: "" },
+        subtasks: { ...prevValue.subtasks, [name]: { title: "", isCompleted: false } },
       };
     });
   }
@@ -70,7 +87,7 @@ export default function AddEditTask({ isEdit, ...props }) {
       setTaskDetail((prevValue) => {
         return {
           ...prevValue,
-          subtasks: { ...prevValue.subtasks, [name]: value },
+          subtasks: { ...prevValue.subtasks, [name]: { title: value, isCompleted: false } },
         };
       });
     } else {
@@ -95,7 +112,25 @@ export default function AddEditTask({ isEdit, ...props }) {
       title: props.title ?? "",
       description: props.description ?? "",
       status: props.status ?? defaultStatus,
-      subtasks: { subtask1: "", subtask2: "" },
+      subtasks: { title: "", isCompleted: false },
+      subtask2: { title: "", isCompleted: false },
+    });
+  }
+
+  function handleEditTask() {
+    const columnOfTask = activeProjectColumns.find((col) => col.name === taskDetail.status);
+    let newTask = {
+      ...taskDetail,
+      column_id: columnOfTask.id,
+      project_id: selectedProjectId,
+    };
+    editTask(props.id, newTask);
+    setTaskDetail({
+      title: props.title ?? "",
+      description: props.description ?? "",
+      status: props.status ?? defaultStatus,
+      subtasks: { title: "", isCompleted: false },
+      subtask2: { title: "", isCompleted: false },
     });
   }
 
@@ -103,14 +138,31 @@ export default function AddEditTask({ isEdit, ...props }) {
     setTaskDetail((prevValue) => {
       return {
         ...prevValue,
-        status: defaultStatus,
+        status: props.status ?? defaultStatus,
       };
     });
-  }, [defaultStatus]);
+  }, [props.status, defaultStatus]);
+
+  useEffect(() => {
+    if (isEdit && taskArray.length !== 0) {
+      const activeSubtasks = subtaskArray.filter((subtask) => subtask.task_id === props.id);
+      let newSubtasks = {};
+      activeSubtasks.forEach((subtask, index) => {
+        let name = "subtask" + (index + 1);
+        newSubtasks[name] = { title: subtask.title, isCompleted: subtask.is_completed };
+      });
+      setTaskDetail((prevValue) => {
+        return {
+          ...prevValue,
+          subtasks: newSubtasks,
+        };
+      });
+    }
+  }, [isEdit, props.id, taskArray, subtaskArray]);
 
   return (
     <StyledAddEditTask>
-      <h3>{isEdit ? "Edit" : "Add New"} Task</h3>
+      <h3>{titleText}</h3>
       <label>
         <span>Title</span>
         <InputTextField
@@ -137,7 +189,7 @@ export default function AddEditTask({ isEdit, ...props }) {
         <InputContainer
           onChange={createNewTask}
           purpose="task"
-          defaultInputs={taskDetail.subtasks}
+          defaultInputs={defaultInputs}
           placeholder={["e.g. Make coffee", "e.g. Drink coffee & smile"]}
           handleAddInputs={handleAddInputs}
           handleRemoveInputs={handleRemoveInputs}
@@ -148,7 +200,7 @@ export default function AddEditTask({ isEdit, ...props }) {
         <InputDropdown name="status" status={taskDetail.status} onChange={createNewTask}></InputDropdown>
       </label>
       <form method="dialog">
-        <Button onClick={handleAddTask}>Create Task</Button>
+        <Button onClick={btnFunction}>{btnText}</Button>
       </form>
     </StyledAddEditTask>
   );

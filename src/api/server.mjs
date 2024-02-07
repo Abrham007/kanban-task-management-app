@@ -114,7 +114,7 @@ app.post("/task", async (req, res) => {
       for await (const subtask of Object.values(req.body.subtasks)) {
         let newSubtaskResponse = await db.query(
           "INSERT INTO project_subtask (title, is_completed, task_id , column_id, project_id) VALUES ($1, $2, $3, $4, $5) RETURNING *",
-          [subtask, false, newTaskId, req.body.column_id, req.body.project_id]
+          [subtask.title, subtask.isCompleted, newTaskId, req.body.column_id, req.body.project_id]
         );
         newSubtaskArray.push(newSubtaskResponse.rows[0]);
       }
@@ -126,6 +126,28 @@ app.post("/task", async (req, res) => {
   }
 
   res.json([newTaskArray, newSubtaskArray]);
+});
+
+app.put("/task/:id", async (req, res) => {
+  console.log("sever put task reached");
+  let updatedTaskArray;
+  let updatedSubtaskArray = [];
+  let updatedResponseArray = await db.query(
+    "UPDATE project_task SET title = $1, description = $2, status = $3, column_id = $4, project_id = $5 WHERE id = $6 RETURNING *",
+    [req.body.title, req.body.description, req.body.status, req.body.column_id, req.body.project_id, req.params.id]
+  );
+  updatedTaskArray = updatedResponseArray.rows;
+  await db.query("DELETE FROM project_subtask WHERE task_id = ($1)", [req.params.id]);
+
+  for await (const subtask of Object.values(req.body.subtasks)) {
+    let newSubtaskResponse = await db.query(
+      "INSERT INTO project_subtask (title, is_completed, task_id , column_id, project_id) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+      [subtask.title, subtask.isCompleted, req.params.id, req.body.column_id, req.body.project_id]
+    );
+    updatedSubtaskArray.push(newSubtaskResponse.rows[0]);
+  }
+
+  res.json([updatedTaskArray, updatedSubtaskArray]);
 });
 
 app.listen(port, () => {
