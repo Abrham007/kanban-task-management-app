@@ -11,10 +11,6 @@ export const Dropdown = styled.div`
   flex-direction: column;
   gap: 7px;
   padding-bottom: 10px;
-
-  &:hover menu {
-    display: flex;
-  }
 `;
 
 const DropdownInput = styled.button`
@@ -28,7 +24,6 @@ const DropdownInput = styled.button`
   outline: none;
   background-color: transparent;
 
-  &:focus,
   &:hover {
     cursor: pointer;
     border: 1px solid #635fc7;
@@ -42,7 +37,7 @@ const DropdownInput = styled.button`
 `;
 
 const DropdownMenu = styled.menu`
-  display: none;
+  display: ${({ $isOpen }) => ($isOpen ? "flex" : "none")};
   position: absolute;
   top: 47px;
   left: 0;
@@ -76,6 +71,7 @@ const DropdownMenu = styled.menu`
 `;
 
 export default function InputDropdown({ status, name, onChange }) {
+  const [isOpen, setIsOpen] = useState(false);
   const { projectArray, columnArray, selectedProjectId } = useContext(DataContext);
   const activeBoard = projectArray.find((project) => project.id === selectedProjectId);
   const statuslist = columnArray.filter((col) => col.project_id === activeBoard.id).map((col) => col.name);
@@ -84,13 +80,17 @@ export default function InputDropdown({ status, name, onChange }) {
     onChange(name, status);
   }
 
+  function handleOpen() {
+    setIsOpen((prevValue) => !prevValue);
+  }
+
   return (
     <Dropdown aria-live="polite">
-      <DropdownInput tabIndex={0}>
+      <DropdownInput onClick={handleOpen} tabIndex={0}>
         <span>{status}</span>
         <img src={downIcon} alt=""></img>
       </DropdownInput>
-      <DropdownMenu>
+      <DropdownMenu $isOpen={isOpen}>
         {statuslist.map((status) => (
           <li key={status}>
             <button onClick={() => handleSelectedStatus(status)}>{status}</button>
