@@ -3,7 +3,7 @@ import InputTextField from "./InputTextField";
 import Button from "./Button";
 import InputDropdown from "./InputDropdown";
 import InputContainer from "./InputContainer";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { DataContext } from "../MyContext";
 
 const StyledAddEditTask = styled.div`
@@ -90,9 +90,23 @@ export default function AddEditTask({ isEdit, ...props }) {
       column_id: columnOfTask.id,
       project_id: selectedProjectId,
     };
-
     addTask(newTask);
+    setTaskDetail({
+      title: props.title ?? "",
+      description: props.description ?? "",
+      status: props.status ?? defaultStatus,
+      subtasks: { subtask1: "", subtask2: "" },
+    });
   }
+
+  useEffect(() => {
+    setTaskDetail((prevValue) => {
+      return {
+        ...prevValue,
+        status: defaultStatus,
+      };
+    });
+  }, [defaultStatus]);
 
   return (
     <StyledAddEditTask>
@@ -133,7 +147,9 @@ export default function AddEditTask({ isEdit, ...props }) {
         <span>Status</span>
         <InputDropdown name="status" status={taskDetail.status} onChange={createNewTask}></InputDropdown>
       </label>
-      <Button onClick={handleAddTask}>Create Task</Button>
+      <form method="dialog">
+        <Button onClick={handleAddTask}>Create Task</Button>
+      </form>
     </StyledAddEditTask>
   );
 }
