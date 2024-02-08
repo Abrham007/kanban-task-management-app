@@ -32,8 +32,8 @@ const StyledDeleteMessage = styled.div`
   }
 `;
 
-export default function DeleteMessage({ purpose = "board", title }) {
-  const { projectArray, selectedProjectId, deleteProject } = useContext(DataContext);
+export default function DeleteMessage({ purpose = "board", title, task_id }) {
+  const { projectArray, selectedProjectId, deleteProject, deleteTask } = useContext(DataContext);
   let activeBoard = projectArray.find((project) => project.id === selectedProjectId);
   let message;
   let destructiveBtnFunction;
@@ -45,6 +45,7 @@ export default function DeleteMessage({ purpose = "board", title }) {
     destructiveBtnFunction = () => deleteProject(activeBoard.id);
   } else if (purpose === "task") {
     message = `Are you sure you want to delete the ‘${title}’ task and its subtasks? This action cannot be reversed.`;
+    destructiveBtnFunction = () => deleteTask(task_id);
   }
 
   return (

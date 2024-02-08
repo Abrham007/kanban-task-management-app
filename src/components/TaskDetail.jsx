@@ -101,7 +101,7 @@ export default function TaskDetail(props) {
         <AddEditTask isEdit={true} {...props}></AddEditTask>
       </Modal>
       <Modal ref={deleteDialog}>
-        <DeleteMessage purpose="Task" title={props.title}></DeleteMessage>
+        <DeleteMessage purpose="task" title={props.title} task_id={props.id}></DeleteMessage>
       </Modal>
     </>
   );

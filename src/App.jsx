@@ -16,6 +16,7 @@ import {
   fetchTask,
   postTask,
   updateTask,
+  removeTask,
 } from "./api/client.mjs";
 
 const StyledApp = styled.div`
@@ -149,6 +150,20 @@ export default function App() {
     }
   }
 
+  async function deleteTask(id) {
+    let response = await removeTask(id);
+
+    if (response[0].id === id) {
+      setAppState((prevValue) => {
+        return {
+          ...prevValue,
+          taskArray: [...prevValue.taskArray].filter((task) => task.id !== id),
+          subtaskArray: [...prevValue.subtaskArray].filter((subtask) => subtask.project_id !== id),
+        };
+      });
+    }
+  }
+
   function handleThemeChange(newTheme) {
     setSelectedTheme(newTheme);
   }
@@ -186,7 +201,7 @@ export default function App() {
   return (
     <StyledApp $isSideBarHidden={isSideBarHidden}>
       <DataContext.Provider
-        value={{ ...appState, selectNewProject, addProject, deleteProject, editProject, addTask, editTask }}
+        value={{ ...appState, selectNewProject, addProject, deleteProject, editProject, addTask, editTask, deleteTask }}
       >
         <SideBarContext.Provider value={{ isSideBarHidden, handleSideBarHidden }}>
           {themeLoaded && (

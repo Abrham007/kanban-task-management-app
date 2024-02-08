@@ -67,3 +67,11 @@ export async function updateTask(id, task) {
   const updatedTaskArray = response.json();
   return updatedTaskArray;
 }
+
+export async function removeTask(id) {
+  const response = await fetch(`http://localhost:4000/task/${id}`, {
+    method: "DELETE",
+  });
+  const deletedTaskId = response.json();
+  return deletedTaskId;
+}
