@@ -93,7 +93,14 @@ export default function InputDropdown({ status, name, onChange }) {
       <DropdownMenu $isOpen={isOpen}>
         {statuslist.map((status) => (
           <li key={status}>
-            <button onClick={() => handleSelectedStatus(status)}>{status}</button>
+            <button
+              onClick={() => {
+                handleSelectedStatus(status);
+                handleOpen();
+              }}
+            >
+              {status}
+            </button>
           </li>
         ))}
       </DropdownMenu>
