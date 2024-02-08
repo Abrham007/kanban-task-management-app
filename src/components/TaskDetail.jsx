@@ -86,7 +86,7 @@ export default function TaskDetail(props) {
           </span>
           <div role="presentation">
             {props.activeSubtaskList.map((subtask) => (
-              <InputCheckBox key={subtask.title} isChecked={subtask.isCompleted}>
+              <InputCheckBox key={subtask.id} isChecked={subtask.isCompleted}>
                 {subtask.title}
               </InputCheckBox>
             ))}

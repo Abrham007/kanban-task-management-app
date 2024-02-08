@@ -41,7 +41,7 @@ export default function AddEditTask({ isEdit, ...props }) {
     title: props.title ?? "",
     description: props.description ?? "",
     status: props.status ?? defaultStatus,
-    subtasks: { subtask1: { title: "", isCompleted: false }, subtask2: { title: "", isCompleted: false } },
+    subtasks: { subtask1: { content: "", isCompleted: false }, subtask2: { content: "", isCompleted: false } },
   });
 
   let titleText = "Add New Task";
@@ -57,7 +57,7 @@ export default function AddEditTask({ isEdit, ...props }) {
   let defaultInputs = {};
 
   for (let [key, value] of Object.entries(taskDetail.subtasks)) {
-    defaultInputs[key] = value.title;
+    defaultInputs[key] = value.content;
   }
 
   function handleRemoveInputs(name) {
@@ -76,7 +76,7 @@ export default function AddEditTask({ isEdit, ...props }) {
     setTaskDetail((prevValue) => {
       return {
         ...prevValue,
-        subtasks: { ...prevValue.subtasks, [name]: { title: "", isCompleted: false } },
+        subtasks: { ...prevValue.subtasks, [name]: { content: "", isCompleted: false } },
       };
     });
   }
@@ -87,7 +87,7 @@ export default function AddEditTask({ isEdit, ...props }) {
       setTaskDetail((prevValue) => {
         return {
           ...prevValue,
-          subtasks: { ...prevValue.subtasks, [name]: { title: value, isCompleted: false } },
+          subtasks: { ...prevValue.subtasks, [name]: { content: value, isCompleted: false } },
         };
       });
     } else {
@@ -112,8 +112,7 @@ export default function AddEditTask({ isEdit, ...props }) {
       title: props.title ?? "",
       description: props.description ?? "",
       status: props.status ?? defaultStatus,
-      subtasks: { title: "", isCompleted: false },
-      subtask2: { title: "", isCompleted: false },
+      subtasks: { subtask1: { content: "", isCompleted: false }, subtask2: { content: "", isCompleted: false } },
     });
   }
 
@@ -129,8 +128,7 @@ export default function AddEditTask({ isEdit, ...props }) {
       title: props.title ?? "",
       description: props.description ?? "",
       status: props.status ?? defaultStatus,
-      subtasks: { title: "", isCompleted: false },
-      subtask2: { title: "", isCompleted: false },
+      subtasks: { subtask1: { content: "", isCompleted: false }, subtask2: { content: "", isCompleted: false } },
     });
   }
 
@@ -149,7 +147,7 @@ export default function AddEditTask({ isEdit, ...props }) {
       let newSubtasks = {};
       activeSubtasks.forEach((subtask, index) => {
         let name = "subtask" + (index + 1);
-        newSubtasks[name] = { title: subtask.title, isCompleted: subtask.is_completed };
+        newSubtasks[name] = { content: subtask.title, isCompleted: subtask.is_completed };
       });
       setTaskDetail((prevValue) => {
         return {

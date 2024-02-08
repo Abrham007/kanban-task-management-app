@@ -114,7 +114,7 @@ app.post("/task", async (req, res) => {
       for await (const subtask of Object.values(req.body.subtasks)) {
         let newSubtaskResponse = await db.query(
           "INSERT INTO project_subtask (title, is_completed, task_id , column_id, project_id) VALUES ($1, $2, $3, $4, $5) RETURNING *",
-          [subtask.title, subtask.isCompleted, newTaskId, req.body.column_id, req.body.project_id]
+          [subtask.content, subtask.isCompleted, newTaskId, req.body.column_id, req.body.project_id]
         );
         newSubtaskArray.push(newSubtaskResponse.rows[0]);
       }
@@ -142,7 +142,7 @@ app.put("/task/:id", async (req, res) => {
   for await (const subtask of Object.values(req.body.subtasks)) {
     let newSubtaskResponse = await db.query(
       "INSERT INTO project_subtask (title, is_completed, task_id , column_id, project_id) VALUES ($1, $2, $3, $4, $5) RETURNING *",
-      [subtask.title, subtask.isCompleted, req.params.id, req.body.column_id, req.body.project_id]
+      [subtask.content, subtask.isCompleted, req.params.id, req.body.column_id, req.body.project_id]
     );
     updatedSubtaskArray.push(newSubtaskResponse.rows[0]);
   }
