@@ -7,8 +7,9 @@ import addIcon from "../assets/icon-add-task-mobile.svg";
 import mobileLogo from "../assets/logo-mobile.svg";
 import lightLogo from "../assets/logo-light.svg";
 import darkLogo from "../assets/logo-dark.svg";
-import { useContext, useEffect, useRef } from "react";
-import { DataContext, SideBarContext } from "../MyContext";
+import { useContext, useEffect, useRef, useState } from "react";
+import { DataContext } from "../store/DataContext";
+import { SideBarContext } from "../store/SideBarContext";
 import { ThemeContext } from "styled-components";
 import EllipsisButton from "./EllipsisButton";
 import AddEditTask from "./AddEditTask";
@@ -130,9 +131,10 @@ const HeaderBtn = styled(Button)`
 `;
 
 export default function Header() {
-  const taskDialog = useRef();
-  const boardDialog = useRef();
-  const deleteDialog = useRef();
+  const [isAddEditBoardOpen, setAddEditBoardOpen] = useState(false);
+  const [isAddEditTaskOpen, setAddEditTaskOpen] = useState(false);
+  const [isDeleteMessageOpen, setDeleteMessageOpen] = useState(false);
+
   const { isSideBarHidden, handleSideBarHidden } = useContext(SideBarContext);
   const { projectArray, columnArray, selectedProjectId } = useContext(DataContext);
   const activeBoard = projectArray?.find((project) => project.id === selectedProjectId);
@@ -142,15 +144,15 @@ export default function Header() {
   const themeContext = useContext(ThemeContext);
 
   function handleModalTaskCreate() {
-    taskDialog.current.open();
+    setAddEditTaskOpen(true);
   }
 
   function handleModalBoardEdit() {
-    boardDialog.current.open();
+    setAddEditBoardOpen(true);
   }
 
   function handleModalDelete() {
-    deleteDialog.current.open();
+    setDeleteMessageOpen(true);
   }
 
   return (
@@ -176,11 +178,15 @@ export default function Header() {
           ></EllipsisButton>
         </div>
       </StyledHeader>
-      <Modal ref={taskDialog}>{!isEmptyColumn && <AddEditTask></AddEditTask>}</Modal>
-      <Modal ref={boardDialog}>
+      <Modal isOpen={isAddEditTaskOpen} setIsOpen={setAddEditTaskOpen}>
+        {!isEmptyColumn && <AddEditTask></AddEditTask>}
+      </Modal>
+      <Modal isOpen={isAddEditBoardOpen} setIsOpen={setAddEditBoardOpen}>
         <AddEditBoard isEdit={true}></AddEditBoard>
       </Modal>
-      <Modal ref={deleteDialog}>{projectArray.length !== 0 && <DeleteMessage></DeleteMessage>}</Modal>
+      <Modal isOpen={isDeleteMessageOpen} setIsOpen={setDeleteMessageOpen}>
+        {projectArray.length !== 0 && <DeleteMessage></DeleteMessage>}
+      </Modal>
     </>
   );
 }

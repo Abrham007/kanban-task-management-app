@@ -3,7 +3,7 @@ import InputTextField from "./InputTextField";
 import Button from "./Button";
 import InputContainer from "./InputContainer";
 import { useContext, useEffect, useState } from "react";
-import { DataContext } from "../MyContext";
+import { DataContext } from "../store/DataContext";
 
 const StyledAddEditBoard = styled.div`
   width: 100%;

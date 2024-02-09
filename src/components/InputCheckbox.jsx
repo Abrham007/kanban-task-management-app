@@ -51,10 +51,14 @@ const CheckBoxText = styled.span`
     background: #fff;
   }
 `;
-export default function InputCheckBox({ children, isChecked, ...props }) {
+export default function InputCheckBox({ children, isChecked, id, onChange, ...props }) {
+  function handleChecked() {
+    console.log(id);
+    onChange(id);
+  }
   return (
     <CheckBoxLabel {...props}>
-      <CheckBoxInput defaultChecked={isChecked}></CheckBoxInput>
+      <CheckBoxInput defaultChecked={isChecked} onChange={handleChecked}></CheckBoxInput>
       <CheckBoxText>{children}</CheckBoxText>
     </CheckBoxLabel>
   );
