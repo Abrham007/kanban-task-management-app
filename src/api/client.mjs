@@ -75,3 +75,16 @@ export async function removeTask(id) {
   const deletedTaskId = response.json();
   return deletedTaskId;
 }
+
+export async function updateDetail(task) {
+  const response = await fetch(`http://localhost:4000/detail`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(task),
+  });
+
+  const updatedDetailArray = response.json();
+  return updatedDetailArray;
+}

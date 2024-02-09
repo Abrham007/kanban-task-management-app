@@ -5,9 +5,30 @@ import EllipsisButton from "./EllipsisButton";
 import AddEditTask from "./AddEditTask";
 import DeleteMessage from "./DeleteMessage";
 import Modal from "./Modal";
-import { useRef } from "react";
+import { DataContext } from "../store/DataContext";
 
-const StyledTaskDetail = styled.div`
+import { devices } from "../utils/devices";
+import { forwardRef, useImperativeHandle, useContext, useRef, useState, useEffect } from "react";
+import { createPortal } from "react-dom";
+
+export const StyledTaskDetail = styled.dialog`
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 480px;
+  height: max-content;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+  padding: 32px;
+  overflow: visible;
+
+  &::backdrop {
+    opacity: 0.5;
+    background: #000;
+  }
+
   & > * {
     margin-bottom: 24px;
   }
@@ -27,6 +48,11 @@ const StyledTaskDetail = styled.div`
     font-size: 0.8125rem;
     font-weight: 500;
     line-height: 1.4375rem;
+  }
+
+  @media ${devices.mobile} {
+    width: 343px;
+    padding: 24px;
   }
 `;
 
@@ -57,9 +83,27 @@ const TaskDetailDropdown = styled.label`
   gap: 8px;
 `;
 
-export default function TaskDetail(props) {
+const TaskDetail = forwardRef(function TaskDetail(props, ref) {
+  const [taskDetail, setTaskDetail] = useState({
+    subtasks: props.activeSubtaskList,
+    status: props.status,
+  });
+  const { projectArray, columnArray, selectedProjectId, editDetail } = useContext(DataContext);
+  const activeProject = projectArray.find((project) => project.id === selectedProjectId);
+  const activeProjectColumns = columnArray.filter((col) => col.project_id === activeProject.id);
+  let numOfFinishedTasks = taskDetail.subtasks.filter((subtask) => subtask.is_completed === true).length;
+
   const editDialog = useRef();
   const deleteDialog = useRef();
+  const taskDetaildialog = useRef();
+
+  useImperativeHandle(ref, () => {
+    return {
+      open() {
+        taskDetaildialog.current.showModal();
+      },
+    };
+  });
 
   function handleEditModalOpen() {
     editDialog.current.open();
@@ -68,9 +112,57 @@ export default function TaskDetail(props) {
   function handleDeleteModalOpen() {
     deleteDialog.current.open();
   }
+
+  function handleStatusChange(name, value) {
+    setTaskDetail((prevValue) => {
+      return {
+        ...prevValue,
+        status: value,
+      };
+    });
+  }
+
+  function handleSubtaskChange(id) {
+    setTaskDetail((prevValue) => {
+      let tempSubtasks = [...prevValue.subtasks];
+      let currentSubtaskIndex = tempSubtasks.findIndex((subTask) => subTask.id === id);
+      let currentSubtask = tempSubtasks[currentSubtaskIndex];
+      let newSubtask;
+      if (currentSubtask.is_completed) {
+        newSubtask = { ...currentSubtask, is_completed: false };
+      } else {
+        newSubtask = { ...currentSubtask, is_completed: true };
+      }
+      tempSubtasks[currentSubtaskIndex] = newSubtask;
+
+      return {
+        ...prevValue,
+        subtasks: tempSubtasks,
+      };
+    });
+  }
+
+  function handleTaskDetailClose() {
+    const columnOfTask = activeProjectColumns.find((col) => col.name === taskDetail.status);
+
+    let detail = {
+      ...taskDetail,
+      task_id: props.id,
+      column_id: columnOfTask.id,
+    };
+    editDetail(detail);
+  }
+
+  useEffect(() => {
+    setTaskDetail({
+      subtasks: props.activeSubtaskList,
+      status: props.status,
+    });
+  }, [props.status, props.activeSubtaskList]);
+
   return (
     <>
-      <StyledTaskDetail>
+      <StyledTaskDetail ref={taskDetaildialog} onClose={handleTaskDetailClose}>
         <TaskDetailHeader>
           <h3>{props.title}</h3>
           <EllipsisButton
@@ -82,11 +174,16 @@ export default function TaskDetail(props) {
         <p>{props.description}</p>
         <TaskDetailCheckbox>
           <span>
-            Subtasks ({props.numOfFinishedTasks} of {props.activeSubtaskList.length})
+            Subtasks ({numOfFinishedTasks} of {taskDetail.subtasks.length})
           </span>
           <div role="presentation">
-            {props.activeSubtaskList.map((subtask) => (
-              <InputCheckBox key={subtask.id} isChecked={subtask.isCompleted}>
+            {taskDetail.subtasks.map((subtask) => (
+              <InputCheckBox
+                key={subtask.id}
+                id={subtask.id}
+                isChecked={subtask.is_completed}
+                onChange={handleSubtaskChange}
+              >
                 {subtask.title}
               </InputCheckBox>
             ))}
@@ -94,7 +191,7 @@ export default function TaskDetail(props) {
         </TaskDetailCheckbox>
         <TaskDetailDropdown>
           <span>Current Status</span>
-          <InputDropdown status={props.status}></InputDropdown>
+          <InputDropdown status={taskDetail.status} name="status" onChange={handleStatusChange}></InputDropdown>
         </TaskDetailDropdown>
       </StyledTaskDetail>
       <Modal ref={editDialog}>
@@ -105,4 +202,6 @@ export default function TaskDetail(props) {
       </Modal>
     </>
   );
-}
+});
+
+export default TaskDetail;

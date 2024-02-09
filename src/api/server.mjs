@@ -63,13 +63,13 @@ app.post("/project", async (req, res) => {
 
 app.put("/project/:id", async (req, res) => {
   console.log("sever put project reached");
-  let updatedProjectArray;
+  let updatedProject;
   let updatedColumnArray = [];
   let updatedResponseArray = await db.query("UPDATE project SET name = ($1) WHERE id = ($2) RETURNING *", [
     req.body.projectName,
     req.params.id,
   ]);
-  updatedProjectArray = updatedResponseArray.rows;
+  updatedProject = updatedResponseArray.rows[0];
   await db.query("DELETE FROM project_column WHERE project_id = ($1)", [req.params.id]);
 
   for await (const columnName of Object.values(req.body.columnNames)) {
@@ -80,7 +80,7 @@ app.put("/project/:id", async (req, res) => {
     updatedColumnArray.push(newColumnResponse.rows[0]);
   }
 
-  res.json([updatedProjectArray, updatedColumnArray]);
+  res.json([updatedProject, updatedColumnArray]);
 });
 
 app.delete("/project/:id", async (req, res) => {
@@ -88,13 +88,13 @@ app.delete("/project/:id", async (req, res) => {
   const columnResponse = await db.query("DELETE FROM project_column WHERE project_id = ($1)", [req.params.id]);
   const projectResponse = await db.query("DELETE FROM project WHERE id = ($1) RETURNING id", [req.params.id]);
 
-  res.status(200).json(projectResponse.rows);
+  res.status(200).json(projectResponse.rows[0]);
 });
 
 app.get("/task", async (req, res) => {
   console.log("server get task reached");
   let taskArray = (await db.query("SELECT * FROM project_task ORDER BY id ASC")).rows;
-  let subtaskArray = (await db.query("SELECT * FROM project_subtask ORDER BY task_id ASC")).rows;
+  let subtaskArray = (await db.query("SELECT * FROM project_subtask ORDER BY id ASC")).rows;
 
   res.json([taskArray, subtaskArray]);
 });
@@ -136,7 +136,7 @@ app.put("/task/:id", async (req, res) => {
     "UPDATE project_task SET title = $1, description = $2, status = $3, column_id = $4, project_id = $5 WHERE id = $6 RETURNING *",
     [req.body.title, req.body.description, req.body.status, req.body.column_id, req.body.project_id, req.params.id]
   );
-  updatedTaskArray = updatedResponseArray.rows;
+  updatedTaskArray = updatedResponseArray.rows[0];
   await db.query("DELETE FROM project_subtask WHERE task_id = ($1)", [req.params.id]);
 
   for await (const subtask of Object.values(req.body.subtasks)) {
@@ -155,9 +155,31 @@ app.delete("/task/:id", async (req, res) => {
   const subtaskResponse = await db.query("DELETE FROM project_subtask WHERE task_id = ($1)", [req.params.id]);
   const taskResponse = await db.query("DELETE FROM project_task WHERE id = ($1) RETURNING id", [req.params.id]);
 
-  res.status(200).json(taskResponse.rows);
+  res.status(200).json(taskResponse.rows[0]);
 });
 
+app.put("/detail", async (req, res) => {
+  console.log("server put detail reached");
+  let updatedSubtaskArray = [];
+  let updatedTask;
+
+  for await (const subtask of req.body.subtasks) {
+    let subtaskResponse = await db.query("UPDATE project_subtask SET is_completed = $1 WHERE id = $2 RETURNING *", [
+      subtask.is_completed,
+      subtask.id,
+    ]);
+    updatedSubtaskArray.push(subtaskResponse.rows[0]);
+  }
+
+  let taskResponse = await db.query("UPDATE project_task SET status = $1, column_id = $2 WHERE id = $3 RETURNING *", [
+    req.body.status,
+    req.body.column_id,
+    req.body.task_id,
+  ]);
+  updatedTask = taskResponse.rows[0];
+
+  res.json([updatedTask, updatedSubtaskArray]);
+});
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
 });
