@@ -47,7 +47,7 @@ export default function TaskBoard() {
     <>
       <StyledTaskBoard>
         {selectedColumn.map((column, index) => (
-          <TaskColumn key={column.name} index={index} {...column}></TaskColumn>
+          <TaskColumn key={column.id} index={index} {...column}></TaskColumn>
         ))}
         <NewTaskColumn>
           <button onClick={handleOpenModal}>+ New Column</button>
