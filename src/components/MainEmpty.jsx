@@ -2,9 +2,9 @@ import styled from "styled-components";
 import Button from "./Button";
 import { devices } from "../utils/devices";
 import Modal from "./Modal";
-import AddBoard from "./AddBoard";
-import AddEditTask from "./AddEditTask";
-import { useRef, useState } from "react";
+import EditBoard from "./EditBoard";
+import AddEditTask from "./AddTask";
+import { useState } from "react";
 
 const StyledMainEmpty = styled.div`
   display: flex;
@@ -33,29 +33,22 @@ const Paragraph = styled.p`
 `;
 
 export default function MainEmpty({ isEmptyBoard, isEmptyColumn }) {
-  const [isAddEditBoardOpen, setAddEditBoardOpen] = useState(false);
-  const [isAddEditTaskOpen, setAddEditTaskOpen] = useState(false);
+  const [isEditBoardOpen, setEditBoardOpen] = useState(false);
 
   function handleOpenBoardModal() {
-    setAddEditBoardOpen(true);
-  }
-  function handleOpenTaskModal() {
-    setAddEditTaskOpen(true);
+    setEditBoardOpen(true);
   }
 
   let message = "";
   let btnText = "";
-  let btnFunction;
 
   if (isEmptyBoard) {
     message = "Create a new board to get started.";
     btnText = "+ Create New Board";
-    btnFunction = handleOpenBoardModal;
   } else {
     if (isEmptyColumn) {
       message = "This board is empty. Create a new column to get started.";
       btnText = "+ Add New Column";
-      btnFunction = handleOpenTaskModal;
     }
   }
 
@@ -63,15 +56,12 @@ export default function MainEmpty({ isEmptyBoard, isEmptyColumn }) {
     <>
       <StyledMainEmpty>
         <Paragraph>{message}</Paragraph>
-        <Button type={"primary"} size="large" onClick={btnFunction}>
+        <Button type={"primary"} size="large" onClick={handleOpenBoardModal}>
           {btnText}
         </Button>
       </StyledMainEmpty>
-      <Modal isOpen={isAddEditBoardOpen} setIsOpen={setAddEditBoardOpen}>
-        <AddBoard></AddBoard>
-      </Modal>
-      <Modal isOpen={isAddEditTaskOpen} setIsOpen={setAddEditTaskOpen}>
-        {!isEmptyColumn && <AddEditTask></AddEditTask>}
+      <Modal isOpen={isEditBoardOpen} setIsOpen={setEditBoardOpen}>
+        <EditBoard></EditBoard>
       </Modal>
     </>
   );

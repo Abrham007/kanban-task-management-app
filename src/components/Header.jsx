@@ -7,12 +7,12 @@ import addIcon from "../assets/icon-add-task-mobile.svg";
 import mobileLogo from "../assets/logo-mobile.svg";
 import lightLogo from "../assets/logo-light.svg";
 import darkLogo from "../assets/logo-dark.svg";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useState } from "react";
 import { DataContext } from "../store/DataContext";
 import { SideBarContext } from "../store/SideBarContext";
 import { ThemeContext } from "styled-components";
 import EllipsisButton from "./EllipsisButton";
-import AddEditTask from "./AddEditTask";
+import AddTask from "./AddTask";
 import EditBoard from "./EditBoard";
 import DeleteMessage from "./DeleteMessage";
 import Modal from "./Modal";
@@ -134,12 +134,11 @@ export default function Header() {
   const [isAddEditBoardOpen, setAddEditBoardOpen] = useState(false);
   const [isAddEditTaskOpen, setAddEditTaskOpen] = useState(false);
   const [isDeleteMessageOpen, setDeleteMessageOpen] = useState(false);
-
   const { isSideBarHidden, handleSideBarHidden } = useContext(SideBarContext);
   const { projectArray, columnArray, selectedProjectId } = useContext(DataContext);
   const activeBoard = projectArray?.find((project) => project.id === selectedProjectId);
   const activeBoardColumns = columnArray.filter((col) => col.project_id === activeBoard.id);
-  const isEmptyColumn = !activeBoardColumns ?? activeBoardColumns.length === 0;
+  const isEmptyColumn = activeBoardColumns.length === 0;
   const activeBoardName = activeBoard?.name ?? "";
   const themeContext = useContext(ThemeContext);
 
@@ -179,13 +178,13 @@ export default function Header() {
         </div>
       </StyledHeader>
       <Modal isOpen={isAddEditTaskOpen} setIsOpen={setAddEditTaskOpen}>
-        {!isEmptyColumn && <AddEditTask></AddEditTask>}
+        <AddTask></AddTask>
       </Modal>
       <Modal isOpen={isAddEditBoardOpen} setIsOpen={setAddEditBoardOpen}>
         <EditBoard></EditBoard>
       </Modal>
       <Modal isOpen={isDeleteMessageOpen} setIsOpen={setDeleteMessageOpen}>
-        {projectArray.length !== 0 && <DeleteMessage></DeleteMessage>}
+        <DeleteMessage></DeleteMessage>
       </Modal>
     </>
   );

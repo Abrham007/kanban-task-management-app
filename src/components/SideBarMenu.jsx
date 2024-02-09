@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { devices } from "../utils/devices";
 import IconBoard from "./IconBoard";
-import { useContext, useRef, useState } from "react";
+import { useContext, useState } from "react";
 import { DataContext } from "../store/DataContext";
 import AddBoard from "./AddBoard";
 import Modal from "./Modal";

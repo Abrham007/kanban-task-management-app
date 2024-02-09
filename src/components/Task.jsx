@@ -39,7 +39,6 @@ export default function Task(props) {
   const { subtaskArray } = useContext(DataContext);
   const activeSubtaskList = subtaskArray.filter((subtask) => subtask.task_id === props.id);
   const numOfFinishedTasks = activeSubtaskList.filter((subtask) => subtask.is_completed).length;
-  const taskModal = useRef(null);
 
   function handleOpenModal() {
     setIsDetailOpen(true);

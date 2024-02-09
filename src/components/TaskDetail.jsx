@@ -2,13 +2,12 @@ import styled from "styled-components";
 import InputCheckBox from "./InputCheckBox";
 import InputDropdown from "./InputDropdown";
 import EllipsisButton from "./EllipsisButton";
-import AddEditTask from "./AddEditTask";
+import EditTask from "./EditTask";
 import DeleteMessage from "./DeleteMessage";
 import Modal from "./Modal";
 import { DataContext } from "../store/DataContext";
-
 import { devices } from "../utils/devices";
-import { forwardRef, useImperativeHandle, useContext, useRef, useState, useEffect } from "react";
+import { useContext, useRef, useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 
 export const StyledTaskDetail = styled.dialog`
@@ -157,7 +156,7 @@ export default function TaskDetail(props) {
     props.handleCloseModal();
   }
 
-  return (
+  return createPortal(
     <>
       <StyledTaskDetail ref={taskDetaildialog} onClose={handleTaskDetailClose}>
         <TaskDetailHeader>
@@ -192,11 +191,12 @@ export default function TaskDetail(props) {
         </TaskDetailDropdown>
       </StyledTaskDetail>
       <Modal isOpen={isAddEditTaskOpen} setIsOpen={setAddEditTaskOpen}>
-        <AddEditTask isEdit={true} {...props}></AddEditTask>
+        <EditTask {...props}></EditTask>
       </Modal>
       <Modal isOpen={isDeleteMessageOpen} setIsOpen={setDeleteMessageOpen}>
         <DeleteMessage purpose="task" title={props.title} task_id={props.id}></DeleteMessage>
       </Modal>
-    </>
+    </>,
+    document.getElementById("modal")
   );
 }

@@ -2,7 +2,7 @@ import styled from "styled-components";
 import InputTextField from "./InputTextField";
 import Button from "./Button";
 import InputContainer from "./InputContainer";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { DataContext } from "../store/DataContext";
 
 const StyledEditBoard = styled.div`
