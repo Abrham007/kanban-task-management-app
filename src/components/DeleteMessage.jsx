@@ -35,22 +35,25 @@ const StyledDeleteMessage = styled.div`
 export default function DeleteMessage({ purpose = "board", title, task_id }) {
   const { projectArray, selectedProjectId, deleteProject, deleteTask } = useContext(DataContext);
   let activeBoard = projectArray.find((project) => project.id === selectedProjectId);
+  let header;
   let message;
   let destructiveBtnFunction;
 
   if (purpose === "board") {
     activeBoard = projectArray.find((project) => project.id === selectedProjectId);
+    header = "Delete this board?";
     message = `Are you sure you want to delete the ‘${activeBoard.name}’ board? This action will remove all columns and tasks
   and cannot be reversed.`;
     destructiveBtnFunction = () => deleteProject(activeBoard.id);
   } else if (purpose === "task") {
+    header = "Delete this task?";
     message = `Are you sure you want to delete the ‘${title}’ task and its subtasks? This action cannot be reversed.`;
     destructiveBtnFunction = () => deleteTask(task_id);
   }
 
   return (
     <StyledDeleteMessage>
-      <h3>{purpose === "board" ? "Delete this board?" : "Delete this task?"}</h3>
+      <h3>{header}</h3>
       <p>{message}</p>
 
       <form method="dialog">
