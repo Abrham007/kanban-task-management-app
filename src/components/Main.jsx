@@ -2,7 +2,8 @@ import styled, { css } from "styled-components";
 import MainEmpty from "./MainEmpty";
 import { devices } from "../utils/devices";
 import { useContext } from "react";
-import { SideBarContext, DataContext } from "../MyContext";
+import { DataContext } from "../store/DataContext";
+import { SideBarContext } from "../store/SideBarContext";
 import TaskBoard from "./TaskBoard";
 
 export const StyledMain = styled.main`

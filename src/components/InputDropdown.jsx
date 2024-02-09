@@ -2,7 +2,7 @@ import styled from "styled-components";
 import downIcon from "../assets/icon-chevron-down.svg";
 import upIcon from "../assets/icon-chevron-up.svg";
 import { useContext, useEffect, useState } from "react";
-import { DataContext } from "../MyContext";
+import { DataContext } from "../store/DataContext";
 
 export const Dropdown = styled.div`
   position: relative;

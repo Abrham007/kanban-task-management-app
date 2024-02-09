@@ -4,7 +4,7 @@ import { devices } from "../utils/devices";
 import Modal from "./Modal";
 import AddEditBoard from "./AddEditBoard";
 import AddEditTask from "./AddEditTask";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 const StyledMainEmpty = styled.div`
   display: flex;
@@ -33,14 +33,14 @@ const Paragraph = styled.p`
 `;
 
 export default function MainEmpty({ isEmptyBoard, isEmptyColumn }) {
-  const boardDialog = useRef();
-  const taskDialog = useRef();
+  const [isAddEditBoardOpen, setAddEditBoardOpen] = useState(false);
+  const [isAddEditTaskOpen, setAddEditTaskOpen] = useState(false);
 
   function handleOpenBoardModal() {
-    boardDialog.current.open();
+    setAddEditBoardOpen(true);
   }
   function handleOpenTaskModal() {
-    taskDialog.current.open();
+    setAddEditTaskOpen(true);
   }
 
   let message = "";
@@ -67,10 +67,12 @@ export default function MainEmpty({ isEmptyBoard, isEmptyColumn }) {
           {btnText}
         </Button>
       </StyledMainEmpty>
-      <Modal ref={boardDialog}>
+      <Modal isOpen={isAddEditBoardOpen} setIsOpen={setAddEditBoardOpen}>
         <AddEditBoard></AddEditBoard>
       </Modal>
-      <Modal ref={taskDialog}>{!isEmptyColumn && <AddEditTask></AddEditTask>}</Modal>
+      <Modal isOpen={isAddEditTaskOpen} setIsOpen={setAddEditTaskOpen}>
+        {!isEmptyColumn && <AddEditTask></AddEditTask>}
+      </Modal>
     </>
   );
 }

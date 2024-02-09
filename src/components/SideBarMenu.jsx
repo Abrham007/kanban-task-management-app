@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import { devices } from "../utils/devices";
 import IconBoard from "./IconBoard";
-import { useContext, useRef } from "react";
-import { DataContext } from "../MyContext";
+import { useContext, useRef, useState } from "react";
+import { DataContext } from "../store/DataContext";
+
 import AddEditBoard from "./AddEditBoard";
 import Modal from "./Modal";
 
@@ -99,10 +100,10 @@ const CreateBtn = styled(MenuBtn)`
 `;
 
 export default function SideBarMenu() {
-  const dialog = useRef();
+  const [isAddEditBoardOpen, setAddEditBoardOpen] = useState(false);
   const { selectedProjectId, projectArray, selectNewProject } = useContext(DataContext);
   function handleOpenModal() {
-    dialog.current.open();
+    setAddEditBoardOpen(true);
   }
   return (
     <>
@@ -125,7 +126,7 @@ export default function SideBarMenu() {
           </li>
         </Menu>
       </StyledSideBarMenu>
-      <Modal ref={dialog}>
+      <Modal isOpen={isAddEditBoardOpen} setIsOpen={setAddEditBoardOpen}>
         <AddEditBoard></AddEditBoard>
       </Modal>
     </>

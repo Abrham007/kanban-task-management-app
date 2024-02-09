@@ -6,7 +6,8 @@ import darkTheme from "../assets/icon-dark-theme.svg";
 import showIcon from "../assets/icon-show-sidebar.svg";
 import { useTheme } from "../theme/useTheme";
 import { useContext } from "react";
-import { SideBarContext } from "../MyContext";
+
+import { SideBarContext } from "../store/SideBarContext";
 import { ThemeContext } from "styled-components";
 import { getFromLS } from "../utils/storage";
 import { devices } from "../utils/devices";
