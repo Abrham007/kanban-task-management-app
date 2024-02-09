@@ -30,7 +30,7 @@ const StyledAddEditTask = styled.div`
   }
 `;
 
-export default function AddEditTask({ isEdit, ...props }) {
+export default function EditTask({ isEdit, ...props }) {
   const { projectArray, columnArray, selectedProjectId, taskArray, subtaskArray, addTask, editTask } =
     useContext(DataContext);
   const activeProject = projectArray.find((project) => project.id === selectedProjectId);
