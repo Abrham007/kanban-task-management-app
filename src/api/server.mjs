@@ -70,15 +70,27 @@ app.put("/project/:id", async (req, res) => {
     req.params.id,
   ]);
   updatedProject = updatedResponseArray.rows[0];
-  await db.query("DELETE FROM project_column WHERE project_id = ($1)", [req.params.id]);
 
-  for await (const columnName of Object.values(req.body.columnNames)) {
+  let projecColumnList = (await db.query("SELECT * FROM project_column WHERE project_id = $1", [req.params.id])).rows;
+  let projectColumnIds = projecColumnList.map((col) => col.id);
+  let currentColumnList = Object.values(req.body.columnNames);
+  let currentColumnIds = currentColumnList.map((col) => col.id);
+
+  for await (const projectColumnId of projectColumnIds) {
+    if (!currentColumnIds.includes(projectColumnId)) {
+      await db.query("DELETE FROM project_column WHERE id = $1", [projectColumnId]);
+    }
+  }
+
+  for await (const columnName of currentColumnList) {
     let newColumnResponse = await db.query(
-      "INSERT INTO project_column (name, project_id) VALUES ($1, $2) RETURNING *",
-      [columnName, req.params.id]
+      "INSERT INTO project_column (id, name, project_id) VALUES ($1, $2, $3) ON CONFLICT(id) DO UPDATE SET name = EXCLUDED.name RETURNING *",
+      [columnName.id, columnName.name, req.params.id]
     );
     updatedColumnArray.push(newColumnResponse.rows[0]);
   }
+
+  console.log([updatedProject, updatedColumnArray]);
 
   res.json([updatedProject, updatedColumnArray]);
 });
