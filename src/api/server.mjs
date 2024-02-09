@@ -71,14 +71,14 @@ app.put("/project/:id", async (req, res) => {
   ]);
   updatedProject = updatedResponseArray.rows[0];
 
-  let projecColumnList = (await db.query("SELECT * FROM project_column WHERE project_id = $1", [req.params.id])).rows;
-  let projectColumnIds = projecColumnList.map((col) => col.id);
+  let sourceColumnList = (await db.query("SELECT * FROM project_column WHERE project_id = $1", [req.params.id])).rows;
+  let sourceColumnIds = sourceColumnList.map((col) => col.id);
   let currentColumnList = Object.values(req.body.columnNames);
   let currentColumnIds = currentColumnList.map((col) => col.id);
 
-  for await (const projectColumnId of projectColumnIds) {
-    if (!currentColumnIds.includes(projectColumnId)) {
-      await db.query("DELETE FROM project_column WHERE id = $1", [projectColumnId]);
+  for await (const sourceColumnId of sourceColumnIds) {
+    if (!currentColumnIds.includes(sourceColumnId)) {
+      await db.query("DELETE FROM project_column WHERE id = $1", [sourceColumnId]);
     }
   }
 
@@ -147,12 +147,22 @@ app.put("/task/:id", async (req, res) => {
     [req.body.title, req.body.description, req.body.status, req.body.column_id, req.body.project_id, req.params.id]
   );
   updatedTaskArray = updatedResponseArray.rows[0];
-  await db.query("DELETE FROM project_subtask WHERE task_id = ($1)", [req.params.id]);
 
-  for await (const subtask of Object.values(req.body.subtasks)) {
+  let sourceSubtaskList = (await db.query("SELECT * FROM project_subtask WHERE task_id = $1", [req.params.id])).rows;
+  let sourceSubtaskIds = sourceSubtaskList.map((substask) => substask.id);
+  let currentSubtaskList = Object.values(req.body.subtasks);
+  let currentSubtaskIds = currentSubtaskList.map((substask) => substask.id);
+
+  for await (const sourceSubtaskId of sourceSubtaskIds) {
+    if (!currentSubtaskIds.includes(sourceSubtaskId)) {
+      await db.query("DELETE FROM project_subtask WHERE id = $1", [sourceSubtaskId]);
+    }
+  }
+
+  for await (const subtask of currentSubtaskList) {
     let newSubtaskResponse = await db.query(
-      "INSERT INTO project_subtask (title, is_completed, task_id , column_id, project_id) VALUES ($1, $2, $3, $4, $5) RETURNING *",
-      [subtask.content, subtask.isCompleted, req.params.id, req.body.column_id, req.body.project_id]
+      "INSERT INTO project_subtask (id, title, is_completed, task_id , column_id, project_id) VALUES ($1, $2, $3, $4, $5, $6)  ON CONFLICT(id) DO UPDATE SET title = EXCLUDED.title, is_completed = EXCLUDED.is_completed RETURNING *",
+      [subtask.id, subtask.content, subtask.isCompleted, req.params.id, req.body.column_id, req.body.project_id]
     );
     updatedSubtaskArray.push(newSubtaskResponse.rows[0]);
   }
