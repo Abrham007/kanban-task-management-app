@@ -12,6 +12,7 @@ import { CheckBoxLabel } from "../components/InputCheckBox";
 import { TextField } from "../components/InputTextField";
 import { Dropdown } from "../components/InputDropdown";
 import { StyledModal } from "../components/Modal";
+import { StyledTaskDetail } from "../components/TaskDetail";
 
 export const GlobalStyles = createGlobalStyle`
   * {
@@ -25,7 +26,7 @@ export const GlobalStyles = createGlobalStyle`
     
   }
 
-  ${StyledModal}{
+  ${StyledModal}, ${StyledTaskDetail}{
     background-color: ${({ theme }) => theme.colors.modal.background};
     h3 {
       color: ${({ theme }) => theme.colors.modal.header};

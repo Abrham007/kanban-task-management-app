@@ -2,7 +2,7 @@ import styled from "styled-components";
 import TaskList from "./TaskList";
 import IconCircle from "./IconCircle";
 import { useContext } from "react";
-import { DataContext } from "../MyContext";
+import { DataContext } from "../store/DataContext";
 
 const StyledTaskColumn = styled.section`
   flex-shrink: 0;

@@ -83,34 +83,37 @@ const TaskDetailDropdown = styled.label`
   gap: 8px;
 `;
 
-const TaskDetail = forwardRef(function TaskDetail(props, ref) {
+export default function TaskDetail(props) {
+  const { projectArray, columnArray, subtaskArray, selectedProjectId, editDetail } = useContext(DataContext);
+  const activeSubtaskList = subtaskArray.filter((subtask) => subtask.task_id === props.id);
+
+  const [isAddEditTaskOpen, setAddEditTaskOpen] = useState(false);
+  const [isDeleteMessageOpen, setDeleteMessageOpen] = useState(false);
   const [taskDetail, setTaskDetail] = useState({
-    subtasks: props.activeSubtaskList,
+    subtasks: activeSubtaskList,
     status: props.status,
   });
-  const { projectArray, columnArray, selectedProjectId, editDetail } = useContext(DataContext);
+
   const activeProject = projectArray.find((project) => project.id === selectedProjectId);
   const activeProjectColumns = columnArray.filter((col) => col.project_id === activeProject.id);
   let numOfFinishedTasks = taskDetail.subtasks.filter((subtask) => subtask.is_completed === true).length;
 
-  const editDialog = useRef();
-  const deleteDialog = useRef();
   const taskDetaildialog = useRef();
 
-  useImperativeHandle(ref, () => {
-    return {
-      open() {
-        taskDetaildialog.current.showModal();
-      },
-    };
-  });
+  useEffect(() => {
+    if (props.isDetailOpen) {
+      taskDetaildialog.current.showModal();
+    } else {
+      taskDetaildialog.current.close();
+    }
+  }, [props.isDetailOpen]);
 
   function handleEditModalOpen() {
-    editDialog.current.open();
+    setAddEditTaskOpen(true);
   }
 
   function handleDeleteModalOpen() {
-    deleteDialog.current.open();
+    setDeleteMessageOpen(true);
   }
 
   function handleStatusChange(name, value) {
@@ -151,14 +154,8 @@ const TaskDetail = forwardRef(function TaskDetail(props, ref) {
       column_id: columnOfTask.id,
     };
     editDetail(detail);
+    props.handleCloseModal();
   }
-
-  useEffect(() => {
-    setTaskDetail({
-      subtasks: props.activeSubtaskList,
-      status: props.status,
-    });
-  }, [props.status, props.activeSubtaskList]);
 
   return (
     <>
@@ -194,14 +191,12 @@ const TaskDetail = forwardRef(function TaskDetail(props, ref) {
           <InputDropdown status={taskDetail.status} name="status" onChange={handleStatusChange}></InputDropdown>
         </TaskDetailDropdown>
       </StyledTaskDetail>
-      <Modal ref={editDialog}>
+      <Modal isOpen={isAddEditTaskOpen} setIsOpen={setAddEditTaskOpen}>
         <AddEditTask isEdit={true} {...props}></AddEditTask>
       </Modal>
-      <Modal ref={deleteDialog}>
+      <Modal isOpen={isDeleteMessageOpen} setIsOpen={setDeleteMessageOpen}>
         <DeleteMessage purpose="task" title={props.title} task_id={props.id}></DeleteMessage>
       </Modal>
     </>
   );
-});
-
-export default TaskDetail;
+}

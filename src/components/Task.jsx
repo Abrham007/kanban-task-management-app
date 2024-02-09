@@ -1,9 +1,8 @@
 import styled from "styled-components";
 import TaskDetail from "./TaskDetail";
-import { useRef } from "react";
-import Modal from "./Modal";
+import { useRef, useState } from "react";
 import { useContext } from "react";
-import { DataContext } from "../MyContext";
+import { DataContext } from "../store/DataContext";
 
 export const StyledTask = styled.button`
   display: flex;
@@ -36,29 +35,36 @@ export const StyledTask = styled.button`
 `;
 
 export default function Task(props) {
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
   const { subtaskArray } = useContext(DataContext);
   const activeSubtaskList = subtaskArray.filter((subtask) => subtask.task_id === props.id);
   const numOfFinishedTasks = activeSubtaskList.filter((subtask) => subtask.is_completed).length;
-  const taskModal = useRef();
+  const taskModal = useRef(null);
 
-  function openModal() {
-    taskModal.current.open();
+  function handleOpenModal() {
+    setIsDetailOpen(true);
+  }
+
+  function handleCloseModal() {
+    setIsDetailOpen(false);
   }
   return (
     <>
-      <StyledTask onClick={openModal}>
+      <StyledTask onClick={handleOpenModal}>
         <h3>{props.title}</h3>
         <p>
           {numOfFinishedTasks} of {activeSubtaskList.length} substasks
         </p>
       </StyledTask>
-      <Modal ref={taskModal} child="TaskDetail">
+
+      {isDetailOpen && (
         <TaskDetail
           {...props}
-          activeSubtaskList={activeSubtaskList}
+          isDetailOpen={isDetailOpen}
+          handleCloseModal={handleCloseModal}
           numOfFinishedTasks={numOfFinishedTasks}
         ></TaskDetail>
-      </Modal>
+      )}
     </>
   );
 }

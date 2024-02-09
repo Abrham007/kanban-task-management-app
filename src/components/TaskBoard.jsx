@@ -1,7 +1,9 @@
 import styled from "styled-components";
 import TaskColumn from "./TaskColumn";
 import { useContext } from "react";
-import { DataContext } from "../MyContext";
+import { DataContext } from "../store/DataContext";
+import Modal from "./Modal";
+import AddEditBoard from "./AddEditBoard";
 
 const StyledTaskBoard = styled.div`
   min-height: 100%;
@@ -37,13 +39,15 @@ export default function TaskBoard() {
   const activeBoard = projectArray.find((project) => project.id === selectedProjectId);
   const selectedColumn = columnArray.filter((col) => col.project_id === activeBoard.id);
   return (
-    <StyledTaskBoard>
-      {selectedColumn.map((column, index) => (
-        <TaskColumn key={column.name} index={index} {...column}></TaskColumn>
-      ))}
-      <NewTaskColumn>
-        <button>+ New Column</button>
-      </NewTaskColumn>
-    </StyledTaskBoard>
+    <>
+      <StyledTaskBoard>
+        {selectedColumn.map((column, index) => (
+          <TaskColumn key={column.name} index={index} {...column}></TaskColumn>
+        ))}
+        <NewTaskColumn>
+          <button>+ New Column</button>
+        </NewTaskColumn>
+      </StyledTaskBoard>
+    </>
   );
 }

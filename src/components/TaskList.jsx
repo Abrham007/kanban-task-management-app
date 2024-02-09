@@ -11,7 +11,7 @@ export default function TaskList({ tasks }) {
   return (
     <StyledTaskList>
       {tasks.map((task) => (
-        <Task key={task.title} {...task}></Task>
+        <Task key={task.id} {...task}></Task>
       ))}
     </StyledTaskList>
   );
