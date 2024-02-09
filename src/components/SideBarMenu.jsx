@@ -3,8 +3,7 @@ import { devices } from "../utils/devices";
 import IconBoard from "./IconBoard";
 import { useContext, useRef, useState } from "react";
 import { DataContext } from "../store/DataContext";
-
-import AddEditBoard from "./AddEditBoard";
+import AddBoard from "./AddBoard";
 import Modal from "./Modal";
 
 const StyledSideBarMenu = styled.div`
@@ -127,7 +126,7 @@ export default function SideBarMenu() {
         </Menu>
       </StyledSideBarMenu>
       <Modal isOpen={isAddEditBoardOpen} setIsOpen={setAddEditBoardOpen}>
-        <AddEditBoard></AddEditBoard>
+        <AddBoard></AddBoard>
       </Modal>
     </>
   );

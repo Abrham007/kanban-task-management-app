@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import TaskColumn from "./TaskColumn";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { DataContext } from "../store/DataContext";
 import Modal from "./Modal";
-import AddEditBoard from "./AddEditBoard";
+import EditBoard from "./EditBoard";
 
 const StyledTaskBoard = styled.div`
   min-height: 100%;
@@ -35,9 +35,14 @@ export const NewTaskColumn = styled.section`
   }
 `;
 export default function TaskBoard() {
+  const [isAddEditBoardOpen, setAddEditBoardOpen] = useState(false);
   const { projectArray, columnArray, selectedProjectId } = useContext(DataContext);
   const activeBoard = projectArray.find((project) => project.id === selectedProjectId);
   const selectedColumn = columnArray.filter((col) => col.project_id === activeBoard.id);
+
+  function handleOpenModal() {
+    setAddEditBoardOpen(true);
+  }
   return (
     <>
       <StyledTaskBoard>
@@ -45,9 +50,12 @@ export default function TaskBoard() {
           <TaskColumn key={column.name} index={index} {...column}></TaskColumn>
         ))}
         <NewTaskColumn>
-          <button>+ New Column</button>
+          <button onClick={handleOpenModal}>+ New Column</button>
         </NewTaskColumn>
       </StyledTaskBoard>
+      <Modal isOpen={isAddEditBoardOpen} setIsOpen={setAddEditBoardOpen}>
+        <EditBoard></EditBoard>
+      </Modal>
     </>
   );
 }

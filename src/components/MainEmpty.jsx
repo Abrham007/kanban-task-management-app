@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Button from "./Button";
 import { devices } from "../utils/devices";
 import Modal from "./Modal";
-import AddEditBoard from "./AddEditBoard";
+import AddBoard from "./AddBoard";
 import AddEditTask from "./AddEditTask";
 import { useRef, useState } from "react";
 
@@ -68,7 +68,7 @@ export default function MainEmpty({ isEmptyBoard, isEmptyColumn }) {
         </Button>
       </StyledMainEmpty>
       <Modal isOpen={isAddEditBoardOpen} setIsOpen={setAddEditBoardOpen}>
-        <AddEditBoard></AddEditBoard>
+        <AddBoard></AddBoard>
       </Modal>
       <Modal isOpen={isAddEditTaskOpen} setIsOpen={setAddEditTaskOpen}>
         {!isEmptyColumn && <AddEditTask></AddEditTask>}

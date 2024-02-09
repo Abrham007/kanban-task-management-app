@@ -13,7 +13,7 @@ import { SideBarContext } from "../store/SideBarContext";
 import { ThemeContext } from "styled-components";
 import EllipsisButton from "./EllipsisButton";
 import AddEditTask from "./AddEditTask";
-import AddEditBoard from "./AddEditBoard";
+import EditBoard from "./EditBoard";
 import DeleteMessage from "./DeleteMessage";
 import Modal from "./Modal";
 
@@ -182,7 +182,7 @@ export default function Header() {
         {!isEmptyColumn && <AddEditTask></AddEditTask>}
       </Modal>
       <Modal isOpen={isAddEditBoardOpen} setIsOpen={setAddEditBoardOpen}>
-        <AddEditBoard isEdit={true}></AddEditBoard>
+        <EditBoard></EditBoard>
       </Modal>
       <Modal isOpen={isDeleteMessageOpen} setIsOpen={setDeleteMessageOpen}>
         {projectArray.length !== 0 && <DeleteMessage></DeleteMessage>}
