@@ -30,11 +30,12 @@ const StyledEditBoard = styled.div`
 `;
 
 export default function EditBoard() {
-  const { projectArray, columnArray, selectedProjectId, editProject } = useContext(DataContext);
+  const [deleteInProgress, setDeleteInProgress] = useState(false);
+  const { projectArray, columnArray, taskArray, selectedProjectId, editProject, deleteTask } = useContext(DataContext);
   const activeBoard = projectArray.find((project) => project.id === selectedProjectId);
   const activeBoardColumns = columnArray.filter((col) => col.project_id === activeBoard.id);
   let newColumnNames = {};
-  console.log(activeBoardColumns);
+
   activeBoardColumns.forEach((col, index) => {
     let inputName = "colName" + (index + 1);
     newColumnNames[inputName] = { id: col.id, name: col.name };
@@ -51,15 +52,37 @@ export default function EditBoard() {
     defaultInputs[key] = value.name;
   }
 
-  function handleRemoveInputs(name) {
-    setProjectDetail((prevValue) => {
-      let tempColList = { ...prevValue.columnNames };
-      delete tempColList[name];
-      return {
-        ...prevValue,
-        columnNames: tempColList,
-      };
-    });
+  async function handleDeleteColumn(taskIdList) {
+    setDeleteInProgress(true);
+    for await (const taskId of taskIdList) {
+      await deleteTask(taskId);
+    }
+    setDeleteInProgress(false);
+  }
+
+  async function handleRemoveInputs(name) {
+    let currentColumnId = projectDetail.columnNames[name].id;
+    let currentTaskIdList = taskArray.filter((task) => task.column_id === currentColumnId).map((task) => task.id);
+    if (currentTaskIdList.length === 0) {
+      setProjectDetail((prevValue) => {
+        let tempColList = { ...prevValue.columnNames };
+        delete tempColList[name];
+        return {
+          ...prevValue,
+          columnNames: tempColList,
+        };
+      });
+    } else {
+      handleDeleteColumn(currentTaskIdList);
+      setProjectDetail((prevValue) => {
+        let tempColList = { ...prevValue.columnNames };
+        delete tempColList[name];
+        return {
+          ...prevValue,
+          columnNames: tempColList,
+        };
+      });
+    }
   }
 
   function handleAddInputs() {
@@ -119,7 +142,9 @@ export default function EditBoard() {
         ></InputContainer>
       </label>
       <form method="dialog">
-        <Button onClick={handleEditProject}>Edit Board</Button>
+        <Button onClick={handleEditProject} disabled={deleteInProgress}>
+          Edit Board
+        </Button>
       </form>
     </StyledEditBoard>
   );
