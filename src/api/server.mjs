@@ -90,8 +90,6 @@ app.put("/project/:id", async (req, res) => {
     updatedColumnArray.push(newColumnResponse.rows[0]);
   }
 
-  console.log([updatedProject, updatedColumnArray]);
-
   res.json([updatedProject, updatedColumnArray]);
 });
 
@@ -164,7 +162,7 @@ app.put("/task/:id", async (req, res) => {
 
 app.delete("/task/:id", async (req, res) => {
   console.log("server delelte task reached");
-  const subtaskResponse = await db.query("DELETE FROM project_subtask WHERE task_id = ($1)", [req.params.id]);
+  await db.query("DELETE FROM project_subtask WHERE task_id = ($1)", [req.params.id]);
   const taskResponse = await db.query("DELETE FROM project_task WHERE id = ($1) RETURNING id", [req.params.id]);
 
   res.status(200).json(taskResponse.rows[0]);
