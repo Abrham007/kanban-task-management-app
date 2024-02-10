@@ -78,7 +78,7 @@ function appReducer(state, action) {
 
   if (action.type === "EDIT_TASK") {
     let tempTask = [...state.taskArray];
-    let tempSubtask = [...state.subtaskArray].filter((subtask) => subtask.project_id !== action.payload.id);
+    let tempSubtask = [...state.subtaskArray].filter((subtask) => subtask.task_id !== action.payload.id);
     let curretnTaskIndex = tempTask.findIndex((task) => task.id === action.payload.id);
     tempTask[curretnTaskIndex] = action.payload.updatedTask;
 
@@ -94,19 +94,6 @@ function appReducer(state, action) {
       ...state,
       taskArray: [...state.taskArray].filter((task) => task.id !== action.payload.id),
       subtaskArray: [...state.subtaskArray].filter((subtask) => subtask.project_id !== action.payload.id),
-    };
-  }
-
-  if (action.type === "EDIT_DETAIL") {
-    let tempTask = [...state.taskArray];
-    let tempSubtask = [...state.subtaskArray].filter((subtask) => subtask.task_id !== action.payload.detail.task_id);
-    let currentTaskIndex = tempTask.findIndex((task) => task.id === action.payload.detail.task_id);
-    tempTask[currentTaskIndex] = action.payload.updatedTask;
-
-    return {
-      ...state,
-      taskArray: tempTask,
-      subtaskArray: [...tempSubtask, ...action.payload.updatedSubtaskArray],
     };
   }
 }
@@ -196,17 +183,6 @@ export default function DataContextProvider({ children }) {
     }
   }
 
-  async function editDetail(detail) {
-    let [updatedTask, updatedSubtaskArray] = await updateDetail(detail);
-
-    if (updatedTask && updatedSubtaskArray) {
-      appDispach({
-        type: "EDIT_DETAIL",
-        payload: { detail, updatedTask, updatedSubtaskArray },
-      });
-    }
-  }
-
   useEffect(() => {
     fetchProject().then(([projectArray, columnArray]) => {
       appDispach({
@@ -231,7 +207,6 @@ export default function DataContextProvider({ children }) {
     addTask,
     editTask,
     deleteTask,
-    editDetail,
   };
   return <DataContext.Provider value={ctxValue}>{children}</DataContext.Provider>;
 }

@@ -53,7 +53,6 @@ const CheckBoxText = styled.span`
 `;
 export default function InputCheckBox({ children, isChecked, id, onChange, ...props }) {
   function handleChecked() {
-    console.log(id);
     onChange(id);
   }
   return (

@@ -62,6 +62,7 @@ export default function Task(props) {
           isDetailOpen={isDetailOpen}
           handleCloseModal={handleCloseModal}
           numOfFinishedTasks={numOfFinishedTasks}
+          activeSubtaskList={activeSubtaskList}
         ></TaskDetail>
       )}
     </>
