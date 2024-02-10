@@ -30,34 +30,34 @@ const StyledAddEditTask = styled.div`
   }
 `;
 
-export default function EditTask({ isEdit, ...props }) {
-  const { projectArray, columnArray, selectedProjectId, taskArray, subtaskArray, addTask, editTask } =
-    useContext(DataContext);
+export default function EditTask(props) {
+  const { projectArray, columnArray, subtaskArray, selectedProjectId, editTask } = useContext(DataContext);
   const activeProject = projectArray.find((project) => project.id === selectedProjectId);
   const activeProjectColumns = columnArray.filter((col) => col.project_id === activeProject.id);
-  const statuslist = columnArray.filter((col) => col.project_id === activeProject.id).map((col) => col.name);
-  const defaultStatus = statuslist[0];
-  const [taskDetail, setTaskDetail] = useState({
-    title: props.title ?? "",
-    description: props.description ?? "",
-    status: props.status ?? defaultStatus,
-    subtasks: { subtask1: { content: "", isCompleted: false }, subtask2: { content: "", isCompleted: false } },
+  const activeSubtasks = subtaskArray.filter((subtask) => subtask.task_id === props.id);
+  let newSubtasks = {};
+  activeSubtasks.forEach((subtask, index) => {
+    let name = "subtask" + (index + 1);
+    newSubtasks[name] = {
+      id: subtask.id,
+      title: subtask.title,
+      is_completed: subtask.is_completed,
+      task_id: subtask.task_id,
+      column_id: subtask.column_id,
+      project_id: subtask.project_id,
+    };
   });
-
-  let titleText = "Add New Task";
-  let btnText = "Create Task";
-  let btnFunction = handleAddTask;
-
-  if (isEdit) {
-    titleText = "Edit Task";
-    btnText = "Edit Task";
-    btnFunction = handleEditTask;
-  }
+  const [taskDetail, setTaskDetail] = useState({
+    title: props.title,
+    description: props.description,
+    status: props.status,
+    subtasks: newSubtasks,
+  });
 
   let defaultInputs = {};
 
   for (let [key, value] of Object.entries(taskDetail.subtasks)) {
-    defaultInputs[key] = value.content;
+    defaultInputs[key] = value.title;
   }
 
   function handleRemoveInputs(name) {
@@ -73,10 +73,11 @@ export default function EditTask({ isEdit, ...props }) {
 
   function handleAddInputs() {
     let name = "subtask" + (Object.keys(taskDetail.subtasks).length + 1);
+
     setTaskDetail((prevValue) => {
       return {
         ...prevValue,
-        subtasks: { ...prevValue.subtasks, [name]: { content: "", isCompleted: false } },
+        subtasks: { ...prevValue.subtasks, [name]: { title: "", is_completed: false } },
       };
     });
   }
@@ -87,7 +88,14 @@ export default function EditTask({ isEdit, ...props }) {
       setTaskDetail((prevValue) => {
         return {
           ...prevValue,
-          subtasks: { ...prevValue.subtasks, [name]: { content: value, isCompleted: false } },
+          subtasks: {
+            ...prevValue.subtasks,
+            [name]: {
+              id: prevValue.subtasks[name].id,
+              title: value,
+              is_completed: prevValue.subtasks[name].is_completed,
+            },
+          },
         };
       });
     } else {
@@ -100,67 +108,20 @@ export default function EditTask({ isEdit, ...props }) {
     }
   }
 
-  function handleAddTask() {
-    const columnOfTask = activeProjectColumns.find((col) => col.name === taskDetail.status);
-    let newTask = {
-      ...taskDetail,
-      column_id: columnOfTask.id,
-      project_id: selectedProjectId,
-    };
-    addTask(newTask);
-    setTaskDetail({
-      title: props.title ?? "",
-      description: props.description ?? "",
-      status: props.status ?? defaultStatus,
-      subtasks: { subtask1: { content: "", isCompleted: false }, subtask2: { content: "", isCompleted: false } },
-    });
-  }
-
   function handleEditTask() {
     const columnOfTask = activeProjectColumns.find((col) => col.name === taskDetail.status);
     let newTask = {
       ...taskDetail,
+      subtasks: Object.values(taskDetail.subtasks),
       column_id: columnOfTask.id,
       project_id: selectedProjectId,
     };
     editTask(props.id, newTask);
-    setTaskDetail({
-      title: props.title ?? "",
-      description: props.description ?? "",
-      status: props.status ?? defaultStatus,
-      subtasks: { subtask1: { content: "", isCompleted: false }, subtask2: { content: "", isCompleted: false } },
-    });
   }
-
-  useEffect(() => {
-    setTaskDetail((prevValue) => {
-      return {
-        ...prevValue,
-        status: props.status ?? defaultStatus,
-      };
-    });
-  }, [props.status, defaultStatus]);
-
-  useEffect(() => {
-    if (isEdit && taskArray.length !== 0) {
-      const activeSubtasks = subtaskArray.filter((subtask) => subtask.task_id === props.id);
-      let newSubtasks = {};
-      activeSubtasks.forEach((subtask, index) => {
-        let name = "subtask" + (index + 1);
-        newSubtasks[name] = { content: subtask.title, isCompleted: subtask.is_completed };
-      });
-      setTaskDetail((prevValue) => {
-        return {
-          ...prevValue,
-          subtasks: newSubtasks,
-        };
-      });
-    }
-  }, [isEdit, props.id, taskArray, subtaskArray]);
 
   return (
     <StyledAddEditTask>
-      <h3>{titleText}</h3>
+      <h3>Edit Task</h3>
       <label>
         <span>Title</span>
         <InputTextField
@@ -198,7 +159,7 @@ export default function EditTask({ isEdit, ...props }) {
         <InputDropdown name="status" status={taskDetail.status} onChange={createNewTask}></InputDropdown>
       </label>
       <form method="dialog">
-        <Button onClick={btnFunction}>{btnText}</Button>
+        <Button onClick={handleEditTask}>Edit Task</Button>
       </form>
     </StyledAddEditTask>
   );

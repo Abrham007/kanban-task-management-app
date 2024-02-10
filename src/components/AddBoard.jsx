@@ -78,7 +78,11 @@ export default function AddBoard() {
   }
 
   function handleAddProject() {
-    addProject(projectDetail);
+    let newProject = {
+      ...projectDetail,
+      columnNames: Object.values(projectDetail.columnNames),
+    };
+    addProject(newProject);
     setProjectDetail({
       projectName: "",
       columnNames: { colName1: "Todo", colName2: "Doing" },

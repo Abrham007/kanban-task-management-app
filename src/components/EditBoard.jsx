@@ -87,12 +87,10 @@ export default function EditBoard() {
 
   function handleAddInputs() {
     let name = "colName" + (Object.keys(projectDetail.columnNames).length + 1);
-    let colIdList = columnArray.map((col) => col.id);
-    let nextColId = Math.max(...colIdList) + 1;
     setProjectDetail((prevValue) => {
       return {
         ...prevValue,
-        columnNames: { ...prevValue.columnNames, [name]: { id: nextColId, name: "" } },
+        columnNames: { ...prevValue.columnNames, [name]: { name: "" } },
       };
     });
   }
@@ -117,7 +115,11 @@ export default function EditBoard() {
   }
 
   function handleEditProject() {
-    editProject(selectedProjectId, projectDetail);
+    let newProject = {
+      ...projectDetail,
+      columnNames: Object.values(projectDetail.columnNames),
+    };
+    editProject(selectedProjectId, newProject);
   }
 
   return (
