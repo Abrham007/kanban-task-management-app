@@ -170,8 +170,8 @@ export default function Sidebar(props) {
       <SliderWapper>
         <img src={lightTheme} alt=""></img>
         <Slider>
-          <input type="checkbox" onClick={themeSwithcher} checked={themeContext.name === "Dark"}></input>
-          <button className="slider-btn"></button>
+          <input type="checkbox" onChange={themeSwithcher} checked={themeContext.name === "Dark"}></input>
+          <button className="slider-btn" aria-label="Slider for theme"></button>
         </Slider>
         <img src={darkTheme} alt=""></img>
       </SliderWapper>

@@ -174,6 +174,7 @@ export default function Header() {
             disabled={projectArray.length === 0}
             handleEdit={handleModalBoardEdit}
             handleDelete={handleModalDelete}
+            aria-label="Menu"
           ></EllipsisButton>
         </div>
       </StyledHeader>

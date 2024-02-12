@@ -157,6 +157,7 @@ export default function TaskDetail(props) {
             handleEdit={handleEditModalOpen}
             handleDelete={handleDeleteModalOpen}
             purpose={"Task"}
+            aria-label="Menu"
           ></EllipsisButton>
         </TaskDetailHeader>
         <p>{props.description}</p>

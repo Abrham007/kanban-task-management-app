@@ -52,11 +52,11 @@ export const EllipsisOptionContainer = styled.menu`
   }
 `;
 
-export default function EllipsisButton({ purpose = "Board", handleEdit, handleDelete, disabled }) {
+export default function EllipsisButton({ purpose = "Board", handleEdit, handleDelete, disabled, ...props }) {
   return (
     <>
       <EllipsisContainer>
-        <StyledEllipsisButton>
+        <StyledEllipsisButton {...props}>
           <img src={verticalEllipsis} alt=""></img>
         </StyledEllipsisButton>
         <EllipsisOptionContainer $purpose={purpose}>
