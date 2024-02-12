@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import TaskDetail from "./TaskDetail";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useContext } from "react";
 import { DataContext } from "../store/DataContext";
 
@@ -38,6 +38,7 @@ export default function Task(props) {
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const { subtaskArray } = useContext(DataContext);
   const activeSubtaskList = subtaskArray.filter((subtask) => subtask.task_id === props.id);
+  console.log(activeSubtaskList);
   const numOfFinishedTasks = activeSubtaskList.filter((subtask) => subtask.is_completed).length;
 
   function handleOpenModal() {

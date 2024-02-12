@@ -1,6 +1,5 @@
 import { createGlobalStyle } from "styled-components";
 import { SecondaryButton } from "../components/Button";
-import { Logo } from "../components/Header";
 import { StyledHeader } from "../components/Header";
 import { StyledSideBar } from "../components/SideBar";
 import { SliderWapper } from "../components/SideBar";
