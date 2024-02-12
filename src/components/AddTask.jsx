@@ -43,6 +43,7 @@ export default function AddTask(props) {
     status: defaultStatus,
     subtasks: { subtask1: { title: "", is_completed: false }, subtask2: { title: "", is_completed: false } },
   });
+  const [invalidInputList, setInvalidInputList] = useState([]);
 
   let defaultInputs = {};
 
@@ -90,21 +91,38 @@ export default function AddTask(props) {
     }
   }
 
-  function handleAddTask() {
-    const columnOfTask = activeProjectColumns.find((col) => col.name === taskDetail.status);
-    let newTask = {
-      ...taskDetail,
-      subtasks: Object.values(taskDetail.subtasks),
-      column_id: columnOfTask.id,
-      project_id: selectedProjectId,
-    };
-    addTask(newTask);
-    setTaskDetail({
-      title: "",
-      description: "",
-      status: defaultStatus,
-      subtasks: { subtask1: { title: "", is_completed: false }, subtask2: { title: "", is_completed: false } },
-    });
+  function handleAddTask(e) {
+    let invalidList = [];
+    if (taskDetail.title === "") {
+      invalidList.push("title");
+    }
+
+    for (let [key, value] of Object.entries(taskDetail.subtasks)) {
+      if (value.title === "") {
+        invalidList.push(key);
+      }
+    }
+
+    if (invalidList.length === 0) {
+      const columnOfTask = activeProjectColumns.find((col) => col.name === taskDetail.status);
+      let newTask = {
+        ...taskDetail,
+        subtasks: Object.values(taskDetail.subtasks),
+        column_id: columnOfTask.id,
+        project_id: selectedProjectId,
+      };
+      addTask(newTask);
+      setTaskDetail({
+        title: "",
+        description: "",
+        status: defaultStatus,
+        subtasks: { subtask1: { title: "", is_completed: false }, subtask2: { title: "", is_completed: false } },
+      });
+      setInvalidInputList([]);
+    } else {
+      e.preventDefault();
+      setInvalidInputList(invalidList);
+    }
   }
 
   useEffect(() => {
@@ -126,6 +144,7 @@ export default function AddTask(props) {
           onChange={createNewTask}
           defaultValue={taskDetail.title}
           placeholder="e.g. Take coffee break"
+          invalidInputList={invalidInputList}
         ></InputTextField>
       </label>
       <label>
@@ -138,6 +157,7 @@ export default function AddTask(props) {
           placeholder={
             "e.g. It’s always good to take a break. This 15 minute break will recharge the batteries a little."
           }
+          invalidInputList={invalidInputList}
         ></InputTextField>
       </label>
       <div>
@@ -149,14 +169,15 @@ export default function AddTask(props) {
           placeholder={["e.g. Make coffee", "e.g. Drink coffee & smile"]}
           handleAddInputs={handleAddInputs}
           handleRemoveInputs={handleRemoveInputs}
+          invalidInputList={invalidInputList}
         ></InputContainer>
       </div>
       <label>
         <span>Status</span>
         <InputDropdown name="status" status={taskDetail.status} onChange={createNewTask}></InputDropdown>
       </label>
-      <form method="dialog">
-        <Button onClick={handleAddTask}>Create Task</Button>
+      <form method="dialog" onSubmit={handleAddTask}>
+        <Button>Create Task</Button>
       </form>
     </StyledAddEditTask>
   );

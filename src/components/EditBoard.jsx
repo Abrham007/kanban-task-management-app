@@ -46,6 +46,7 @@ export default function EditBoard() {
     projectName: activeBoard.name,
     columnNames: { ...newColumnNames },
   });
+  const [invalidInputList, setInvalidInputList] = useState([]);
 
   let defaultInputs = {};
 
@@ -115,12 +116,29 @@ export default function EditBoard() {
     }
   }
 
-  function handleEditProject() {
-    let newProject = {
-      ...projectDetail,
-      columnNames: Object.values(projectDetail.columnNames),
-    };
-    editProject(selectedProjectId, newProject);
+  function handleEditProject(e) {
+    let invalidList = [];
+    if (projectDetail.projectName === "") {
+      invalidList.push("projectName");
+    }
+
+    for (let [key, value] of Object.entries(projectDetail.columnNames)) {
+      if (value.name === "") {
+        invalidList.push(key);
+      }
+    }
+
+    if (invalidList.length === 0) {
+      let newProject = {
+        ...projectDetail,
+        columnNames: Object.values(projectDetail.columnNames),
+      };
+      editProject(selectedProjectId, newProject);
+      setInvalidInputList([]);
+    } else {
+      e.preventDefault();
+      setInvalidInputList(invalidList);
+    }
   }
 
   return (
@@ -133,6 +151,7 @@ export default function EditBoard() {
           name="projectName"
           defaultValue={projectDetail.projectName}
           placeholder="e.g. Web Design"
+          invalidInputList={invalidInputList}
         ></InputTextField>
       </label>
       <div>
@@ -142,12 +161,11 @@ export default function EditBoard() {
           defaultInputs={defaultInputs}
           handleAddInputs={handleAddInputs}
           handleRemoveInputs={handleRemoveInputs}
+          invalidInputList={invalidInputList}
         ></InputContainer>
       </div>
-      <form method="dialog">
-        <Button onClick={handleEditProject} disabled={deleteInProgress}>
-          Edit Board
-        </Button>
+      <form method="dialog" onSubmit={handleEditProject}>
+        <Button disabled={deleteInProgress}>Edit Board</Button>
       </form>
     </StyledEditBoard>
   );

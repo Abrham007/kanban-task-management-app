@@ -36,6 +36,8 @@ export default function AddBoard() {
     columnNames: { colName1: "Todo", colName2: "Doing" },
   });
 
+  const [invalidInputList, setInvalidInputList] = useState([]);
+
   const { addProject } = useContext(DataContext);
 
   function handleRemoveInputs(name) {
@@ -78,16 +80,34 @@ export default function AddBoard() {
     }
   }
 
-  function handleAddProject() {
-    let newProject = {
-      ...projectDetail,
-      columnNames: Object.values(projectDetail.columnNames),
-    };
-    addProject(newProject);
-    setProjectDetail({
-      projectName: "",
-      columnNames: { colName1: "Todo", colName2: "Doing" },
-    });
+  function handleAddProject(e) {
+    let invalidList = [];
+    if (projectDetail.projectName === "") {
+      invalidList.push("projectName");
+    }
+
+    for (let [key, value] of Object.entries(projectDetail.columnNames)) {
+      if (value === "") {
+        invalidList.push(key);
+      }
+    }
+
+    if (invalidList.length === 0) {
+      console.log(invalidInputList);
+      let newProject = {
+        ...projectDetail,
+        columnNames: Object.values(projectDetail.columnNames),
+      };
+      addProject(newProject);
+      setProjectDetail({
+        projectName: "",
+        columnNames: { colName1: "Todo", colName2: "Doing" },
+      });
+      setInvalidInputList([]);
+    } else {
+      e.preventDefault();
+      setInvalidInputList(invalidList);
+    }
   }
 
   return (
@@ -100,6 +120,7 @@ export default function AddBoard() {
           name="projectName"
           defaultValue={projectDetail.projectName}
           placeholder="e.g. Web Design"
+          invalidInputList={invalidInputList}
         ></InputTextField>
       </label>
       <div>
@@ -109,10 +130,11 @@ export default function AddBoard() {
           defaultInputs={projectDetail.columnNames}
           handleAddInputs={handleAddInputs}
           handleRemoveInputs={handleRemoveInputs}
+          invalidInputList={invalidInputList}
         ></InputContainer>
       </div>
-      <form method="dialog">
-        <Button onClick={handleAddProject}>Create New Board</Button>
+      <form method="dialog" onSubmit={handleAddProject}>
+        <Button>Create New Board</Button>
       </form>
     </StyledAddBoard>
   );

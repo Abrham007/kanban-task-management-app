@@ -54,6 +54,7 @@ export default function EditTask(props) {
     status: props.status,
     subtasks: newSubtasks,
   });
+  const [invalidInputList, setInvalidInputList] = useState([]);
 
   let defaultInputs = {};
 
@@ -109,15 +110,32 @@ export default function EditTask(props) {
     }
   }
 
-  function handleEditTask() {
-    const columnOfTask = activeProjectColumns.find((col) => col.name === taskDetail.status);
-    let newTask = {
-      ...taskDetail,
-      subtasks: Object.values(taskDetail.subtasks),
-      column_id: columnOfTask.id,
-      project_id: selectedProjectId,
-    };
-    editTask(props.id, newTask);
+  function handleEditTask(e) {
+    let invalidList = [];
+    if (taskDetail.title === "") {
+      invalidList.push("title");
+    }
+
+    for (let [key, value] of Object.entries(taskDetail.subtasks)) {
+      if (value.title === "") {
+        invalidList.push(key);
+      }
+    }
+
+    if (invalidList.length === 0) {
+      const columnOfTask = activeProjectColumns.find((col) => col.name === taskDetail.status);
+      let newTask = {
+        ...taskDetail,
+        subtasks: Object.values(taskDetail.subtasks),
+        column_id: columnOfTask.id,
+        project_id: selectedProjectId,
+      };
+      editTask(props.id, newTask);
+      setInvalidInputList([]);
+    } else {
+      e.preventDefault();
+      setInvalidInputList(invalidList);
+    }
   }
 
   return (
@@ -130,6 +148,7 @@ export default function EditTask(props) {
           onChange={createNewTask}
           defaultValue={taskDetail.title}
           placeholder="e.g. Take coffee break"
+          invalidInputList={invalidInputList}
         ></InputTextField>
       </label>
       <label>
@@ -142,6 +161,7 @@ export default function EditTask(props) {
           placeholder={
             "e.g. It’s always good to take a break. This 15 minute break will recharge the batteries a little."
           }
+          invalidInputList={invalidInputList}
         ></InputTextField>
       </label>
       <div>
@@ -153,14 +173,15 @@ export default function EditTask(props) {
           placeholder={["e.g. Make coffee", "e.g. Drink coffee & smile"]}
           handleAddInputs={handleAddInputs}
           handleRemoveInputs={handleRemoveInputs}
+          invalidInputList={invalidInputList}
         ></InputContainer>
       </div>
       <label>
         <span>Status</span>
         <InputDropdown name="status" status={taskDetail.status} onChange={createNewTask}></InputDropdown>
       </label>
-      <form method="dialog">
-        <Button onClick={handleEditTask}>Edit Task</Button>
+      <form method="dialog" onSubmit={handleEditTask}>
+        <Button>Edit Task</Button>
       </form>
     </StyledAddEditTask>
   );
