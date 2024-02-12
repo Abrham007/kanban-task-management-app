@@ -2,6 +2,9 @@ import styled from "styled-components";
 
 export const TextField = styled.div`
   display: flex;
+  && {
+    flex-direction: row;
+  }
   align-items: center;
   width: 100%;
   border-radius: 4px;
@@ -12,7 +15,7 @@ export const TextField = styled.div`
   }
 
   & span {
-    display: ${({ $isInvalid }) => ($isInvalid ? "inline-block" : "none")};
+    display: ${({ $isInvalid }) => ($isInvalid ? "inline" : "none")};
   }
 
   & input {
@@ -47,20 +50,32 @@ const TextFieldInput = styled.input.attrs({ type: "text" })`
   }
 `;
 const TextFieldErrorMessage = styled.span`
+  && {
+    color: #ea5555;
+  }
   width: 150px;
-  color: #ea5555;
   font-size: 0.8125rem;
   font-weight: 500;
   line-height: 1.4375rem;
+  align-self: center;
+  text-align: center;
 `;
 
-export default function InputTextField({ as = "input", defaultValue = "", placeholder, onChange, name, ...props }) {
+export default function InputTextField({
+  as = "input",
+  defaultValue = "",
+  placeholder,
+  onChange,
+  name,
+  invalidInputList,
+  ...props
+}) {
   function handleChange(event) {
     onChange(name, event.target.value);
   }
 
   return (
-    <TextField $isInvalid={false}>
+    <TextField $isInvalid={invalidInputList.includes(name)}>
       <TextFieldInput
         {...props}
         as={as}

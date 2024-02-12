@@ -32,6 +32,7 @@ export default function InputContainer({
   handleAddInputs,
   handleRemoveInputs,
   placeholder,
+  invalidInputList,
 }) {
   return (
     <StyledInputContainer>
@@ -42,6 +43,7 @@ export default function InputContainer({
             onChange={onChange}
             defaultValue={value}
             placeholder={placeholder && placeholder[index]}
+            invalidInputList={invalidInputList}
           ></InputTextField>
           <button onClick={() => handleRemoveInputs(name)}>
             <IconCross></IconCross>
