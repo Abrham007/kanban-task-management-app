@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import styled from "styled-components";
 import InputTextField from "./InputTextField";
 import IconCross from "./IconCross";

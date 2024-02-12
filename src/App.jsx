@@ -6,7 +6,6 @@ import { useTheme } from "./theme/useTheme";
 import SideBar from "./components/SideBar";
 import Main from "./components/Main";
 import { devices } from "./utils/devices";
-import data from "./data.json";
 import DataContextProvider from "./store/DataContext";
 import { SideBarContext } from "./store/SideBarContext";
 
