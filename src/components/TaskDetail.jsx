@@ -7,7 +7,7 @@ import DeleteMessage from "./DeleteMessage";
 import Modal from "./Modal";
 import { DataContext } from "../store/DataContext";
 import { devices } from "../utils/devices";
-import { useContext, useRef, useState, useEffect, useMemo } from "react";
+import { useContext, useRef, useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 
 export const StyledTaskDetail = styled.dialog`
@@ -83,10 +83,8 @@ const TaskDetailDropdown = styled.label`
 `;
 
 export default function TaskDetail(props) {
-  const { projectArray, columnArray, selectedProjectId, editTask } = useContext(DataContext);
+  const { projectArray, columnArray, selectedProjectId, editTaskDetail } = useContext(DataContext);
   const [statusState, setStatusState] = useState(props.status);
-
-  console.log(props.activeSubtaskList, props.status);
 
   let taskDetail = {
     subtasks: props.activeSubtaskList,
@@ -95,8 +93,6 @@ export default function TaskDetail(props) {
 
   const [isAddEditTaskOpen, setAddEditTaskOpen] = useState(false);
   const [isDeleteMessageOpen, setDeleteMessageOpen] = useState(false);
-
-  console.log(taskDetail.subtasks, props.status);
 
   const activeProject = projectArray.find((project) => project.id === selectedProjectId);
   const activeProjectColumns = columnArray.filter((col) => col.project_id === activeProject.id);
@@ -141,23 +137,14 @@ export default function TaskDetail(props) {
   function handleTaskDetailClose() {
     const columnOfTask = activeProjectColumns.find((col) => col.name === taskDetail.status);
     let newSubtask = taskDetail.subtasks.map((subtask) => ({ ...subtask, column_id: columnOfTask.id }));
-    let newTask = {
-      title: props.title,
-      description: props.description,
+    console.log(newSubtask);
+    let newTaskDetail = {
       status: taskDetail.status,
       subtasks: newSubtask,
       column_id: columnOfTask.id,
-      project_id: selectedProjectId,
     };
-    console.log(newTask);
-    editTask(props.id, newTask);
 
-    // let detail = {
-    //   ...taskDetail,
-    //   task_id: props.id,
-    //   column_id: columnOfTask.id,
-    // };
-    // editDetail(detail);
+    editTaskDetail(props.id, newTaskDetail);
     props.handleCloseModal();
   }
 
