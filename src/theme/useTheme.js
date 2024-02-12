@@ -13,7 +13,7 @@ export const useTheme = () => {
 
   useEffect(() => {
     const localTheme = getFromLS("theme");
-    false ? setTheme(localTheme) : setTheme(themes.data.light);
+    localTheme ? setTheme(localTheme) : setTheme(themes.data.light);
     setThemeLoaded(true);
   }, []);
 
