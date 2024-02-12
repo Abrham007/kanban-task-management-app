@@ -3,7 +3,7 @@ import InputTextField from "./InputTextField";
 import Button from "./Button";
 import InputDropdown from "./InputDropdown";
 import InputContainer from "./InputContainer";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { DataContext } from "../store/DataContext";
 
 const StyledAddEditTask = styled.div`
@@ -23,7 +23,8 @@ const StyledAddEditTask = styled.div`
     font-weight: 700;
   }
 
-  label {
+  label,
+  div {
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -143,7 +144,7 @@ export default function EditTask(props) {
           }
         ></InputTextField>
       </label>
-      <label>
+      <div>
         <span>Subtasks</span>
         <InputContainer
           onChange={createNewTask}
@@ -153,7 +154,7 @@ export default function EditTask(props) {
           handleAddInputs={handleAddInputs}
           handleRemoveInputs={handleRemoveInputs}
         ></InputContainer>
-      </label>
+      </div>
       <label>
         <span>Status</span>
         <InputDropdown name="status" status={taskDetail.status} onChange={createNewTask}></InputDropdown>

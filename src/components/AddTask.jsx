@@ -23,7 +23,8 @@ const StyledAddEditTask = styled.div`
     font-weight: 700;
   }
 
-  label {
+  label,
+  div {
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -139,7 +140,7 @@ export default function AddTask(props) {
           }
         ></InputTextField>
       </label>
-      <label>
+      <div>
         <span>Subtasks</span>
         <InputContainer
           onChange={createNewTask}
@@ -149,7 +150,7 @@ export default function AddTask(props) {
           handleAddInputs={handleAddInputs}
           handleRemoveInputs={handleRemoveInputs}
         ></InputContainer>
-      </label>
+      </div>
       <label>
         <span>Status</span>
         <InputDropdown name="status" status={taskDetail.status} onChange={createNewTask}></InputDropdown>

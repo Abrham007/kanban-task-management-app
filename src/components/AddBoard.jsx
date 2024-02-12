@@ -22,7 +22,8 @@ const StyledAddBoard = styled.div`
     font-weight: 700;
   }
 
-  label {
+  label,
+  div {
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -101,7 +102,7 @@ export default function AddBoard() {
           placeholder="e.g. Web Design"
         ></InputTextField>
       </label>
-      <label>
+      <div>
         <span>Columns</span>
         <InputContainer
           onChange={createNewProject}
@@ -109,7 +110,7 @@ export default function AddBoard() {
           handleAddInputs={handleAddInputs}
           handleRemoveInputs={handleRemoveInputs}
         ></InputContainer>
-      </label>
+      </div>
       <form method="dialog">
         <Button onClick={handleAddProject}>Create New Board</Button>
       </form>

@@ -22,7 +22,8 @@ const StyledEditBoard = styled.div`
     font-weight: 700;
   }
 
-  label {
+  label,
+  div {
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -134,7 +135,7 @@ export default function EditBoard() {
           placeholder="e.g. Web Design"
         ></InputTextField>
       </label>
-      <label>
+      <div>
         <span>Columns</span>
         <InputContainer
           onChange={editNewProject}
@@ -142,7 +143,7 @@ export default function EditBoard() {
           handleAddInputs={handleAddInputs}
           handleRemoveInputs={handleRemoveInputs}
         ></InputContainer>
-      </label>
+      </div>
       <form method="dialog">
         <Button onClick={handleEditProject} disabled={deleteInProgress}>
           Edit Board
