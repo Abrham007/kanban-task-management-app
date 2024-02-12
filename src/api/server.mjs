@@ -28,7 +28,7 @@ app.use(express.static("public"));
 app.get("/project", async (req, res) => {
   console.log("server get project reached");
   let projectArray = (await db.query("SELECT * FROM project ORDER BY id ASC")).rows;
-  let columnArray = (await db.query("SELECT * FROM project_column ORDER BY project_id ASC")).rows;
+  let columnArray = (await db.query("SELECT * FROM project_column ORDER BY id ASC")).rows;
 
   res.json([projectArray, columnArray]);
 });
