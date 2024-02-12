@@ -26,7 +26,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 app.get("/project", async (req, res) => {
-  console.log("server get project reached");
   let projectArray = (await db.query("SELECT * FROM project ORDER BY id ASC")).rows;
   let columnArray = (await db.query("SELECT * FROM project_column ORDER BY id ASC")).rows;
 
@@ -34,7 +33,6 @@ app.get("/project", async (req, res) => {
 });
 
 app.post("/project", async (req, res) => {
-  console.log("sever post project reached");
   let newProject;
   let newColumnArray = [];
   try {
@@ -62,7 +60,6 @@ app.post("/project", async (req, res) => {
 });
 
 app.put("/project/:id", async (req, res) => {
-  console.log("sever put project reached");
   let updatedProject;
   let updatedColumnArray = [];
   let updatedResponseArray = await db.query("UPDATE project SET name = ($1) WHERE id = ($2) RETURNING *", [
@@ -104,7 +101,6 @@ app.put("/project/:id", async (req, res) => {
 });
 
 app.delete("/project/:id", async (req, res) => {
-  console.log("server delelte project reached");
   await db.query("DELETE FROM project_subtask WHERE project_id = ($1)", [req.params.id]);
   await db.query("DELETE FROM project_task WHERE project_id = ($1)", [req.params.id]);
   await db.query("DELETE FROM project_column WHERE project_id = ($1)", [req.params.id]);
@@ -114,7 +110,6 @@ app.delete("/project/:id", async (req, res) => {
 });
 
 app.get("/task", async (req, res) => {
-  console.log("server get task reached");
   let taskArray = (await db.query("SELECT * FROM project_task ORDER BY id ASC")).rows;
   let subtaskArray = (await db.query("SELECT * FROM project_subtask ORDER BY id ASC")).rows;
 
@@ -122,7 +117,6 @@ app.get("/task", async (req, res) => {
 });
 
 app.post("/task", async (req, res) => {
-  console.log("sever post task reached");
   let newTaskArray;
   let newSubtaskArray = [];
   try {
@@ -151,7 +145,6 @@ app.post("/task", async (req, res) => {
 });
 
 app.put("/task/:id", async (req, res) => {
-  console.log("sever put task reached");
   let updatedTaskArray;
   let updatedSubtaskArray = [];
   let updatedResponseArray = await db.query(
@@ -191,7 +184,6 @@ app.put("/task/:id", async (req, res) => {
 });
 
 app.delete("/task/:id", async (req, res) => {
-  console.log("server delelte task reached");
   await db.query("DELETE FROM project_subtask WHERE task_id = ($1)", [req.params.id]);
   const taskResponse = await db.query("DELETE FROM project_task WHERE id = ($1) RETURNING id", [req.params.id]);
 
