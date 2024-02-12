@@ -41,7 +41,7 @@ function appReducer(state, action) {
   if (action.type === "ADD_PROJECT") {
     return {
       ...state,
-      projectArray: [...state.projectArray, action.payload.newProjecArray],
+      projectArray: [...state.projectArray, action.payload.newProject],
       columnArray: [...state.columnArray, ...action.payload.newColumnArray],
     };
   }
@@ -115,18 +115,18 @@ export default function DataContextProvider({ children }) {
   }
 
   async function addProject(project) {
-    let [newProjec, newColumnArray] = await postProject(project);
+    let [newProject, newColumnArray] = await postProject(project);
 
-    if (newProjec && newColumnArray) {
+    if (newProject && newColumnArray) {
       appDispach({
         type: "ADD_PROJECT",
         payload: {
-          newProjec,
+          newProject,
           newColumnArray,
         },
       });
     }
-    selectNewProject(newProjec.id);
+    selectNewProject(newProject.id);
   }
 
   async function editProject(id, project) {

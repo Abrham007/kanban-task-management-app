@@ -13,6 +13,7 @@ export async function postProject(newProject) {
     body: JSON.stringify(newProject),
   });
   const newProjectArray = await response.json();
+
   return newProjectArray;
 }
 
