@@ -39,6 +39,7 @@ export default function TaskBoard() {
   const { projectArray, columnArray, selectedProjectId } = useContext(DataContext);
   const activeBoard = projectArray.find((project) => project.id === selectedProjectId);
   const selectedColumn = columnArray.filter((col) => col.project_id === activeBoard.id);
+  console.log(selectedColumn);
 
   function handleOpenModal() {
     setAddEditBoardOpen(true);

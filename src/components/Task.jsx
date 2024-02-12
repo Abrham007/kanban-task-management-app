@@ -38,7 +38,6 @@ export default function Task(props) {
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const { subtaskArray } = useContext(DataContext);
   const activeSubtaskList = subtaskArray.filter((subtask) => subtask.task_id === props.id);
-  console.log(activeSubtaskList);
   const numOfFinishedTasks = activeSubtaskList.filter((subtask) => subtask.is_completed).length;
 
   function handleOpenModal() {
