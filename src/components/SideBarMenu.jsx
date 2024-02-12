@@ -21,11 +21,11 @@ const StyledSideBarMenu = styled.div`
   }
 
   @media ${devices.tablet} {
+    width: 240px;
     margin-top: 32px;
   }
 
   @media ${devices.mobile} {
-    width: 240px;
     margin-top: 0px;
   }
 `;
