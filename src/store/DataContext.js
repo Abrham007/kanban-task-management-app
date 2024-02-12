@@ -8,7 +8,7 @@ import {
   postTask,
   updateTask,
   removeTask,
-  updateDetail,
+  updateTaskDetail,
 } from "../api/client.mjs";
 
 export const DataContext = createContext(null);
@@ -41,7 +41,7 @@ function appReducer(state, action) {
   if (action.type === "ADD_PROJECT") {
     return {
       ...state,
-      projectArray: [...state.projectArray, ...action.payload.newProjecArray],
+      projectArray: [...state.projectArray, action.payload.newProjecArray],
       columnArray: [...state.columnArray, ...action.payload.newColumnArray],
     };
   }
@@ -115,17 +115,18 @@ export default function DataContextProvider({ children }) {
   }
 
   async function addProject(project) {
-    let [newProjecArray, newColumnArray] = await postProject(project);
+    let [newProjec, newColumnArray] = await postProject(project);
 
-    if (newProjecArray && newColumnArray) {
+    if (newProjec && newColumnArray) {
       appDispach({
         type: "ADD_PROJECT",
         payload: {
-          newProjecArray,
+          newProjec,
           newColumnArray,
         },
       });
     }
+    selectNewProject(newProjec.id);
   }
 
   async function editProject(id, project) {
@@ -183,6 +184,17 @@ export default function DataContextProvider({ children }) {
     }
   }
 
+  async function editTaskDetail(id, newTaskDetail) {
+    let [updatedTask, updatedSubtaskArray] = await updateTaskDetail(id, newTaskDetail);
+
+    if (updatedTask && updatedSubtaskArray) {
+      appDispach({
+        type: "EDIT_TASK",
+        payload: { id, updatedTask, updatedSubtaskArray },
+      });
+    }
+  }
+
   useEffect(() => {
     fetchProject().then(([projectArray, columnArray]) => {
       appDispach({
@@ -207,6 +219,7 @@ export default function DataContextProvider({ children }) {
     addTask,
     editTask,
     deleteTask,
+    editTaskDetail,
   };
   return <DataContext.Provider value={ctxValue}>{children}</DataContext.Provider>;
 }
