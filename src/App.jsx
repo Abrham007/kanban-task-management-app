@@ -41,6 +41,7 @@ export default function App() {
   const { theme, themeLoaded } = useTheme();
   const [selectedTheme, setSelectedTheme] = useState(theme);
   const [isSideBarHidden, setisSideBarHidden] = useState(false);
+  console.log("here");
 
   function handleThemeChange(newTheme) {
     setSelectedTheme(newTheme);
@@ -52,7 +53,7 @@ export default function App() {
 
   useEffect(() => {
     setSelectedTheme(theme);
-  }, [themeLoaded]);
+  }, [theme, themeLoaded]);
 
   return (
     <StyledApp $isSideBarHidden={isSideBarHidden}>
