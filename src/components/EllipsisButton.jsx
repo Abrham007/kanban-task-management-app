@@ -1,12 +1,9 @@
 import styled from "styled-components";
 import verticalEllipsis from "../assets/icon-vertical-ellipsis.svg";
+import { useState } from "react";
 
 const EllipsisContainer = styled.div`
   position: relative;
-
-  &:hover menu {
-    display: flex;
-  }
 `;
 
 const StyledEllipsisButton = styled.button`
@@ -18,9 +15,9 @@ const StyledEllipsisButton = styled.button`
 
 export const EllipsisOptionContainer = styled.menu`
   position: absolute;
-  top: 57px;
+  top: 67px;
   right: 0;
-  display: none;
+  display: ${({ $isOpen }) => ($isOpen ? "flex" : "none")};
   flex-direction: column;
   gap: 16px;
   padding: 16px;
@@ -29,7 +26,8 @@ export const EllipsisOptionContainer = styled.menu`
   border-radius: 8px;
   box-shadow: 0px 10px 20px 0px rgba(54, 78, 126, 0.25);
   color: #828fa3;
-  transform: ${({ $purpose }) => ($purpose === "Board" ? "" : "translateX(calc(50% - 20px))")};
+  transform: ${({ $purpose }) =>
+    $purpose === "Board" ? "" : "translateX(calc(50% - 20px))"};
 
   li {
     list-style: none;
@@ -51,21 +49,42 @@ export const EllipsisOptionContainer = styled.menu`
   }
 `;
 
-export default function EllipsisButton({ purpose = "Board", handleEdit, handleDelete, disabled, ...props }) {
+export default function EllipsisButton({
+  purpose = "Board",
+  handleEdit,
+  handleDelete,
+  disabled,
+  ...props
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  function toggleMenu() {
+    setIsOpen((prevValue) => !prevValue);
+  }
+
+  function onEdit() {
+    setIsOpen(false);
+    handleEdit();
+  }
+
+  function onDelete() {
+    setIsOpen(false);
+    handleDelete();
+  }
   return (
     <>
       <EllipsisContainer>
-        <StyledEllipsisButton {...props}>
+        <StyledEllipsisButton {...props} onClick={toggleMenu}>
           <img src={verticalEllipsis} alt=""></img>
         </StyledEllipsisButton>
-        <EllipsisOptionContainer $purpose={purpose}>
+        <EllipsisOptionContainer $purpose={purpose} $isOpen={isOpen}>
           <li>
-            <button disabled={disabled} onClick={handleEdit}>
+            <button disabled={disabled} onClick={onEdit}>
               Edit {purpose}
             </button>
           </li>
           <li>
-            <button disabled={disabled} onClick={handleDelete}>
+            <button disabled={disabled} onClick={onDelete}>
               Delete {purpose}
             </button>
           </li>

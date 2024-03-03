@@ -31,17 +31,33 @@ const StyledAddEditTask = styled.div`
   }
 `;
 
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`;
+
 export default function AddTask(props) {
-  const { projectArray, columnArray, selectedProjectId, addTask } = useContext(DataContext);
-  const activeProject = projectArray.find((project) => project.id === selectedProjectId);
-  const activeProjectColumns = columnArray.filter((col) => col.project_id === activeProject.id);
-  const statuslist = columnArray.filter((col) => col.project_id === activeProject.id).map((col) => col.name);
+  const { projectArray, columnArray, selectedProjectId, addTask } =
+    useContext(DataContext);
+  const activeProject = projectArray.find(
+    (project) => project.id === selectedProjectId
+  );
+  const activeProjectColumns = columnArray.filter(
+    (col) => col.project_id === activeProject.id
+  );
+  const statuslist = columnArray
+    .filter((col) => col.project_id === activeProject.id)
+    .map((col) => col.name);
   const defaultStatus = statuslist[0];
   const [taskDetail, setTaskDetail] = useState({
     title: "",
     description: "",
     status: defaultStatus,
-    subtasks: { subtask1: { title: "", is_completed: false }, subtask2: { title: "", is_completed: false } },
+    subtasks: {
+      subtask1: { title: "", is_completed: false },
+      subtask2: { title: "", is_completed: false },
+    },
   });
   const [invalidInputList, setInvalidInputList] = useState([]);
 
@@ -67,7 +83,10 @@ export default function AddTask(props) {
     setTaskDetail((prevValue) => {
       return {
         ...prevValue,
-        subtasks: { ...prevValue.subtasks, [name]: { title: "", is_completed: false } },
+        subtasks: {
+          ...prevValue.subtasks,
+          [name]: { title: "", is_completed: false },
+        },
       };
     });
   }
@@ -78,7 +97,10 @@ export default function AddTask(props) {
       setTaskDetail((prevValue) => {
         return {
           ...prevValue,
-          subtasks: { ...prevValue.subtasks, [name]: { title: value, is_completed: false } },
+          subtasks: {
+            ...prevValue.subtasks,
+            [name]: { title: value, is_completed: false },
+          },
         };
       });
     } else {
@@ -104,7 +126,9 @@ export default function AddTask(props) {
     }
 
     if (invalidList.length === 0) {
-      const columnOfTask = activeProjectColumns.find((col) => col.name === taskDetail.status);
+      const columnOfTask = activeProjectColumns.find(
+        (col) => col.name === taskDetail.status
+      );
       let newTask = {
         ...taskDetail,
         subtasks: Object.values(taskDetail.subtasks),
@@ -116,7 +140,10 @@ export default function AddTask(props) {
         title: "",
         description: "",
         status: defaultStatus,
-        subtasks: { subtask1: { title: "", is_completed: false }, subtask2: { title: "", is_completed: false } },
+        subtasks: {
+          subtask1: { title: "", is_completed: false },
+          subtask2: { title: "", is_completed: false },
+        },
       });
       setInvalidInputList([]);
     } else {
@@ -174,11 +201,16 @@ export default function AddTask(props) {
       </div>
       <label>
         <span>Status</span>
-        <InputDropdown name="status" status={taskDetail.status} onChange={createNewTask}></InputDropdown>
+        <InputDropdown
+          name="status"
+          status={taskDetail.status}
+          onChange={createNewTask}
+        ></InputDropdown>
       </label>
-      <form method="dialog" onSubmit={handleAddTask}>
-        <Button>Create Task</Button>
-      </form>
+      <Form method="dialog">
+        <Button onClick={handleAddTask}>Create Task</Button>
+        <Button>Cancel</Button>
+      </Form>
     </StyledAddEditTask>
   );
 }

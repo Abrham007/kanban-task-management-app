@@ -30,11 +30,28 @@ const StyledEditBoard = styled.div`
   }
 `;
 
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`;
+
 export default function EditBoard() {
   const [deleteInProgress, setDeleteInProgress] = useState(false);
-  const { projectArray, columnArray, taskArray, selectedProjectId, editProject, deleteTask } = useContext(DataContext);
-  const activeBoard = projectArray.find((project) => project.id === selectedProjectId);
-  const activeBoardColumns = columnArray.filter((col) => col.project_id === activeBoard.id);
+  const {
+    projectArray,
+    columnArray,
+    taskArray,
+    selectedProjectId,
+    editProject,
+    deleteTask,
+  } = useContext(DataContext);
+  const activeBoard = projectArray.find(
+    (project) => project.id === selectedProjectId
+  );
+  const activeBoardColumns = columnArray.filter(
+    (col) => col.project_id === activeBoard.id
+  );
   let newColumnNames = {};
 
   activeBoardColumns.forEach((col, index) => {
@@ -64,7 +81,9 @@ export default function EditBoard() {
 
   async function handleRemoveInputs(name) {
     let currentColumnId = projectDetail.columnNames[name].id;
-    let currentTaskIdList = taskArray.filter((task) => task.column_id === currentColumnId).map((task) => task.id);
+    let currentTaskIdList = taskArray
+      .filter((task) => task.column_id === currentColumnId)
+      .map((task) => task.id);
     if (currentTaskIdList.length === 0) {
       setProjectDetail((prevValue) => {
         let tempColList = { ...prevValue.columnNames };
@@ -110,7 +129,10 @@ export default function EditBoard() {
       setProjectDetail((prevValue) => {
         return {
           ...prevValue,
-          columnNames: { ...prevValue.columnNames, [name]: { id: prevValue.columnNames[name].id, name: value } },
+          columnNames: {
+            ...prevValue.columnNames,
+            [name]: { id: prevValue.columnNames[name].id, name: value },
+          },
         };
       });
     }
@@ -164,9 +186,12 @@ export default function EditBoard() {
           invalidInputList={invalidInputList}
         ></InputContainer>
       </div>
-      <form method="dialog" onSubmit={handleEditProject}>
-        <Button disabled={deleteInProgress}>Edit Board</Button>
-      </form>
+      <Form method="dialog">
+        <Button onClick={handleEditProject} disabled={deleteInProgress}>
+          Edit Board
+        </Button>
+        <Button>Cancel</Button>
+      </Form>
     </StyledEditBoard>
   );
 }

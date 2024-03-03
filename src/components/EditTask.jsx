@@ -31,11 +31,29 @@ const StyledAddEditTask = styled.div`
   }
 `;
 
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`;
+
 export default function EditTask(props) {
-  const { projectArray, columnArray, subtaskArray, selectedProjectId, editTask } = useContext(DataContext);
-  const activeProject = projectArray.find((project) => project.id === selectedProjectId);
-  const activeProjectColumns = columnArray.filter((col) => col.project_id === activeProject.id);
-  const activeSubtasks = subtaskArray.filter((subtask) => subtask.task_id === props.id);
+  const {
+    projectArray,
+    columnArray,
+    subtaskArray,
+    selectedProjectId,
+    editTask,
+  } = useContext(DataContext);
+  const activeProject = projectArray.find(
+    (project) => project.id === selectedProjectId
+  );
+  const activeProjectColumns = columnArray.filter(
+    (col) => col.project_id === activeProject.id
+  );
+  const activeSubtasks = subtaskArray.filter(
+    (subtask) => subtask.task_id === props.id
+  );
   let newSubtasks = {};
   activeSubtasks.forEach((subtask, index) => {
     let name = "subtask" + (index + 1);
@@ -79,7 +97,10 @@ export default function EditTask(props) {
     setTaskDetail((prevValue) => {
       return {
         ...prevValue,
-        subtasks: { ...prevValue.subtasks, [name]: { title: "", is_completed: false } },
+        subtasks: {
+          ...prevValue.subtasks,
+          [name]: { title: "", is_completed: false },
+        },
       };
     });
   }
@@ -123,7 +144,9 @@ export default function EditTask(props) {
     }
 
     if (invalidList.length === 0) {
-      const columnOfTask = activeProjectColumns.find((col) => col.name === taskDetail.status);
+      const columnOfTask = activeProjectColumns.find(
+        (col) => col.name === taskDetail.status
+      );
       let newTask = {
         ...taskDetail,
         subtasks: Object.values(taskDetail.subtasks),
@@ -178,11 +201,16 @@ export default function EditTask(props) {
       </div>
       <label>
         <span>Status</span>
-        <InputDropdown name="status" status={taskDetail.status} onChange={createNewTask}></InputDropdown>
+        <InputDropdown
+          name="status"
+          status={taskDetail.status}
+          onChange={createNewTask}
+        ></InputDropdown>
       </label>
-      <form method="dialog" onSubmit={handleEditTask}>
-        <Button>Edit Task</Button>
-      </form>
+      <Form method="dialog">
+        <Button onClick={handleEditTask}>Edit Task</Button>
+        <Button>Cancel</Button>
+      </Form>
     </StyledAddEditTask>
   );
 }

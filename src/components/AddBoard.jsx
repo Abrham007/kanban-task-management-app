@@ -30,6 +30,12 @@ const StyledAddBoard = styled.div`
   }
 `;
 
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`;
+
 export default function AddBoard() {
   const [projectDetail, setProjectDetail] = useState({
     projectName: "",
@@ -133,9 +139,10 @@ export default function AddBoard() {
           invalidInputList={invalidInputList}
         ></InputContainer>
       </div>
-      <form method="dialog" onSubmit={handleAddProject}>
-        <Button>Create New Board</Button>
-      </form>
+      <Form method="dialog">
+        <Button onClick={handleAddProject}>Create New Board</Button>
+        <Button>Cancel</Button>
+      </Form>
     </StyledAddBoard>
   );
 }

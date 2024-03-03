@@ -9,6 +9,7 @@ import { DataContext } from "../store/DataContext";
 import { devices } from "../utils/devices";
 import { useContext, useRef, useState, useEffect } from "react";
 import { createPortal } from "react-dom";
+import Button from "./Button";
 
 export const StyledTaskDetail = styled.dialog`
   position: absolute;
@@ -82,8 +83,14 @@ const TaskDetailDropdown = styled.label`
   gap: 8px;
 `;
 
+const Form = styled.form`
+  display: flex;
+  gap: 8px;
+`;
+
 export default function TaskDetail(props) {
-  const { projectArray, columnArray, selectedProjectId, editTaskDetail } = useContext(DataContext);
+  const { projectArray, columnArray, selectedProjectId, editTaskDetail } =
+    useContext(DataContext);
   const [statusState, setStatusState] = useState(props.status);
 
   let taskDetail = {
@@ -94,9 +101,15 @@ export default function TaskDetail(props) {
   const [isAddEditTaskOpen, setAddEditTaskOpen] = useState(false);
   const [isDeleteMessageOpen, setDeleteMessageOpen] = useState(false);
 
-  const activeProject = projectArray.find((project) => project.id === selectedProjectId);
-  const activeProjectColumns = columnArray.filter((col) => col.project_id === activeProject.id);
-  let numOfFinishedTasks = taskDetail.subtasks.filter((subtask) => subtask.is_completed === true).length;
+  const activeProject = projectArray.find(
+    (project) => project.id === selectedProjectId
+  );
+  const activeProjectColumns = columnArray.filter(
+    (col) => col.project_id === activeProject.id
+  );
+  let numOfFinishedTasks = taskDetail.subtasks.filter(
+    (subtask) => subtask.is_completed === true
+  ).length;
 
   const taskDetaildialog = useRef();
 
@@ -122,7 +135,9 @@ export default function TaskDetail(props) {
 
   function handleSubtaskChange(id) {
     let tempSubtasks = [...taskDetail.subtasks];
-    let currentSubtaskIndex = tempSubtasks.findIndex((subTask) => subTask.id === id);
+    let currentSubtaskIndex = tempSubtasks.findIndex(
+      (subTask) => subTask.id === id
+    );
     let currentSubtask = tempSubtasks[currentSubtaskIndex];
     let newSubtask;
     if (currentSubtask.is_completed) {
@@ -135,9 +150,14 @@ export default function TaskDetail(props) {
   }
 
   function handleTaskDetailClose() {
-    const columnOfTask = activeProjectColumns.find((col) => col.name === taskDetail.status);
-    let newSubtask = taskDetail.subtasks.map((subtask) => ({ ...subtask, column_id: columnOfTask.id }));
-    console.log(newSubtask);
+    const columnOfTask = activeProjectColumns.find(
+      (col) => col.name === taskDetail.status
+    );
+    let newSubtask = taskDetail.subtasks.map((subtask) => ({
+      ...subtask,
+      column_id: columnOfTask.id,
+    }));
+
     let newTaskDetail = {
       status: taskDetail.status,
       subtasks: newSubtask,
@@ -150,7 +170,7 @@ export default function TaskDetail(props) {
 
   return createPortal(
     <>
-      <StyledTaskDetail ref={taskDetaildialog} onClose={handleTaskDetailClose}>
+      <StyledTaskDetail ref={taskDetaildialog} onClose={props.handleCloseModal}>
         <TaskDetailHeader>
           <h3>{props.title}</h3>
           <EllipsisButton
@@ -180,14 +200,29 @@ export default function TaskDetail(props) {
         </TaskDetailCheckbox>
         <TaskDetailDropdown>
           <span>Current Status</span>
-          <InputDropdown status={taskDetail.status} name="status" onChange={handleStatusChange}></InputDropdown>
+          <InputDropdown
+            status={taskDetail.status}
+            name="status"
+            onChange={handleStatusChange}
+          ></InputDropdown>
         </TaskDetailDropdown>
+        <Form method="dialog">
+          <Button onClick={handleTaskDetailClose}>Save</Button>
+          <Button>Cancel</Button>
+        </Form>
       </StyledTaskDetail>
       <Modal isOpen={isAddEditTaskOpen} setIsOpen={setAddEditTaskOpen}>
-        <EditTask {...props} handleCloseModal={props.handleCloseModal}></EditTask>
+        <EditTask
+          {...props}
+          handleCloseModal={props.handleCloseModal}
+        ></EditTask>
       </Modal>
       <Modal isOpen={isDeleteMessageOpen} setIsOpen={setDeleteMessageOpen}>
-        <DeleteMessage purpose="task" title={props.title} task_id={props.id}></DeleteMessage>
+        <DeleteMessage
+          purpose="task"
+          title={props.title}
+          task_id={props.id}
+        ></DeleteMessage>
       </Modal>
     </>,
     document.getElementById("modal")
