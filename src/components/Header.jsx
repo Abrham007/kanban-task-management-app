@@ -1,4 +1,4 @@
-import Button from "./Button";
+import Button from "./UI/Buttons/Button";
 import styled, { css } from "styled-components";
 import { devices } from "../utils/devices";
 import downIcon from "../assets/icon-chevron-down.svg";
@@ -11,9 +11,9 @@ import { useContext, useState } from "react";
 import { DataContext } from "../store/DataContext";
 import { SideBarContext } from "../store/SideBarContext";
 import { ThemeContext } from "styled-components";
-import EllipsisButton from "./EllipsisButton";
-import AddTask from "./AddTask";
-import EditBoard from "./EditBoard";
+import EllipsisButton from "./UI/Buttons/EllipsisButton";
+import AddTask from "./AddEditTask/AddTask";
+import EditBoard from "./AddEditBoard/EditBoard";
 import DeleteMessage from "./DeleteMessage";
 import Modal from "./Modal";
 
@@ -24,7 +24,6 @@ export const StyledHeader = styled.header`
   align-items: center;
   padding: ${({ $isSideBarHidden }) =>
     $isSideBarHidden ? "0px 32px 0px 24px" : "0px 32px 0px 34px"};
-  transition: all 0.5s linear;
 
   .Header-text {
     display: flex;

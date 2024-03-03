@@ -1,17 +1,17 @@
 import { createGlobalStyle } from "styled-components";
-import { SecondaryButton } from "../components/Button";
+import { SecondaryButton } from "../components/UI/Buttons/Button";
 import { StyledHeader } from "../components/Header";
-import { StyledSideBar } from "../components/SideBar";
-import { SliderWapper } from "../components/SideBar";
-import { StyledMain } from "../components/Main";
-import { StyledTask } from "../components/Task";
-import { NewTaskColumn } from "../components/TaskBoard";
-import { EllipsisOptionContainer } from "../components/EllipsisButton";
-import { CheckBoxLabel } from "../components/InputCheckBox";
-import { TextField } from "../components/InputTextField";
-import { Dropdown } from "../components/InputDropdown";
+import { StyledSideBar } from "../components/SideBar/SideBar";
+import { SliderWapper } from "../components/SideBar/SideBar";
+import { StyledMain } from "../components/Main/Main";
+import { StyledTask } from "../components/Main/TaskBoard/Task";
+import { NewTaskColumn } from "../components/Main/TaskBoard/TaskBoard";
+import { EllipsisOptionContainer } from "../components/UI/Buttons/EllipsisButton";
+import { CheckBoxLabel } from "../components/UI/Inputs/InputCheckBox";
+import { TextField } from "../components/UI/Inputs/InputTextField";
+import { Dropdown } from "../components/UI/Inputs/InputDropdown";
 import { StyledModal } from "../components/Modal";
-import { StyledTaskDetail } from "../components/TaskDetail";
+import { StyledTaskDetail } from "../components/Main/TaskBoard/TaskDetail";
 
 export const GlobalStyles = createGlobalStyle`
   * {
@@ -39,7 +39,8 @@ export const GlobalStyles = createGlobalStyle`
       color: ${({ theme }) => theme.colors.dropdown.text}; 
     }
     menu {
-      background-color: ${({ theme }) => theme.colors.dropdown.menu.background};      
+      background-color: ${({ theme }) =>
+        theme.colors.dropdown.menu.background};      
     }
   }
   ${TextField} {
@@ -89,7 +90,8 @@ export const GlobalStyles = createGlobalStyle`
     color: ${({ theme }) => theme.colors.secondaryButton.text};
 
     &:hover {
-      background-color: ${({ theme }) => theme.colors.secondaryButton.hover.background};
+      background-color: ${({ theme }) =>
+        theme.colors.secondaryButton.hover.background};
     }
   }
   button:hover {

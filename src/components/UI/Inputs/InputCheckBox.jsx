@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import checkIcon from "../assets/icon-check.svg";
+import checkIcon from "../../../assets/icon-check.svg";
 
 export const CheckBoxLabel = styled.label`
   width: 100%;
@@ -51,13 +51,22 @@ const CheckBoxText = styled.span`
     background: #fff;
   }
 `;
-export default function InputCheckBox({ children, isChecked, id, onChange, ...props }) {
+export default function InputCheckBox({
+  children,
+  isChecked,
+  id,
+  onChange,
+  ...props
+}) {
   function handleChecked() {
     onChange(id);
   }
   return (
     <CheckBoxLabel {...props}>
-      <CheckBoxInput defaultChecked={isChecked} onChange={handleChecked}></CheckBoxInput>
+      <CheckBoxInput
+        defaultChecked={isChecked}
+        onChange={handleChecked}
+      ></CheckBoxInput>
       <CheckBoxText>{children}</CheckBoxText>
     </CheckBoxLabel>
   );

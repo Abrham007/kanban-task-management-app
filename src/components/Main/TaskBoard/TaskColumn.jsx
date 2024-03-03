@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import TaskList from "./TaskList";
-import IconCircle from "./IconCircle";
+import IconCircle from "../../UI/Icons/IconCircle";
 import { useContext } from "react";
-import { DataContext } from "../store/DataContext";
+import { DataContext } from "../../../store/DataContext";
 
 const StyledTaskColumn = styled.section`
   flex-shrink: 0;

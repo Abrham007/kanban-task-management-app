@@ -1,10 +1,10 @@
 import styled from "styled-components";
-import { devices } from "../utils/devices";
-import IconBoard from "./IconBoard";
+import { devices } from "../../utils/devices";
+import IconBoard from "../UI/Icons/IconBoard";
 import { useContext, useState } from "react";
-import { DataContext } from "../store/DataContext";
-import AddBoard from "./AddBoard";
-import Modal from "./Modal";
+import { DataContext } from "../../store/DataContext";
+import AddBoard from "../AddEditBoard/AddBoard";
+import Modal from "../Modal";
 
 const StyledSideBarMenu = styled.div`
   width: 276px;
@@ -48,7 +48,8 @@ export const MenuBtn = styled.button`
   gap: 16px;
   border: none;
   outline: none;
-  background-color: ${({ $isSelected }) => ($isSelected ? "#635fc7" : "transparent")};
+  background-color: ${({ $isSelected }) =>
+    $isSelected ? "#635fc7" : "transparent"};
   padding: 15px 32px 15px 32px;
   border-radius: 0px 100px 100px 0px;
   color: ${({ $isSelected }) => ($isSelected ? "#FFF" : "#828fa3")};
@@ -61,7 +62,8 @@ export const MenuBtn = styled.button`
   }
 
   &:hover {
-    background-color: ${({ $isSelected }) => ($isSelected ? "#635fc7" : "#f4f7fd")};
+    background-color: ${({ $isSelected }) =>
+      $isSelected ? "#635fc7" : "#f4f7fd"};
     color: ${({ $isSelected }) => ($isSelected ? "#FFF" : " #635fc7")};
   }
 
@@ -100,7 +102,8 @@ const CreateBtn = styled(MenuBtn)`
 
 export default function SideBarMenu() {
   const [isAddEditBoardOpen, setAddEditBoardOpen] = useState(false);
-  const { selectedProjectId, projectArray, selectNewProject } = useContext(DataContext);
+  const { selectedProjectId, projectArray, selectNewProject } =
+    useContext(DataContext);
   function handleOpenModal() {
     setAddEditBoardOpen(true);
   }
@@ -111,7 +114,10 @@ export default function SideBarMenu() {
         <Menu>
           {projectArray.map((project) => (
             <li key={project.id}>
-              <MenuBtn onClick={() => selectNewProject(project.id)} $isSelected={selectedProjectId === project.id}>
+              <MenuBtn
+                onClick={() => selectNewProject(project.id)}
+                $isSelected={selectedProjectId === project.id}
+              >
                 <IconBoard></IconBoard>
                 <span>{project.name}</span>
               </MenuBtn>

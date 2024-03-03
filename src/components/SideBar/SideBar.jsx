@@ -1,16 +1,16 @@
 import styled, { css } from "styled-components";
 import SideBarMenu from "./SideBarMenu";
 import { MenuBtn } from "./SideBarMenu";
-import lightTheme from "../assets/icon-light-theme.svg";
-import darkTheme from "../assets/icon-dark-theme.svg";
-import showIcon from "../assets/icon-show-sidebar.svg";
-import { useTheme } from "../theme/useTheme";
+import lightTheme from "../../assets/icon-light-theme.svg";
+import darkTheme from "../../assets/icon-dark-theme.svg";
+import showIcon from "../../assets/icon-show-sidebar.svg";
+import { useTheme } from "../../theme/useTheme";
 import { useContext } from "react";
 
-import { SideBarContext } from "../store/SideBarContext";
+import { SideBarContext } from "../../store/SideBarContext";
 import { ThemeContext } from "styled-components";
-import { getFromLS } from "../utils/storage";
-import { devices } from "../utils/devices";
+import { getFromLS } from "../../utils/storage";
+import { devices } from "../../utils/devices";
 
 export const StyledSideBar = styled.div`
   ${({ $isSideBarHidden }) => {
@@ -48,7 +48,6 @@ export const StyledSideBar = styled.div`
   flex-direction: column;
   justify-content: center;
   padding: 0px 0px 47px 0px;
-  transition: all 0.5s linear;
 
   @media ${devices.mobile} {
     position: absolute;

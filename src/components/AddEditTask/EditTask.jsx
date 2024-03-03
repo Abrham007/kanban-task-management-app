@@ -1,10 +1,10 @@
 import styled from "styled-components";
-import InputTextField from "./InputTextField";
-import Button from "./Button";
-import InputDropdown from "./InputDropdown";
-import InputContainer from "./InputContainer";
+import InputTextField from "../UI/Inputs/InputTextField";
+import Button from "../UI/Buttons/Button";
+import InputDropdown from "../UI/Inputs/InputDropdown";
+import InputContainer from "../UI/Inputs/InputContainer";
 import { useContext, useState } from "react";
-import { DataContext } from "../store/DataContext";
+import { DataContext } from "../../store/DataContext";
 
 const StyledAddEditTask = styled.div`
   width: 100%;

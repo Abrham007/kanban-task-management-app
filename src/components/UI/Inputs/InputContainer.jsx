@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import InputTextField from "./InputTextField";
-import IconCross from "./IconCross";
-import Button from "./Button";
+import IconCross from "../Icons/IconCross";
+import Button from "../Buttons/Button";
 
 export const StyledInputContainer = styled.ul`
   display: flex;

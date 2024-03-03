@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import verticalEllipsis from "../assets/icon-vertical-ellipsis.svg";
+import verticalEllipsis from "../../../assets/icon-vertical-ellipsis.svg";
 import { useState } from "react";
 
 const EllipsisContainer = styled.div`

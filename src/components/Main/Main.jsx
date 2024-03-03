@@ -1,10 +1,10 @@
 import styled, { css } from "styled-components";
 import MainEmpty from "./MainEmpty";
-import { devices } from "../utils/devices";
+import { devices } from "../../utils/devices";
 import { useContext } from "react";
-import { DataContext } from "../store/DataContext";
-import { SideBarContext } from "../store/SideBarContext";
-import TaskBoard from "./TaskBoard";
+import { DataContext } from "../../store/DataContext";
+import { SideBarContext } from "../../store/SideBarContext";
+import TaskBoard from "./TaskBoard/TaskBoard";
 
 export const StyledMain = styled.main`
   grid-area: main;
@@ -14,7 +14,6 @@ export const StyledMain = styled.main`
   justify-content: ${({ $isMainEmpty }) =>
     $isMainEmpty ? "center" : "flex-start"};
   padding: 24px;
-  transition: all 0.5s linear;
   overflow: auto;
 
   @media ${devices.mobile} {
@@ -28,7 +27,6 @@ export const StyledMain = styled.main`
       background-color: rgba(0, 0, 0, 0.4);
       opacity: 0;
       z-index: -1;
-      transition: opacity 0.5s linear;
     }
     ${({ $isSideBarHidden }) => {
       if ($isSideBarHidden) {

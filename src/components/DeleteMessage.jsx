@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Button from "./Button";
+import Button from "./UI/Buttons/Button";
 import { devices } from "../utils/devices";
 import { useContext } from "react";
 import { DataContext } from "../store/DataContext";
@@ -33,14 +33,19 @@ const StyledDeleteMessage = styled.div`
 `;
 
 export default function DeleteMessage({ purpose = "board", title, task_id }) {
-  const { projectArray, selectedProjectId, deleteProject, deleteTask } = useContext(DataContext);
-  let activeBoard = projectArray.find((project) => project.id === selectedProjectId);
+  const { projectArray, selectedProjectId, deleteProject, deleteTask } =
+    useContext(DataContext);
+  let activeBoard = projectArray.find(
+    (project) => project.id === selectedProjectId
+  );
   let header;
   let message;
   let destructiveBtnFunction;
 
   if (purpose === "board") {
-    activeBoard = projectArray.find((project) => project.id === selectedProjectId);
+    activeBoard = projectArray.find(
+      (project) => project.id === selectedProjectId
+    );
     header = "Delete this board?";
     message = `Are you sure you want to delete the ‘${activeBoard.name}’ board? This action will remove all columns and tasks
   and cannot be reversed.`;

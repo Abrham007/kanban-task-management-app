@@ -2,7 +2,7 @@ import styled from "styled-components";
 import TaskDetail from "./TaskDetail";
 import { useState } from "react";
 import { useContext } from "react";
-import { DataContext } from "../store/DataContext";
+import { DataContext } from "../../../store/DataContext";
 
 export const StyledTask = styled.button`
   display: flex;
@@ -37,8 +37,12 @@ export const StyledTask = styled.button`
 export default function Task(props) {
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const { subtaskArray } = useContext(DataContext);
-  const activeSubtaskList = subtaskArray.filter((subtask) => subtask.task_id === props.id);
-  const numOfFinishedTasks = activeSubtaskList.filter((subtask) => subtask.is_completed).length;
+  const activeSubtaskList = subtaskArray.filter(
+    (subtask) => subtask.task_id === props.id
+  );
+  const numOfFinishedTasks = activeSubtaskList.filter(
+    (subtask) => subtask.is_completed
+  ).length;
 
   function handleOpenModal() {
     setIsDetailOpen(true);

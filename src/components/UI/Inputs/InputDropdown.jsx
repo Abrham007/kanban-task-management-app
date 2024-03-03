@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import downIcon from "../assets/icon-chevron-down.svg";
-import upIcon from "../assets/icon-chevron-up.svg";
-import { useContext, useEffect, useState } from "react";
-import { DataContext } from "../store/DataContext";
+import downIcon from "../../../assets/icon-chevron-down.svg";
+import upIcon from "../../../assets/icon-chevron-up.svg";
+import { useContext, useState } from "react";
+import { DataContext } from "../../../store/DataContext";
 
 export const Dropdown = styled.div`
   position: relative;
@@ -72,9 +72,14 @@ const DropdownMenu = styled.menu`
 
 export default function InputDropdown({ status, name, onChange }) {
   const [isOpen, setIsOpen] = useState(false);
-  const { projectArray, columnArray, selectedProjectId } = useContext(DataContext);
-  const activeBoard = projectArray.find((project) => project.id === selectedProjectId);
-  const statuslist = columnArray.filter((col) => col.project_id === activeBoard.id).map((col) => col.name);
+  const { projectArray, columnArray, selectedProjectId } =
+    useContext(DataContext);
+  const activeBoard = projectArray.find(
+    (project) => project.id === selectedProjectId
+  );
+  const statuslist = columnArray
+    .filter((col) => col.project_id === activeBoard.id)
+    .map((col) => col.name);
 
   function handleSelectedStatus(status) {
     onChange(name, status);

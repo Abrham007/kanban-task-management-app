@@ -1,15 +1,15 @@
 import styled from "styled-components";
-import InputCheckBox from "./InputCheckBox";
-import InputDropdown from "./InputDropdown";
-import EllipsisButton from "./EllipsisButton";
-import EditTask from "./EditTask";
-import DeleteMessage from "./DeleteMessage";
-import Modal from "./Modal";
-import { DataContext } from "../store/DataContext";
-import { devices } from "../utils/devices";
+import InputCheckBox from "../../UI/Inputs/InputCheckBox";
+import InputDropdown from "../../UI/Inputs/InputDropdown";
+import EllipsisButton from "../../UI/Buttons/EllipsisButton";
+import EditTask from "../../AddEditTask/EditTask";
+import DeleteMessage from "../../DeleteMessage";
+import Modal from "../../Modal";
+import { DataContext } from "../../../store/DataContext";
+import { devices } from "../../../utils/devices";
 import { useContext, useRef, useState, useEffect } from "react";
 import { createPortal } from "react-dom";
-import Button from "./Button";
+import Button from "../../UI/Buttons/Button";
 
 export const StyledTaskDetail = styled.dialog`
   position: absolute;

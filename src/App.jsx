@@ -3,8 +3,8 @@ import React, { useState, useEffect } from "react";
 import styled, { ThemeProvider } from "styled-components";
 import { GlobalStyles } from "./theme/GlobalStyles";
 import { useTheme } from "./theme/useTheme";
-import SideBar from "./components/SideBar";
-import Main from "./components/Main";
+import SideBar from "./components/SideBar/SideBar";
+import Main from "./components/Main/Main";
 import { devices } from "./utils/devices";
 import DataContextProvider from "./store/DataContext";
 import { SideBarContext } from "./store/SideBarContext";
@@ -23,7 +23,6 @@ const StyledApp = styled.div`
     $isSideBarHidden
       ? `'header header' 'main main'`
       : `'header header' 'sidebar main'`};
-  transition: all 0.5s linear;
   overflow-x: hidden;
 
   @media ${devices.tablet} {

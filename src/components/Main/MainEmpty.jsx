@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import Button from "./Button";
-import { devices } from "../utils/devices";
-import Modal from "./Modal";
-import EditBoard from "./EditBoard";
-import AddEditTask from "./AddTask";
+import Button from "../UI/Buttons/Button";
+import { devices } from "../../utils/devices";
+import Modal from "../Modal";
+import EditBoard from "../AddEditBoard/EditBoard";
+import AddEditTask from "../AddEditTask/AddTask";
 import { useState } from "react";
 
 const StyledMainEmpty = styled.div`
