@@ -17,7 +17,10 @@ function appReducer(state, action) {
   if (action.type === "FETCH_PROJECT") {
     return {
       ...state,
-      selectedProjectId: action.payload.projectArray.length !== 0 ? action.payload.projectArray[0].id : null,
+      selectedProjectId:
+        action.payload.projectArray.length !== 0
+          ? action.payload.projectArray[0].id
+          : null,
       projectArray: [...action.payload.projectArray],
       columnArray: [...action.payload.columnArray],
     };
@@ -48,8 +51,12 @@ function appReducer(state, action) {
 
   if (action.type === "EDIT_PROJECT") {
     let tempProject = [...state.projectArray];
-    let tempColumn = [...state.columnArray].filter((col) => col.project_id !== action.payload.id);
-    let tempProjectIndex = tempProject.findIndex((project) => project.id === action.payload.id);
+    let tempColumn = [...state.columnArray].filter(
+      (col) => col.project_id !== action.payload.id
+    );
+    let tempProjectIndex = tempProject.findIndex(
+      (project) => project.id === action.payload.id
+    );
     tempProject[tempProjectIndex] = action.payload.updatedProject;
 
     return {
@@ -62,9 +69,14 @@ function appReducer(state, action) {
   if (action.type === "DELETE_PROJECT") {
     return {
       ...state,
-      selectedProjectId: state.projectArray.length !== 0 ? state.projectArray[0].id : null,
-      projectArray: [...state.projectArray].filter((project) => project.id !== action.payload.id),
-      columnArray: [...state.columnArray].filter((col) => col.project_id !== action.payload.id),
+      selectedProjectId:
+        state.projectArray.length !== 0 ? state.projectArray[0].id : null,
+      projectArray: [...state.projectArray].filter(
+        (project) => project.id !== action.payload.id
+      ),
+      columnArray: [...state.columnArray].filter(
+        (col) => col.project_id !== action.payload.id
+      ),
     };
   }
 
@@ -78,8 +90,12 @@ function appReducer(state, action) {
 
   if (action.type === "EDIT_TASK") {
     let tempTask = [...state.taskArray];
-    let tempSubtask = [...state.subtaskArray].filter((subtask) => subtask.task_id !== action.payload.id);
-    let curretnTaskIndex = tempTask.findIndex((task) => task.id === action.payload.id);
+    let tempSubtask = [...state.subtaskArray].filter(
+      (subtask) => subtask.task_id !== action.payload.id
+    );
+    let curretnTaskIndex = tempTask.findIndex(
+      (task) => task.id === action.payload.id
+    );
     tempTask[curretnTaskIndex] = action.payload.updatedTask;
 
     return {
@@ -92,14 +108,18 @@ function appReducer(state, action) {
   if (action.type === "DELETE_TASK") {
     return {
       ...state,
-      taskArray: [...state.taskArray].filter((task) => task.id !== action.payload.id),
-      subtaskArray: [...state.subtaskArray].filter((subtask) => subtask.project_id !== action.payload.id),
+      taskArray: [...state.taskArray].filter(
+        (task) => task.id !== action.payload.id
+      ),
+      subtaskArray: [...state.subtaskArray].filter(
+        (subtask) => subtask.project_id !== action.payload.id
+      ),
     };
   }
 }
 
 export default function DataContextProvider({ children }) {
-  const [appState, appDispach] = useReducer(appReducer, {
+  const [appState, appDispatch] = useReducer(appReducer, {
     selectedProjectId: null,
     projectArray: [],
     columnArray: [],
@@ -108,7 +128,7 @@ export default function DataContextProvider({ children }) {
   });
 
   function selectNewProject(newProjectId) {
-    appDispach({
+    appDispatch({
       type: "SELECT_PROJECT",
       payload: { newProjectId },
     });
@@ -118,7 +138,7 @@ export default function DataContextProvider({ children }) {
     let [newProject, newColumnArray] = await postProject(project);
 
     if (newProject && newColumnArray) {
-      appDispach({
+      appDispatch({
         type: "ADD_PROJECT",
         payload: {
           newProject,
@@ -133,7 +153,7 @@ export default function DataContextProvider({ children }) {
     let [updatedProject, updatedColumnArray] = await updateProject(id, project);
 
     if (updateProject && updatedColumnArray) {
-      appDispach({
+      appDispatch({
         type: "EDIT_PROJECT",
         payload: { id, updatedProject, updatedColumnArray },
       });
@@ -144,7 +164,7 @@ export default function DataContextProvider({ children }) {
     let response = await removeProject(id);
 
     if (response.id === id) {
-      appDispach({
+      appDispatch({
         type: "DELETE_PROJECT",
         payload: { id },
       });
@@ -155,7 +175,7 @@ export default function DataContextProvider({ children }) {
     let [newTaskArray, newSubtaskArray] = await postTask(task);
 
     if (newTaskArray && newSubtaskArray) {
-      appDispach({
+      appDispatch({
         type: "ADD_TASK",
         payload: { newTaskArray, newSubtaskArray },
       });
@@ -166,7 +186,7 @@ export default function DataContextProvider({ children }) {
     let [updatedTask, updatedSubtaskArray] = await updateTask(id, task);
 
     if (updatedTask && updatedSubtaskArray) {
-      appDispach({
+      appDispatch({
         type: "EDIT_TASK",
         payload: { id, updatedTask, updatedSubtaskArray },
       });
@@ -177,7 +197,7 @@ export default function DataContextProvider({ children }) {
     let response = await removeTask(id);
 
     if (response.id === id) {
-      appDispach({
+      appDispatch({
         type: "DELETE_TASK",
         payload: { id },
       });
@@ -185,10 +205,13 @@ export default function DataContextProvider({ children }) {
   }
 
   async function editTaskDetail(id, newTaskDetail) {
-    let [updatedTask, updatedSubtaskArray] = await updateTaskDetail(id, newTaskDetail);
+    let [updatedTask, updatedSubtaskArray] = await updateTaskDetail(
+      id,
+      newTaskDetail
+    );
 
     if (updatedTask && updatedSubtaskArray) {
-      appDispach({
+      appDispatch({
         type: "EDIT_TASK",
         payload: { id, updatedTask, updatedSubtaskArray },
       });
@@ -197,13 +220,13 @@ export default function DataContextProvider({ children }) {
 
   useEffect(() => {
     fetchProject().then(([projectArray, columnArray]) => {
-      appDispach({
+      appDispatch({
         type: "FETCH_PROJECT",
         payload: { projectArray, columnArray },
       });
     });
     fetchTask().then(([taskArray, subtaskArray]) => {
-      appDispach({
+      appDispatch({
         type: "FETCH_TASK",
         payload: { taskArray, subtaskArray },
       });
@@ -221,5 +244,7 @@ export default function DataContextProvider({ children }) {
     deleteTask,
     editTaskDetail,
   };
-  return <DataContext.Provider value={ctxValue}>{children}</DataContext.Provider>;
+  return (
+    <DataContext.Provider value={ctxValue}>{children}</DataContext.Provider>
+  );
 }

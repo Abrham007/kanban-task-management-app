@@ -20,7 +20,9 @@ const StyledApp = styled.div`
     "header header"
     "sidebar main";
   grid-template-areas: ${({ $isSideBarHidden }) =>
-    $isSideBarHidden ? `'header header' 'main main'` : `'header header' 'sidebar main'`};
+    $isSideBarHidden
+      ? `'header header' 'main main'`
+      : `'header header' 'sidebar main'`};
   transition: all 0.5s linear;
   overflow-x: hidden;
 
@@ -41,7 +43,6 @@ export default function App() {
   const { theme, themeLoaded } = useTheme();
   const [selectedTheme, setSelectedTheme] = useState(theme);
   const [isSideBarHidden, setisSideBarHidden] = useState(false);
-  console.log("here");
 
   function handleThemeChange(newTheme) {
     setSelectedTheme(newTheme);
@@ -58,7 +59,9 @@ export default function App() {
   return (
     <StyledApp $isSideBarHidden={isSideBarHidden}>
       <DataContextProvider>
-        <SideBarContext.Provider value={{ isSideBarHidden, handleSideBarHidden }}>
+        <SideBarContext.Provider
+          value={{ isSideBarHidden, handleSideBarHidden }}
+        >
           {themeLoaded && (
             <ThemeProvider theme={selectedTheme}>
               <GlobalStyles></GlobalStyles>

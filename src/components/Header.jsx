@@ -22,7 +22,8 @@ export const StyledHeader = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: ${({ $isSideBarHidden }) => ($isSideBarHidden ? "0px 32px 0px 24px" : "0px 32px 0px 34px")};
+  padding: ${({ $isSideBarHidden }) =>
+    $isSideBarHidden ? "0px 32px 0px 24px" : "0px 32px 0px 34px"};
   transition: all 0.5s linear;
 
   .Header-text {
@@ -70,6 +71,10 @@ export const StyledHeader = styled.header`
       gap: 16px;
     }
 
+    h1 {
+      cursor: pointer;
+    }
+
     h1 > img {
       display: inline-block;
     }
@@ -93,11 +98,11 @@ const VerticalLine = styled.hr`
     display: none;
   }
 `;
-
+// prettier-ignore
 export const Logo = styled.div`
   width: 153px;
   height: 25px;
-  background-image: url(${({ $theme }) => ($theme.name === "Light" ? lightLogo : darkLogo)});
+  background-image: url(${({ $theme }) => $theme.name === "Light" ? lightLogo : darkLogo});
 
   @media ${devices.mobile} {
     width: 24px;
@@ -135,9 +140,14 @@ export default function Header() {
   const [isAddEditTaskOpen, setAddEditTaskOpen] = useState(false);
   const [isDeleteMessageOpen, setDeleteMessageOpen] = useState(false);
   const { isSideBarHidden, handleSideBarHidden } = useContext(SideBarContext);
-  const { projectArray, columnArray, selectedProjectId } = useContext(DataContext);
-  const activeBoard = projectArray?.find((project) => project.id === selectedProjectId);
-  const activeBoardColumns = columnArray.filter((col) => col.project_id === activeBoard.id);
+  const { projectArray, columnArray, selectedProjectId } =
+    useContext(DataContext);
+  const activeBoard = projectArray?.find(
+    (project) => project.id === selectedProjectId
+  );
+  const activeBoardColumns = columnArray.filter(
+    (col) => col.project_id === activeBoard.id
+  );
   const isEmptyColumn = activeBoardColumns.length === 0;
   const activeBoardName = activeBoard?.name ?? "";
   const themeContext = useContext(ThemeContext);
@@ -161,12 +171,18 @@ export default function Header() {
           <Logo role="presentation" $theme={themeContext}></Logo>
           <VerticalLine $isSideBarHidden={isSideBarHidden}></VerticalLine>
           <h1 onClick={handleSideBarHidden}>
-            <span>{activeBoardName}</span> <img src={isSideBarHidden ? upIcon : downIcon} alt=""></img>
+            <span>{activeBoardName}</span>
+            <img src={isSideBarHidden ? upIcon : downIcon} alt=""></img>
           </h1>
         </div>
 
         <div className="Header-btns">
-          <HeaderBtn onClick={handleModalTaskCreate} disabled={isEmptyColumn} type={"primary"} size="large">
+          <HeaderBtn
+            onClick={handleModalTaskCreate}
+            disabled={isEmptyColumn}
+            type={"primary"}
+            size="large"
+          >
             <span className="for-large">+ Add New Task</span>
             <img src={addIcon} alt="add sign" className="for-small"></img>
           </HeaderBtn>
