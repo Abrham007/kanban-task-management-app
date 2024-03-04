@@ -149,7 +149,7 @@ export default function DataContextProvider({ children }) {
       });
       selectNewProject(newProject.id);
     } catch (error) {
-      setError({ message: error.message || "Failed to create the project" });
+      setError({ message: "Failed to create the project" });
     }
     setIsLoading({ addProject: false });
   }
@@ -167,7 +167,7 @@ export default function DataContextProvider({ children }) {
         payload: { id, updatedProject, updatedColumnArray },
       });
     } catch (error) {
-      setError({ message: error.message || "Failed to edit the project" });
+      setError({ message: "Failed to edit the project" });
     }
     setIsLoading({ addProject: false });
   }
@@ -193,7 +193,7 @@ export default function DataContextProvider({ children }) {
           deleteColumnArray,
         },
       });
-      setError({ message: error.message || "Failed to delete the project" });
+      setError({ message: "Failed to delete the project" });
     }
   }
 
@@ -209,7 +209,7 @@ export default function DataContextProvider({ children }) {
         });
       }
     } catch (error) {
-      setError({ message: error.message || "Failed to create the task" });
+      setError({ message: "Failed to create the task" });
     }
     setIsLoading({ addTask: false });
   }
@@ -224,7 +224,7 @@ export default function DataContextProvider({ children }) {
         payload: { id, updatedTask, updatedSubtaskArray },
       });
     } catch (error) {
-      setError({ message: error.message || "Failed to edit the task" });
+      setError({ message: "Failed to edit the task" });
     }
     setIsLoading({ editTask: false });
   }
@@ -247,7 +247,7 @@ export default function DataContextProvider({ children }) {
         type: "ADD_TASK",
         payload: { deletedTask, deletedSubtaskArray },
       });
-      setError({ message: error.message || "Failed to delete the task" });
+      setError({ message: "Failed to delete the task" });
     }
   }
 
@@ -265,7 +265,7 @@ export default function DataContextProvider({ children }) {
       });
     } catch (error) {
       setError({
-        message: error.message || "Failed to update the task details",
+        message: "Failed to update the task details",
       });
     }
     setIsLoading({ editTaskDetail: false });
@@ -286,7 +286,7 @@ export default function DataContextProvider({ children }) {
           payload: { taskArray, subtaskArray },
         });
       } catch (error) {
-        setError({ message: error.message || "Failed to fetch data" });
+        setError({ message: "Failed to fetch data" });
       }
       setIsLoading({ fetchData: false });
     }
@@ -306,6 +306,7 @@ export default function DataContextProvider({ children }) {
     editTaskDetail,
     isLoading,
     error,
+    setError,
   };
   return (
     <DataContext.Provider value={ctxValue}>{children}</DataContext.Provider>

@@ -5,6 +5,8 @@ import { useContext } from "react";
 import { DataContext } from "../../store/DataContext";
 import { SideBarContext } from "../../store/SideBarContext";
 import TaskBoard from "./TaskBoard/TaskBoard";
+import Modal from "../Modal";
+import Error from "../Error";
 
 export const StyledMain = styled.main`
   grid-area: main;
@@ -43,8 +45,14 @@ export const StyledMain = styled.main`
 
 export default function Main() {
   const { isSideBarHidden } = useContext(SideBarContext);
-  const { projectArray, columnArray, selectedProjectId, isLoading } =
-    useContext(DataContext);
+  const {
+    projectArray,
+    columnArray,
+    selectedProjectId,
+    isLoading,
+    error,
+    setError,
+  } = useContext(DataContext);
   const isEmptyBoard = projectArray.length === 0;
   let isEmptyColumn = true;
   let activeBoard;
@@ -68,6 +76,12 @@ export default function Main() {
         ></MainEmpty>
       ) : (
         <TaskBoard></TaskBoard>
+      )}
+
+      {error?.message && (
+        <Modal isOpen={error.message} setIsOpen={setError}>
+          <Error message={error.message}></Error>
+        </Modal>
       )}
     </StyledMain>
   );
