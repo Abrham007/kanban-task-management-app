@@ -1,4 +1,4 @@
-import { createContext, useReducer, useEffect } from "react";
+import { createContext, useReducer, useEffect, useState } from "react";
 import {
   fetchProject,
   postProject,
@@ -119,6 +119,8 @@ function appReducer(state, action) {
 }
 
 export default function DataContextProvider({ children }) {
+  const [error, setError] = useState();
+  const [isLoading, setIsLoading] = useState({});
   const [appState, appDispatch] = useReducer(appReducer, {
     selectedProjectId: null,
     projectArray: [],
@@ -135,9 +137,9 @@ export default function DataContextProvider({ children }) {
   }
 
   async function addProject(project) {
-    let [newProject, newColumnArray] = await postProject(project);
-
-    if (newProject && newColumnArray) {
+    try {
+      setIsLoading({ addProject: true });
+      let [newProject, newColumnArray] = await postProject(project);
       appDispatch({
         type: "ADD_PROJECT",
         payload: {
@@ -145,92 +147,151 @@ export default function DataContextProvider({ children }) {
           newColumnArray,
         },
       });
+      selectNewProject(newProject.id);
+    } catch (error) {
+      setError({ message: error.message || "Failed to create the project" });
     }
-    selectNewProject(newProject.id);
+    setIsLoading({ addProject: false });
   }
 
   async function editProject(id, project) {
-    let [updatedProject, updatedColumnArray] = await updateProject(id, project);
+    try {
+      setIsLoading({ editProject: true });
+      let [updatedProject, updatedColumnArray] = await updateProject(
+        id,
+        project
+      );
 
-    if (updateProject && updatedColumnArray) {
       appDispatch({
         type: "EDIT_PROJECT",
         payload: { id, updatedProject, updatedColumnArray },
       });
+    } catch (error) {
+      setError({ message: error.message || "Failed to edit the project" });
     }
+    setIsLoading({ addProject: false });
   }
 
   async function deleteProject(id) {
-    let response = await removeProject(id);
-
-    if (response.id === id) {
+    appDispatch({
+      type: "DELETE_PROJECT",
+      payload: { id },
+    });
+    try {
+      await removeProject(id);
+    } catch (error) {
+      let deletedProject = appState.projectArray.find(
+        (project) => project.id === id
+      );
+      let deleteColumnArray = appState.columnArray.filter(
+        (col) => col.project_id === id
+      );
       appDispatch({
-        type: "DELETE_PROJECT",
-        payload: { id },
+        type: "ADD_PROJECT",
+        payload: {
+          deletedProject,
+          deleteColumnArray,
+        },
       });
+      setError({ message: error.message || "Failed to delete the project" });
     }
   }
 
   async function addTask(task) {
-    let [newTaskArray, newSubtaskArray] = await postTask(task);
+    try {
+      setIsLoading({ addTask: true });
+      let [newTaskArray, newSubtaskArray] = await postTask(task);
 
-    if (newTaskArray && newSubtaskArray) {
-      appDispatch({
-        type: "ADD_TASK",
-        payload: { newTaskArray, newSubtaskArray },
-      });
+      if (newTaskArray && newSubtaskArray) {
+        appDispatch({
+          type: "ADD_TASK",
+          payload: { newTaskArray, newSubtaskArray },
+        });
+      }
+    } catch (error) {
+      setError({ message: error.message || "Failed to create the task" });
     }
+    setIsLoading({ addTask: false });
   }
 
   async function editTask(id, task) {
-    let [updatedTask, updatedSubtaskArray] = await updateTask(id, task);
+    try {
+      setIsLoading({ editTask: true });
+      let [updatedTask, updatedSubtaskArray] = await updateTask(id, task);
 
-    if (updatedTask && updatedSubtaskArray) {
       appDispatch({
         type: "EDIT_TASK",
         payload: { id, updatedTask, updatedSubtaskArray },
       });
+    } catch (error) {
+      setError({ message: error.message || "Failed to edit the task" });
     }
+    setIsLoading({ editTask: false });
   }
 
   async function deleteTask(id) {
-    let response = await removeTask(id);
+    appDispatch({
+      type: "DELETE_TASK",
+      payload: { id },
+    });
 
-    if (response.id === id) {
+    try {
+      await removeTask(id);
+    } catch (error) {
+      let deletedTask = appState.taskArray.find((task) => task.id === id);
+      let deletedSubtaskArray = appState.subtaskArray.filter(
+        (subtask) => subtask.task_id === id
+      );
+
       appDispatch({
-        type: "DELETE_TASK",
-        payload: { id },
+        type: "ADD_TASK",
+        payload: { deletedTask, deletedSubtaskArray },
       });
+      setError({ message: error.message || "Failed to delete the task" });
     }
   }
 
   async function editTaskDetail(id, newTaskDetail) {
-    let [updatedTask, updatedSubtaskArray] = await updateTaskDetail(
-      id,
-      newTaskDetail
-    );
+    try {
+      setIsLoading({ editTaskDetail: true });
+      let [updatedTask, updatedSubtaskArray] = await updateTaskDetail(
+        id,
+        newTaskDetail
+      );
 
-    if (updatedTask && updatedSubtaskArray) {
       appDispatch({
         type: "EDIT_TASK",
         payload: { id, updatedTask, updatedSubtaskArray },
       });
+    } catch (error) {
+      setError({
+        message: error.message || "Failed to update the task details",
+      });
     }
+    setIsLoading({ editTaskDetail: false });
   }
 
   useEffect(() => {
-    fetchProject().then(([projectArray, columnArray]) => {
-      appDispatch({
-        type: "FETCH_PROJECT",
-        payload: { projectArray, columnArray },
-      });
-    });
-    fetchTask().then(([taskArray, subtaskArray]) => {
-      appDispatch({
-        type: "FETCH_TASK",
-        payload: { taskArray, subtaskArray },
-      });
-    });
+    async function fetchData() {
+      try {
+        setIsLoading({ fetchData: true });
+        const [projectArray, columnArray] = await fetchProject();
+        const [taskArray, subtaskArray] = await fetchTask();
+        appDispatch({
+          type: "FETCH_PROJECT",
+          payload: { projectArray, columnArray },
+        });
+        appDispatch({
+          type: "FETCH_TASK",
+          payload: { taskArray, subtaskArray },
+        });
+      } catch (error) {
+        setError({ message: error.message || "Failed to fetch data" });
+      }
+      setIsLoading({ fetchData: false });
+    }
+
+    fetchData();
   }, []);
 
   const ctxValue = {
@@ -243,6 +304,8 @@ export default function DataContextProvider({ children }) {
     editTask,
     deleteTask,
     editTaskDetail,
+    isLoading,
+    error,
   };
   return (
     <DataContext.Provider value={ctxValue}>{children}</DataContext.Provider>
