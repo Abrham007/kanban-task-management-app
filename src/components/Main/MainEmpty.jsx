@@ -32,7 +32,11 @@ const Paragraph = styled.p`
   }
 `;
 
-export default function MainEmpty({ isEmptyBoard, isEmptyColumn }) {
+export default function MainEmpty({
+  isEmptyBoard,
+  isEmptyColumn,
+  isFetchingData,
+}) {
   const [isEditBoardOpen, setEditBoardOpen] = useState(false);
 
   function handleOpenBoardModal() {
@@ -52,11 +56,21 @@ export default function MainEmpty({ isEmptyBoard, isEmptyColumn }) {
     }
   }
 
+  if (isFetchingData) {
+    message = "Fetching...";
+    btnText = "This may take a few seconds";
+  }
+
   return (
     <>
       <StyledMainEmpty>
         <Paragraph>{message}</Paragraph>
-        <Button type={"primary"} size="large" onClick={handleOpenBoardModal}>
+        <Button
+          type={"primary"}
+          size="large"
+          onClick={handleOpenBoardModal}
+          disabled={isFetchingData}
+        >
           {btnText}
         </Button>
       </StyledMainEmpty>

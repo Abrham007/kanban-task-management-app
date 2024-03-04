@@ -43,7 +43,7 @@ export const StyledMain = styled.main`
 
 export default function Main() {
   const { isSideBarHidden } = useContext(SideBarContext);
-  const { projectArray, columnArray, selectedProjectId } =
+  const { projectArray, columnArray, selectedProjectId, isLoading } =
     useContext(DataContext);
   const isEmptyBoard = projectArray.length === 0;
   let isEmptyColumn = true;
@@ -64,6 +64,7 @@ export default function Main() {
         <MainEmpty
           isEmptyBoard={isEmptyBoard}
           isEmptyColumn={isEmptyColumn}
+          isFetchingData={isLoading?.fetchData}
         ></MainEmpty>
       ) : (
         <TaskBoard></TaskBoard>
