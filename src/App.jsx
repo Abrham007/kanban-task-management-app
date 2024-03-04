@@ -1,13 +1,15 @@
 import Header from "./components/Header";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styled, { ThemeProvider } from "styled-components";
 import { GlobalStyles } from "./theme/GlobalStyles";
 import { useTheme } from "./theme/useTheme";
 import SideBar from "./components/SideBar/SideBar";
 import Main from "./components/Main/Main";
 import { devices } from "./utils/devices";
-import DataContextProvider from "./store/DataContext";
+import DataContextProvider, { DataContext } from "./store/DataContext";
 import { SideBarContext } from "./store/SideBarContext";
+import Modal from "./components/Modal";
+import Error from "./components/Error";
 
 const StyledApp = styled.div`
   width: 100vw;
@@ -56,8 +58,8 @@ export default function App() {
   }, [theme, themeLoaded]);
 
   return (
-    <StyledApp $isSideBarHidden={isSideBarHidden}>
-      <DataContextProvider>
+    <DataContextProvider>
+      <StyledApp $isSideBarHidden={isSideBarHidden}>
         <SideBarContext.Provider
           value={{ isSideBarHidden, handleSideBarHidden }}
         >
@@ -70,7 +72,7 @@ export default function App() {
             </ThemeProvider>
           )}
         </SideBarContext.Provider>
-      </DataContextProvider>
-    </StyledApp>
+      </StyledApp>
+    </DataContextProvider>
   );
 }
