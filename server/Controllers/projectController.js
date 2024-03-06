@@ -25,12 +25,14 @@ export async function createProject(req, res) {
     newProject = newProjectResponse.rows[0];
     let newProjectId = newProjectResponse.rows[0].id;
 
-    for await (const columnName of req.body.columnNames) {
-      let newColumnResponse = await db.query(
-        "INSERT INTO project_column (name, project_id) VALUES ($1, $2) RETURNING *",
-        [columnName, newProjectId]
-      );
-      newColumnArray.push(newColumnResponse.rows[0]);
+    if (req.body.columnNames !== 0) {
+      for await (const columnName of req.body.columnNames) {
+        let newColumnResponse = await db.query(
+          "INSERT INTO project_column (name, project_id) VALUES ($1, $2) RETURNING *",
+          [columnName, newProjectId]
+        );
+        newColumnArray.push(newColumnResponse.rows[0]);
+      }
     }
 
     res.status(200).send([newProject, newColumnArray]);

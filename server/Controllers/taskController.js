@@ -32,19 +32,22 @@ export async function createTask(req, res) {
     newTaskArray = newTaskResponse.rows;
     let newTaskId = newTaskResponse.rows[0].id;
 
-    for await (const subtask of req.body.subtasks) {
-      let newSubtaskResponse = await db.query(
-        "INSERT INTO project_subtask (title, is_completed, task_id , column_id, project_id) VALUES ($1, $2, $3, $4, $5) RETURNING *",
-        [
-          subtask.title,
-          subtask.is_completed,
-          newTaskId,
-          req.body.column_id,
-          req.body.project_id,
-        ]
-      );
-      newSubtaskArray.push(newSubtaskResponse.rows[0]);
+    if (req.body.substasks !== 0) {
+      for await (const subtask of req.body.subtasks) {
+        let newSubtaskResponse = await db.query(
+          "INSERT INTO project_subtask (title, is_completed, task_id , column_id, project_id) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+          [
+            subtask.title,
+            subtask.is_completed,
+            newTaskId,
+            req.body.column_id,
+            req.body.project_id,
+          ]
+        );
+        newSubtaskArray.push(newSubtaskResponse.rows[0]);
+      }
     }
+
     res.status(200).send([newTaskArray, newSubtaskArray]);
   } catch (error) {
     res.status(400).send(error.message);
@@ -137,12 +140,14 @@ export async function updateTaskDetail(req, res) {
       [req.body.status, req.body.column_id, req.params.id]
     );
     let updatedTask = taskResponse.rows[0];
-    for await (let subtask of req.body.subtasks) {
-      const subtaskResponse = await db.query(
-        "UPDATE project_subtask SET is_completed = $1, column_id = $2 WHERE id = $3 RETURNING *",
-        [subtask.is_completed, subtask.column_id, subtask.id]
-      );
-      updatedSubtaskArray.push(subtaskResponse.rows[0]);
+    if (req.body.substasks !== 0) {
+      for await (let subtask of req.body.subtasks) {
+        const subtaskResponse = await db.query(
+          "UPDATE project_subtask SET is_completed = $1, column_id = $2 WHERE id = $3 RETURNING *",
+          [subtask.is_completed, subtask.column_id, subtask.id]
+        );
+        updatedSubtaskArray.push(subtaskResponse.rows[0]);
+      }
     }
 
     res.status(200).send([updatedTask, updatedSubtaskArray]);
