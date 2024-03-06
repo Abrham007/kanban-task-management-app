@@ -72,6 +72,8 @@ export default function EditBoard({ setIsOpen }) {
     defaultInputs[key] = value.name;
   }
 
+  let isDisabled = deleteInProgress || isLoading?.editProject;
+
   async function handleDeleteColumn(taskIdList) {
     setDeleteInProgress(true);
     for await (const taskId of taskIdList) {
@@ -189,10 +191,7 @@ export default function EditBoard({ setIsOpen }) {
         ></InputContainer>
       </div>
       <Form method="dialog">
-        <Button
-          onClick={handleEditProject}
-          disabled={deleteInProgress || isLoading?.editProject}
-        >
+        <Button onClick={handleEditProject} disabled={isDisabled}>
           {isLoading?.editProject ? "Sending..." : "Edit Board"}
         </Button>
         <Button>Cancel</Button>
