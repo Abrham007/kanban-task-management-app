@@ -132,7 +132,7 @@ export default function SideBarMenu() {
         </Menu>
       </StyledSideBarMenu>
       <Modal isOpen={isAddEditBoardOpen} setIsOpen={setAddEditBoardOpen}>
-        <AddBoard></AddBoard>
+        <AddBoard setIsOpen={setAddEditBoardOpen}></AddBoard>
       </Modal>
     </>
   );

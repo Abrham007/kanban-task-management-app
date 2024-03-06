@@ -35,7 +35,7 @@ export const NewTaskColumn = styled.section`
   }
 `;
 export default function TaskBoard() {
-  const [isAddEditBoardOpen, setAddEditBoardOpen] = useState(false);
+  const [isEditBoardOpen, setEditBoardOpen] = useState(false);
   const { projectArray, columnArray, selectedProjectId } =
     useContext(DataContext);
   const activeBoard = projectArray.find(
@@ -46,7 +46,7 @@ export default function TaskBoard() {
   );
 
   function handleOpenModal() {
-    setAddEditBoardOpen(true);
+    setEditBoardOpen(true);
   }
   return (
     <>
@@ -58,8 +58,8 @@ export default function TaskBoard() {
           <button onClick={handleOpenModal}>+ New Column</button>
         </NewTaskColumn>
       </StyledTaskBoard>
-      <Modal isOpen={isAddEditBoardOpen} setIsOpen={setAddEditBoardOpen}>
-        <EditBoard></EditBoard>
+      <Modal isOpen={isEditBoardOpen} setIsOpen={setEditBoardOpen}>
+        <EditBoard setIsOpen={setEditBoardOpen}></EditBoard>
       </Modal>
     </>
   );
