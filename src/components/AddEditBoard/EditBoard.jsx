@@ -36,7 +36,7 @@ const Form = styled.form`
   gap: 8px;
 `;
 
-export default function EditBoard() {
+export default function EditBoard({ setIsOpen }) {
   const [deleteInProgress, setDeleteInProgress] = useState(false);
   const {
     projectArray,
@@ -45,6 +45,7 @@ export default function EditBoard() {
     selectedProjectId,
     editProject,
     deleteTask,
+    isLoading,
   } = useContext(DataContext);
   const activeBoard = projectArray.find(
     (project) => project.id === selectedProjectId
@@ -138,7 +139,8 @@ export default function EditBoard() {
     }
   }
 
-  function handleEditProject(e) {
+  async function handleEditProject(e) {
+    e.preventDefault();
     let invalidList = [];
     if (projectDetail.projectName === "") {
       invalidList.push("projectName");
@@ -155,10 +157,10 @@ export default function EditBoard() {
         ...projectDetail,
         columnNames: Object.values(projectDetail.columnNames),
       };
-      editProject(selectedProjectId, newProject);
+      await editProject(selectedProjectId, newProject);
       setInvalidInputList([]);
+      setIsOpen(false);
     } else {
-      e.preventDefault();
       setInvalidInputList(invalidList);
     }
   }
@@ -187,8 +189,11 @@ export default function EditBoard() {
         ></InputContainer>
       </div>
       <Form method="dialog">
-        <Button onClick={handleEditProject} disabled={deleteInProgress}>
-          Edit Board
+        <Button
+          onClick={handleEditProject}
+          disabled={deleteInProgress || isLoading?.editProject}
+        >
+          {isLoading?.editProject ? "Sending..." : "Edit Board"}
         </Button>
         <Button>Cancel</Button>
       </Form>

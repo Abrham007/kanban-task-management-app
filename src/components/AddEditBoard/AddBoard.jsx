@@ -36,7 +36,7 @@ const Form = styled.form`
   gap: 8px;
 `;
 
-export default function AddBoard() {
+export default function AddBoard({ setIsOpen }) {
   const [projectDetail, setProjectDetail] = useState({
     projectName: "",
     columnNames: { colName1: "Todo", colName2: "Doing" },
@@ -44,7 +44,7 @@ export default function AddBoard() {
 
   const [invalidInputList, setInvalidInputList] = useState([]);
 
-  const { addProject } = useContext(DataContext);
+  const { addProject, isLoading } = useContext(DataContext);
 
   function handleRemoveInputs(name) {
     setProjectDetail((prevValue) => {
@@ -86,7 +86,8 @@ export default function AddBoard() {
     }
   }
 
-  function handleAddProject(e) {
+  async function handleAddProject(e) {
+    e.preventDefault();
     let invalidList = [];
     if (projectDetail.projectName === "") {
       invalidList.push("projectName");
@@ -99,19 +100,18 @@ export default function AddBoard() {
     }
 
     if (invalidList.length === 0) {
-      console.log(invalidInputList);
       let newProject = {
         ...projectDetail,
         columnNames: Object.values(projectDetail.columnNames),
       };
-      addProject(newProject);
+      await addProject(newProject);
       setProjectDetail({
         projectName: "",
         columnNames: { colName1: "Todo", colName2: "Doing" },
       });
       setInvalidInputList([]);
+      setIsOpen(false);
     } else {
-      e.preventDefault();
       setInvalidInputList(invalidList);
     }
   }
@@ -140,7 +140,9 @@ export default function AddBoard() {
         ></InputContainer>
       </div>
       <Form method="dialog">
-        <Button onClick={handleAddProject}>Create New Board</Button>
+        <Button onClick={handleAddProject} disable={`${isLoading?.addProject}`}>
+          {isLoading?.addProject ? "Sending..." : "Create New Board"}
+        </Button>
         <Button>Cancel</Button>
       </Form>
     </StyledAddBoard>

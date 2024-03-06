@@ -44,6 +44,7 @@ export default function EditTask(props) {
     subtaskArray,
     selectedProjectId,
     editTask,
+    isLoading,
   } = useContext(DataContext);
   const activeProject = projectArray.find(
     (project) => project.id === selectedProjectId
@@ -131,7 +132,8 @@ export default function EditTask(props) {
     }
   }
 
-  function handleEditTask(e) {
+  async function handleEditTask(e) {
+    e.preventDefault();
     let invalidList = [];
     if (taskDetail.title === "") {
       invalidList.push("title");
@@ -153,10 +155,10 @@ export default function EditTask(props) {
         column_id: columnOfTask.id,
         project_id: selectedProjectId,
       };
-      editTask(props.id, newTask);
+      await editTask(props.id, newTask);
       setInvalidInputList([]);
+      props.setIsOpen(false);
     } else {
-      e.preventDefault();
       setInvalidInputList(invalidList);
     }
   }
@@ -208,7 +210,9 @@ export default function EditTask(props) {
         ></InputDropdown>
       </label>
       <Form method="dialog">
-        <Button onClick={handleEditTask}>Edit Task</Button>
+        <Button onClick={handleEditTask} disable={`${isLoading?.editTask}`}>
+          {isLoading?.editTask ? "Sending..." : "Edit Task"}
+        </Button>
         <Button>Cancel</Button>
       </Form>
     </StyledAddEditTask>

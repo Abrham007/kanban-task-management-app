@@ -38,7 +38,7 @@ const Form = styled.form`
 `;
 
 export default function AddTask(props) {
-  const { projectArray, columnArray, selectedProjectId, addTask } =
+  const { projectArray, columnArray, selectedProjectId, addTask, isLoading } =
     useContext(DataContext);
   const activeProject = projectArray.find(
     (project) => project.id === selectedProjectId
@@ -113,7 +113,8 @@ export default function AddTask(props) {
     }
   }
 
-  function handleAddTask(e) {
+  async function handleAddTask(e) {
+    e.preventDefault();
     let invalidList = [];
     if (taskDetail.title === "") {
       invalidList.push("title");
@@ -135,7 +136,7 @@ export default function AddTask(props) {
         column_id: columnOfTask.id,
         project_id: selectedProjectId,
       };
-      addTask(newTask);
+      await addTask(newTask);
       setTaskDetail({
         title: "",
         description: "",
@@ -146,8 +147,8 @@ export default function AddTask(props) {
         },
       });
       setInvalidInputList([]);
+      props.setIsOpen(false);
     } else {
-      e.preventDefault();
       setInvalidInputList(invalidList);
     }
   }
@@ -208,7 +209,9 @@ export default function AddTask(props) {
         ></InputDropdown>
       </label>
       <Form method="dialog">
-        <Button onClick={handleAddTask}>Create Task</Button>
+        <Button onClick={handleAddTask} disable={`${isLoading?.addTask}`}>
+          {isLoading?.addTask ? "Sending..." : "Create Task"}
+        </Button>
         <Button>Cancel</Button>
       </Form>
     </StyledAddEditTask>
