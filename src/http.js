@@ -117,7 +117,7 @@ export async function removeTask(id) {
 }
 
 export async function updateTaskDetail(id, newTaskDetail) {
-  const response = await fetch(HOST + `api/task/detail/${id}`, {
+  const response = await fetch(HOST + `/api/task/detail/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
