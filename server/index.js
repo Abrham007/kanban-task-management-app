@@ -9,7 +9,7 @@ import taskRoute from "./Routes/taskRoute.js";
 const app = express();
 db.connect();
 
-const port = process.env.PORT || 4000;
+const PORT = process.env.PORT || 4000;
 
 app.use(
   cors({
@@ -24,6 +24,6 @@ app.use(express.static("public"));
 app.use("/api/project", projectRoute);
 app.use("/api/task", taskRoute);
 
-app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
 });
