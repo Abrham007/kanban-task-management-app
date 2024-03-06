@@ -26,8 +26,6 @@ export const EllipsisOptionContainer = styled.menu`
   border-radius: 8px;
   box-shadow: 0px 10px 20px 0px rgba(54, 78, 126, 0.25);
   color: #828fa3;
-  transform: ${({ $purpose }) =>
-    $purpose === "Board" ? "" : "translateX(calc(50% - 20px))"};
 
   li {
     list-style: none;
@@ -77,7 +75,7 @@ export default function EllipsisButton({
         <StyledEllipsisButton {...props} onClick={toggleMenu}>
           <img src={verticalEllipsis} alt=""></img>
         </StyledEllipsisButton>
-        <EllipsisOptionContainer $purpose={purpose} $isOpen={isOpen}>
+        <EllipsisOptionContainer $isOpen={isOpen}>
           <li>
             <button disabled={disabled} onClick={onEdit}>
               Edit {purpose}
