@@ -1,8 +1,5 @@
 import styled from "styled-components";
 import Button from "./UI/Buttons/Button";
-import { devices } from "../utils/devices";
-import { useContext } from "react";
-import { DataContext } from "../store/DataContext";
 
 const StyledDeleteMessage = styled.div`
   display: flex;
