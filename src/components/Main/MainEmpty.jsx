@@ -3,7 +3,7 @@ import Button from "../UI/Buttons/Button";
 import { devices } from "../../utils/devices";
 import Modal from "../Modal";
 import { useState } from "react";
-import AddBoard from "../AddEditBoard/AddBoard";
+import EditBoard from "../AddEditBoard/EditBoard";
 
 const StyledMainEmpty = styled.div`
   display: flex;
@@ -36,10 +36,10 @@ export default function MainEmpty({
   isEmptyColumn,
   isFetchingData,
 }) {
-  const [isAddBoardOpen, setAddBoardOpen] = useState(false);
+  const [isEditBoardOpen, setEditBoardOpen] = useState(false);
 
   function handleOpenBoardModal() {
-    setAddBoardOpen(true);
+    setEditBoardOpen(true);
   }
 
   let message = "";
@@ -73,8 +73,8 @@ export default function MainEmpty({
           {btnText}
         </Button>
       </StyledMainEmpty>
-      <Modal isOpen={isAddBoardOpen} setIsOpen={setAddBoardOpen}>
-        <AddBoard></AddBoard>
+      <Modal isOpen={isEditBoardOpen} setIsOpen={setEditBoardOpen}>
+        <EditBoard setIsOpen={setEditBoardOpen}></EditBoard>
       </Modal>
     </>
   );
