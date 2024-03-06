@@ -22,7 +22,7 @@ export const StyledTaskDetail = styled.dialog`
   border: none;
   outline: none;
   padding: 32px;
-  overflow: visible;
+  overflow-y: visible;
 
   &::backdrop {
     opacity: 0.5;
@@ -89,8 +89,13 @@ const Form = styled.form`
 `;
 
 export default function TaskDetail(props) {
-  const { projectArray, columnArray, selectedProjectId, editTaskDetail } =
-    useContext(DataContext);
+  const {
+    projectArray,
+    columnArray,
+    selectedProjectId,
+    editTaskDetail,
+    isLoading,
+  } = useContext(DataContext);
   const [statusState, setStatusState] = useState(props.status);
 
   let taskDetail = {
@@ -149,7 +154,8 @@ export default function TaskDetail(props) {
     taskDetail.subtasks = tempSubtasks;
   }
 
-  function handleTaskDetailClose() {
+  async function handleTaskDetailClose(e) {
+    e.preventDefault();
     const columnOfTask = activeProjectColumns.find(
       (col) => col.name === taskDetail.status
     );
@@ -164,7 +170,7 @@ export default function TaskDetail(props) {
       column_id: columnOfTask.id,
     };
 
-    editTaskDetail(props.id, newTaskDetail);
+    await editTaskDetail(props.id, newTaskDetail);
     props.handleCloseModal();
   }
 
@@ -207,7 +213,12 @@ export default function TaskDetail(props) {
           ></InputDropdown>
         </TaskDetailDropdown>
         <Form method="dialog">
-          <Button onClick={handleTaskDetailClose}>Save</Button>
+          <Button
+            onClick={handleTaskDetailClose}
+            disable={`${isLoading?.editTaskDetail}`}
+          >
+            {isLoading?.editTaskDetail ? "Saving..." : "Save"}
+          </Button>
           <Button>Cancel</Button>
         </Form>
       </StyledTaskDetail>
@@ -215,6 +226,7 @@ export default function TaskDetail(props) {
         <EditTask
           {...props}
           handleCloseModal={props.handleCloseModal}
+          setIsOpen={setAddEditTaskOpen}
         ></EditTask>
       </Modal>
       <Modal isOpen={isDeleteMessageOpen} setIsOpen={setDeleteMessageOpen}>
