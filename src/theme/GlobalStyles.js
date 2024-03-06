@@ -63,7 +63,8 @@ export const GlobalStyles = createGlobalStyle`
   }
   ${NewTaskColumn} {
     background: linear-gradient(180deg, ${({ theme }) =>
-      theme.colors.newTaskColumn.first} 0%, rgba(233, 239, 250, 0.50) 100%);
+      theme.colors.newTaskColumn.first} 0%, ${({ theme }) =>
+  theme.colors.newTaskColumn.second} 100%);
   }
   ${StyledTask} {
     background-color: ${({ theme }) => theme.colors.task.background};
