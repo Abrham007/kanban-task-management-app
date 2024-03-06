@@ -22,6 +22,7 @@ export const StyledHeader = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  z-index: 1;
   padding: ${({ $isSideBarHidden }) =>
     $isSideBarHidden ? "0px 32px 0px 24px" : "0px 32px 0px 34px"};
 
@@ -194,10 +195,10 @@ export default function Header() {
         </div>
       </StyledHeader>
       <Modal isOpen={isAddEditTaskOpen} setIsOpen={setAddEditTaskOpen}>
-        <AddTask></AddTask>
+        <AddTask setIsOpen={setAddEditTaskOpen}></AddTask>
       </Modal>
       <Modal isOpen={isAddEditBoardOpen} setIsOpen={setAddEditBoardOpen}>
-        <EditBoard></EditBoard>
+        <EditBoard setIsOpen={setAddEditBoardOpen}></EditBoard>
       </Modal>
       <Modal isOpen={isDeleteMessageOpen} setIsOpen={setDeleteMessageOpen}>
         <DeleteMessage></DeleteMessage>
