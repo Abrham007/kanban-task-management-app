@@ -20,6 +20,7 @@ export const NewTaskColumn = styled.section`
   flex-shrink: 0;
   border-radius: 6px;
   margin-top: 39px;
+  z-index: 1;
 
   button {
     background-color: transparent;
