@@ -7,13 +7,13 @@ export const useTheme = () => {
   const [themeLoaded, setThemeLoaded] = useState(false);
 
   const setMode = (mode) => {
-    setToLS("theme", mode);
+    setToLS("theme", { theme: mode });
     setTheme(mode);
   };
 
   useEffect(() => {
     const localTheme = getFromLS("theme");
-    localTheme ? setTheme(localTheme) : setTheme(themes.data.light);
+    localTheme.theme ? setTheme(localTheme.theme) : setTheme(themes.data.light);
     setThemeLoaded(true);
   }, []);
 
