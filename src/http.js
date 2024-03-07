@@ -1,6 +1,5 @@
-let HOST = "http://localhost:4000";
 export async function fetchProject() {
-  const response = await fetch(HOST + "/api/project/get");
+  const response = await fetch("/api/project/get");
 
   if (!response.ok) {
     throw Error("Error fetching the projects");
@@ -11,7 +10,7 @@ export async function fetchProject() {
 }
 
 export async function postProject(newProject) {
-  const response = await fetch(HOST + "/api/project/post", {
+  const response = await fetch("/api/project/post", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -29,7 +28,7 @@ export async function postProject(newProject) {
 }
 
 export async function updateProject(id, project) {
-  const response = await fetch(HOST + `/api/project/update/${id}`, {
+  const response = await fetch(`/api/project/update/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -46,7 +45,7 @@ export async function updateProject(id, project) {
 }
 
 export async function removeProject(id) {
-  const response = await fetch(HOST + `/api/project/delete/${id}`, {
+  const response = await fetch(`/api/project/delete/${id}`, {
     method: "DELETE",
   });
 
@@ -59,7 +58,7 @@ export async function removeProject(id) {
 }
 
 export async function fetchTask() {
-  const response = await fetch(HOST + "/api/task/get");
+  const response = await fetch("/api/task/get");
 
   if (!response.ok) {
     throw Error("Error fetching the tasks");
@@ -70,7 +69,7 @@ export async function fetchTask() {
 }
 
 export async function postTask(newTask) {
-  const response = await fetch(HOST + "/api/task/post", {
+  const response = await fetch("/api/task/post", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -87,7 +86,7 @@ export async function postTask(newTask) {
 }
 
 export async function updateTask(id, task) {
-  const response = await fetch(HOST + `/api/task/update/${id}`, {
+  const response = await fetch(`/api/task/update/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -104,7 +103,7 @@ export async function updateTask(id, task) {
 }
 
 export async function removeTask(id) {
-  const response = await fetch(HOST + `/api/task/delete/${id}`, {
+  const response = await fetch(`/api/task/delete/${id}`, {
     method: "DELETE",
   });
 
@@ -117,7 +116,7 @@ export async function removeTask(id) {
 }
 
 export async function updateTaskDetail(id, newTaskDetail) {
-  const response = await fetch(HOST + `/api/task/detail/${id}`, {
+  const response = await fetch(`/api/task/detail/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
