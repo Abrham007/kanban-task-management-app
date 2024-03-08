@@ -4,6 +4,7 @@ import { devices } from "../../utils/devices";
 import Modal from "../Modal";
 import { useState } from "react";
 import EditBoard from "../AddEditBoard/EditBoard";
+import AddBoard from "../AddEditBoard/AddBoard";
 
 const StyledMainEmpty = styled.div`
   display: flex;
@@ -17,7 +18,7 @@ const StyledMainEmpty = styled.div`
 `;
 
 const Paragraph = styled.p`
-  color: inherit;
+  color: #828fa3;
   text-align: center;
   font-size: 1.125rem;
   font-weight: 700;
@@ -37,21 +38,29 @@ export default function MainEmpty({
   isFetchingData,
 }) {
   const [isEditBoardOpen, setEditBoardOpen] = useState(false);
+  const [isAddBoardOpen, setAddBoardOpen] = useState(false);
 
-  function handleOpenBoardModal() {
+  function handleOpenEditBoardModal() {
     setEditBoardOpen(true);
+  }
+
+  function handleOpenAddBoardModal() {
+    setAddBoardOpen(true);
   }
 
   let message = "";
   let btnText = "";
+  let btnFn;
 
   if (isEmptyBoard) {
     message = "Create a new board to get started.";
     btnText = "+ Create New Board";
+    btnFn = handleOpenAddBoardModal;
   } else {
     if (isEmptyColumn) {
       message = "This board is empty. Create a new column to get started.";
       btnText = "+ Add New Column";
+      btnFn = handleOpenEditBoardModal;
     }
   }
 
@@ -67,7 +76,7 @@ export default function MainEmpty({
         <Button
           type={"primary"}
           size="large"
-          onClick={handleOpenBoardModal}
+          onClick={btnFn}
           disabled={isFetchingData}
         >
           {btnText}
@@ -75,6 +84,9 @@ export default function MainEmpty({
       </StyledMainEmpty>
       <Modal isOpen={isEditBoardOpen} setIsOpen={setEditBoardOpen}>
         <EditBoard setIsOpen={setEditBoardOpen}></EditBoard>
+      </Modal>
+      <Modal isOpen={isAddBoardOpen} setIsOpen={setAddBoardOpen}>
+        <AddBoard setIsOpen={setAddBoardOpen}></AddBoard>
       </Modal>
     </>
   );
