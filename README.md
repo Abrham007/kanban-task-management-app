@@ -21,7 +21,7 @@ This project took me about 1.5 week to finish. It's fully backed with a Node.js 
 - CSS
 - Flexbox
 - CSS Grid
-- Mobile-first workflow
+- Desktop-first workflow
 - Webpack
 - [React](https://reactjs.org/) - Frontend framework
 - [Styled Components](https://styled-components.com/) - For styles
