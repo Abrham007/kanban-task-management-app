@@ -3,6 +3,7 @@ import { devices } from "../../utils/devices";
 import IconBoard from "../UI/Icons/IconBoard";
 import { useContext, useState } from "react";
 import { DataContext } from "../../store/DataContext";
+import { SideBarContext } from "../../store/SideBarContext";
 import AddBoard from "../AddEditBoard/AddBoard";
 import Modal from "../Modal";
 
@@ -102,6 +103,7 @@ const CreateBtn = styled(MenuBtn)`
 
 export default function SideBarMenu() {
   const [isAddEditBoardOpen, setAddEditBoardOpen] = useState(false);
+  const { handleSideBarHidden } = useContext(SideBarContext);
   const { selectedProjectId, projectArray, selectNewProject } =
     useContext(DataContext);
   function handleOpenModal() {
@@ -115,7 +117,10 @@ export default function SideBarMenu() {
           {projectArray.map((project) => (
             <li key={project.id}>
               <MenuBtn
-                onClick={() => selectNewProject(project.id)}
+                onClick={() => {
+                  selectNewProject(project.id);
+                  handleSideBarHidden();
+                }}
                 $isSelected={selectedProjectId === project.id}
               >
                 <IconBoard></IconBoard>

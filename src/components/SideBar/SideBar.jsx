@@ -30,6 +30,7 @@ export const StyledSideBar = styled.div`
 
         @media ${devices.mobile} {
           opacity: 1;
+          z-index: 1;
           transform: none;
         }
       `;
@@ -40,6 +41,7 @@ export const StyledSideBar = styled.div`
 
         @media ${devices.mobile} {
           opacity: 0;
+          z-index: -10;
         }
       `;
     }
@@ -58,7 +60,6 @@ export const StyledSideBar = styled.div`
     gap: 16px;
     border-radius: 8px;
     padding: 16px 0px;
-    z-index: 1;
     transition: opacity 0.2s linear;
   }
 `;
