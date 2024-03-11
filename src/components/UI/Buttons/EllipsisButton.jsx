@@ -26,7 +26,7 @@ export const EllipsisOptionContainer = styled.menu`
   border-radius: 8px;
   box-shadow: 0px 10px 20px 0px rgba(54, 78, 126, 0.25);
   color: #828fa3;
-  z-index: 10;
+  z-index: 1000;
 
   li {
     list-style: none;

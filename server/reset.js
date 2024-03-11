@@ -3,7 +3,22 @@ import data from "../data.json" assert { type: "json" };
 
 db.connect();
 
+async function deleteEverything() {
+  try {
+    await db.query("DELETE FROM project_subtask");
+    await db.query("DELETE FROM project_task");
+    await db.query("DELETE FROM project_column");
+    await db.query("DELETE FROM project");
+    console.log("Successfully deleted everything");
+  } catch (error) {
+    console.log(`Error deleting everything ${error.message}`);
+  }
+}
+
 async function reset() {
+  console.log("Started deleting");
+  await deleteEverything();
+
   data.boards.forEach(async (board) => {
     let newProjectId;
     let newColumnId;
