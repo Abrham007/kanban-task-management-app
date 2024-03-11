@@ -13,7 +13,7 @@
 
 ### About Project
 
-This project took me about 1.5 week to finish. It's fully backed with a Node.js heroku server and ElephantSQL/postgre database. I used a Desktop-first workflow and I used Styled-Components as a CSS framework
+This project is a classic task management app that is used to distribute and manage the various tasks in a company or organization. You can create, edit and delete projects and also create, edit and delete tasks of those projects. You can also keep track of the different stages of a given task like Eg: Todo, Doing, and Done. You can also keep track of the different subtasks associated with a given task. It has responsive design for desktop, tablet and mobile screens. I used React and Styled-Components with a desktop first workflow for the front-end and node.js and ElephantSQL/Postgres database for the back-end. It is fully online on a Heroku server.
 
 ### Built with
 
