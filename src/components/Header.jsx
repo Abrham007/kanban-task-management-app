@@ -146,7 +146,7 @@ export default function Header() {
     (project) => project.id === selectedProjectId
   );
   const activeBoardColumns = columnArray.filter(
-    (col) => col.project_id === activeBoard.id
+    (col) => col.project_id === activeBoard?.id
   );
   const isEmptyColumn = activeBoardColumns.length === 0;
   const activeBoardName = activeBoard?.name ?? "";

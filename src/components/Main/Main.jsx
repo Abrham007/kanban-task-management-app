@@ -62,7 +62,7 @@ export default function Main() {
       (project) => project.id === selectedProjectId
     );
     const selectedColumn = columnArray.filter(
-      (col) => col.project_id === activeBoard.id
+      (col) => col.project_id === activeBoard?.id
     );
     isEmptyColumn = !selectedColumn || selectedColumn.length === 0;
   }

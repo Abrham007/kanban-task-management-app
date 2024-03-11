@@ -47,7 +47,7 @@ export default function DeleteMessage({ purpose = "board", title, task_id }) {
       (project) => project.id === selectedProjectId
     );
     header = "Delete this board?";
-    message = `Are you sure you want to delete the ‘${activeBoard.name}’ board? This action will remove all columns and tasks
+    message = `Are you sure you want to delete the ‘${activeBoard?.name}’ board? This action will remove all columns and tasks
   and cannot be reversed.`;
     destructiveBtnFunction = () => deleteProject(activeBoard.id);
   } else if (purpose === "task") {
