@@ -1,5 +1,5 @@
 import { db } from "./postgre.js";
-import data from "../data.json" assert { type: "json" };
+import { readFile } from "fs/promises";
 
 db.connect();
 
@@ -18,6 +18,12 @@ async function deleteEverything() {
 async function reset() {
   console.log("Started deleting");
   await deleteEverything();
+  const data = JSON.parse(
+    await readFile(new URL("../data.json", import.meta.url))
+  );
+  await db.query(
+    "CREATE TABLE IF NOT EXISTS project (id SERIAL PRIMARY KEY, name VARCHAR(255) NOT NULL); CREATE TABLE IF NOT EXISTS project_column (id SERIAL PRIMARY KEY, name VARCHAR(255) NOT NULL, project_id INTEGER NOT NULL REFERENCES project(id) ON DELETE CASCADE); CREATE TABLE IF NOT EXISTS project_task (id SERIAL PRIMARY KEY, title VARCHAR(255) NOT NULL, description TEXT, status VARCHAR(50), column_id INTEGER NOT NULL REFERENCES project_column(id) ON DELETE CASCADE, project_id INTEGER NOT NULL REFERENCES project(id) ON DELETE CASCADE); CREATE TABLE IF NOT EXISTS project_subtask (id SERIAL PRIMARY KEY, title VARCHAR(255) NOT NULL, is_completed BOOLEAN NOT NULL DEFAULT FALSE, task_id INTEGER NOT NULL REFERENCES project_task(id) ON DELETE CASCADE, column_id INTEGER NOT NULL REFERENCES project_column(id) ON DELETE CASCADE, project_id INTEGER NOT NULL REFERENCES project(id) ON DELETE CASCADE);"
+  );
 
   data.boards.forEach(async (board) => {
     let newProjectId;

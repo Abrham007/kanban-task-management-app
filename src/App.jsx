@@ -8,6 +8,7 @@ import Main from "./components/Main/Main";
 import { devices } from "./utils/devices";
 import DataContextProvider from "./store/DataContext";
 import { SideBarContext } from "./store/SideBarContext";
+import { Analytics } from "@vercel/analytics/react";
 
 const StyledApp = styled.div`
   width: 100vw;
@@ -69,6 +70,7 @@ export default function App() {
               <Main></Main>
             </ThemeProvider>
           )}
+          <Analytics />
         </SideBarContext.Provider>
       </StyledApp>
     </DataContextProvider>

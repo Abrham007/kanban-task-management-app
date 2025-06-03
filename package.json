@@ -15,7 +15,7 @@
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
     "styled-components": "^6.1.8",
-    "web-vitals": "^2.1.4"
+    "@vercel/analytics": "^1.5.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -42,6 +42,6 @@
     ]
   },
   "engines": {
-    "node": "18.18"
+    "node": "22.15.0"
   }
 }
