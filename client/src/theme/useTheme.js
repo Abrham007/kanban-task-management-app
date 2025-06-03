@@ -17,7 +17,7 @@ export const useTheme = () => {
       ? setTheme(localTheme.theme)
       : setTheme(themes.data.light);
     setThemeLoaded(true);
-  }, []);
+  }, [themes.data.light]);
 
   return { theme, themeLoaded, setMode };
 };

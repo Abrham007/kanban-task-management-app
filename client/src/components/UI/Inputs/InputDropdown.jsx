@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import downIcon from "../../../assets/icon-chevron-down.svg";
-import upIcon from "../../../assets/icon-chevron-up.svg";
 import { useContext, useState } from "react";
 import { DataContext } from "../../../store/DataContext";
 

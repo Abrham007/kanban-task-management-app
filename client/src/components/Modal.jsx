@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { devices } from "../utils/devices";
-import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 
 export const StyledModal = styled.dialog`
